@@ -189,4 +189,5 @@ trait HasAssets
     {
         return asset(static::$jQuery);
     }
+
 }

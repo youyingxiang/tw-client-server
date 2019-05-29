@@ -17,6 +17,12 @@ class Tw
     public static $metaTitle;
 
     /**
+     * @var array
+     */
+    protected $menu = [];
+
+
+    /**
      * @param string $title
      */
     public static function setTitle(string $title):void
@@ -29,5 +35,16 @@ class Tw
     public static function getTitle():string
     {
         return self::$metaTitle ? self::$metaTitle : "tw-server";
+    }
+
+    /**
+     * @return array
+     */
+    public function getMenu():array
+    {
+        if (!empty($this->menu)) {
+            return $this->menu;
+        }
+        return $this->menu = (new \Tw\Server\Logic\Menu())->reSort(config("tw.tw_server_menu"));
     }
 }

@@ -20,11 +20,11 @@ trait Tw
     protected static function registerRoutes():void
     {
         $attributes = [
-            'prefix'     => "twserver",
-            'middleware' => [],
+            'prefix'     => config('tw.route.prefix','tw'),
+            'middleware' => config('tw.route.middleware'),
         ];
         app('router')->group($attributes, function ($router) {
-            $router->namespace('Tw\Server\Controllers')->group(function ($router) {
+            $router->namespace(config('tw.route.namespace'))->group(function ($router) {
                 $router->resource('tw-server/', 'TwServerController')->names('tw.index');
             });
         });
