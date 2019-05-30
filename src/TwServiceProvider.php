@@ -9,11 +9,26 @@ namespace Tw\Server;
 use Illuminate\Support\ServiceProvider;
 class TwServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'tw.auth' => Middleware\Authenticate::class
+    ];
+    /**
+     * @var array
+     */
+    protected $middlewareGroups = [
+        'tw' => [
+            'tw.auth'
+        ],
+    ];
 
     public function register()
     {
         Tw::register();
         $this->commands(Tw::$commands);
+        $this->registerRouteMiddleware();
     }
 
     public function boot()
@@ -31,5 +46,21 @@ class TwServiceProvider extends ServiceProvider
             $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/tw')], 'tw-server-assets');
         }
         Tw::boot();
+    }
+
+    /**
+     * 注册route中间件
+     */
+    protected function registerRouteMiddleware()
+    {
+        // register route middleware.
+        foreach ($this->routeMiddleware as $key => $middleware) {
+            app('router')->aliasMiddleware($key, $middleware);
+        }
+
+        // register middleware group.
+        foreach ($this->middlewareGroups as $key => $middleware) {
+            app('router')->middlewareGroup($key, $middleware);
+        }
     }
 }

@@ -39,8 +39,44 @@ return [
 
         'namespace' => 'Tw\\Server\\Controllers',
 
-        'middleware' => ['web'],
+        'middleware' => ['web','tw'],
     ],
 
     'https' => env('TW_HTTPS', false),
+
+    'auth' => [
+
+        'controller' => Tw\Server\Controllers\AuthController::class,
+
+        'guards' => [
+            'tw' => [
+                'driver'   => 'session',
+                'provider' => 'tw',
+            ],
+        ],
+
+        'providers' => [
+            'tw' => [
+                'driver' => 'eloquent',
+                'model'  => Tw\Server\Models\Admin::class,
+            ],
+        ],
+
+        // Add "remember me" to login form
+        'remember' => true,
+
+        // Redirect to the specified URI when user is not authorized.
+        'redirect_to' => 'login',
+
+        // The URIs that should be excluded from authorization.
+        'excepts' => [
+            'login',
+            'logout',
+        ],
+    ],
+
+    'database' => [
+        'connection' => '',
+        'admin_table' => 'tw_admin',
+    ],
 ];

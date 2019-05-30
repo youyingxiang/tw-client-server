@@ -6,6 +6,7 @@
  * Time: 2:37 PM
  */
 namespace Tw\Server\Traits;
+use Illuminate\Support\Arr;
 trait Tw
 {
     public static $commands = [
@@ -25,7 +26,9 @@ trait Tw
         ];
         app('router')->group($attributes, function ($router) {
             $router->namespace(config('tw.route.namespace'))->group(function ($router) {
-                $router->resource('tw-server/', 'TwServerController')->names('tw.index');
+                $router->resource('tw-server', 'TwServerController')->names('tw.index');
+                $router->get('login', 'AuthController@getLogin')->name('tw.login');
+                $router->post('login', 'AuthController@postLogin');
             });
         });
     }
@@ -39,8 +42,14 @@ trait Tw
     {
         return ["path"=>__DIR__.'/../../resources/views',"alias"=>'tw'];
     }
+
+    protected static function loadAdminAuthConfig()
+    {
+        config(Arr::dot(config('tw.auth', []), 'auth.'));
+    }
+
     public static function register():void
     {
-
+        self::loadAdminAuthConfig();
     }
 }
