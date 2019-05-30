@@ -7,7 +7,11 @@
  */
 namespace Tw\Server\Models;
 use Illuminate\Database\Eloquent\Model;
-class Admin extends Model {
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+class Admin extends Model implements AuthenticatableContract
+{
+    use Authenticatable;
     /**
      * Admin constructor.
      * @param array $attributes

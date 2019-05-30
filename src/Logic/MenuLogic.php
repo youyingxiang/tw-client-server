@@ -6,7 +6,7 @@
  * Time: 2:34 PM
  */
 namespace Tw\Server\Logic;
-class Menu
+class MenuLogic
 {
     use \Tw\Server\Traits\ModelTree;
 }

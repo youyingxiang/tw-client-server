@@ -7,30 +7,35 @@
  */
 namespace Tw\Server\Controllers;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 class AuthController extends Controller
 {
+
+    protected $loginView = 'tw::login.login';
+
     public function getLogin()
     {
-
+        if (\Tw::authLogin()->guard()->check()) {
+            return redirect(\Tw::authLogin()->redirectPath());
+        }
+        return view($this->loginView);
     }
 
     /**
-     * Get the guard to be used during authentication.
+     * Handle a login request.
      *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     * @param Request $request
+     *
+     * @return mixed
      */
-    protected function guard()
+    public function postLogin(Request $request)
     {
-        return Auth::guard('tw');
+        \Tw::authLogin()->loginLogic($request);
     }
 
-    /**
-     * @return string
-     */
-    protected function username()
-    {
-        return 'phone';
-    }
+
+
+
 
     /**
      * User logout.
@@ -39,25 +44,13 @@ class AuthController extends Controller
      */
     public function getLogout(Request $request)
     {
-        $this->guard()->logout();
+        \Tw::authLogin()->guard()->logout();
 
         $request->session()->invalidate();
 
-        return redirect(config('admin.route.prefix'));
+        return redirect(config('tw.route.prefix'));
     }
 
-    /**
-     * Get the post login redirect path.
-     *
-     * @return string
-     */
-    protected function redirectPath()
-    {
-        if (method_exists($this, 'redirectTo')) {
-            return $this->redirectTo();
-        }
 
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : config('tw.route.prefix');
-    }
 
 }
