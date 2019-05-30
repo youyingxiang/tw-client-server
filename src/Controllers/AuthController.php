@@ -46,4 +46,18 @@ class AuthController extends Controller
         return redirect(config('admin.route.prefix'));
     }
 
+    /**
+     * Get the post login redirect path.
+     *
+     * @return string
+     */
+    protected function redirectPath()
+    {
+        if (method_exists($this, 'redirectTo')) {
+            return $this->redirectTo();
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : config('tw.route.prefix');
+    }
+
 }
