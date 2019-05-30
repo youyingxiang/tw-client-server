@@ -15,7 +15,6 @@ class Authenticate {
     public function handle($request, \Closure $next)
     {
         $redirectTo = tw_base_path(config('tw.auth.redirect_to', 'login'));
-
         if (Auth::guard('tw')->guest() && !$this->shouldPassThrough($request)) {
             return redirect()->guest($redirectTo);
         }

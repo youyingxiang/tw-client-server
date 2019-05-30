@@ -8,40 +8,25 @@
 namespace Tw\Server\Logic;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Facades\Lang;
 class AuthLogic
 {
-    use ThrottlesLogins;
-
-    public $redirectTo = 'tw-server';
+    use AuthenticatesUsers;
     /**
-     * Get the post login redirect path.
-     *
-     * @return string
+     * @var string
      */
-    public function redirectPath()
-    {
-        if (method_exists($this, 'redirectTo')) {
-            return $this->redirectTo();
-        }
+    public $loginView  = 'tw::login.login';
+    public $redirectTo = "tw-server";
 
-        return property_exists($this, 'redirectTo') ? tw_base_path($this->redirectTo) : config('tw.route.prefix');
+    public function showLoginForm()
+    {
+        return $this->loginView;
     }
 
     /**
-     * @return string
-     */
-    public function username()
-    {
-        return 'phone';
-    }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     * @return mixed
      */
     public function guard()
     {
@@ -49,83 +34,74 @@ class AuthLogic
     }
 
     /**
-     * Get a validator for an incoming login request.
-     *
-     * @param array $data
-     *
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return string
      */
-    protected function validateLogin ($request)
+    public function username():string
     {
-        return $request->validate([
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-        ]);
+        return 'phone';
     }
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request)
+
+    public function logout(Request $request):void
     {
-        $remember = $request->get('remember', false);
-        return $this->guard()->attempt(
-            $this->credentials($request), $remember
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate(
+            [
+                'phone' => 'required|string',
+                'password' => 'required|string',
+            ],
+            [
+                "phone.required" => "手机号不能为空！",
+                "password.required"  => "密码不能为空",
+            ]
+
         );
     }
 
-
-    public function loginLogic(Request $request)
-    {
-        $this->validateLogin($request);
-
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-
-            return $this->sendLockoutResponse($request);
-        }
-
-        if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
-        }
-
-        $this->incrementLoginAttempts($request);
-        return $this->sendFailedLoginResponse($request);
-    }
-
     /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @param Request $request
      */
-    protected function credentials(Request $request)
-    {
-        return $request->only($this->username(), 'password');
-    }
-
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
-        $this->clearLoginAttempts($request);
-        return redirect()->intended($this->redirectPath());
-    }
-
     protected function sendFailedLoginResponse(Request $request)
     {
-        throw ValidationException::withMessages(
-            ["账号与密码不匹配！"]
-        );
+        throw ValidationException::withMessages([
+            $this->username() => ["手机号与密码不匹配"],
+        ]);
     }
+
+    /**
+     * @return string
+     */
+   public function redirectTo():string
+   {
+       return tw_base_path($this->redirectTo);
+   }
+
+
+    /**
+     * Redirect the user after determining they are locked out.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendLockoutResponse(Request $request)
+    {
+        $seconds = $this->limiter()->availableIn(
+            $this->throttleKey($request)
+        );
+        throw ValidationException::withMessages([
+            $this->username() => ["登录尝试次数太多。请在: $seconds 秒后重试"],
+        ])->status(429);
+    }
+
+
 
 
 }

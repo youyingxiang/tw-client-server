@@ -11,14 +11,12 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
-    protected $loginView = 'tw::login.login';
-
     public function getLogin()
     {
         if (\Tw::authLogin()->guard()->check()) {
             return redirect(\Tw::authLogin()->redirectPath());
         }
-        return view($this->loginView);
+        return view(\Tw::authLogin()->showLoginForm());
     }
 
     /**
@@ -30,11 +28,8 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        \Tw::authLogin()->loginLogic($request);
+        return \Tw::authLogin()->login($request);
     }
-
-
-
 
 
     /**
@@ -44,11 +39,8 @@ class AuthController extends Controller
      */
     public function getLogout(Request $request)
     {
-        \Tw::authLogin()->guard()->logout();
-
-        $request->session()->invalidate();
-
-        return redirect(config('tw.route.prefix'));
+       \Tw::authLogin()->logout($request);
+       return redirect(\Tw::authLogin()->redirectPath());
     }
 
 

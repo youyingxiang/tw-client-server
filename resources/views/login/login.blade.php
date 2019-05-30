@@ -35,7 +35,7 @@
         <form action="{{ tw_base_path('login') }}" method="post">
             <div class="form-group has-feedback {!! !$errors->has('phone') ?: 'has-error' !!}">
 
-                @if($errors->has('name'))
+                @if($errors->has('phone'))
                     @foreach($errors->get('phone') as $message)
                         <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
                     @endforeach
@@ -60,7 +60,7 @@
                     @if(config('tw.auth.remember'))
                         <div class="checkbox icheck">
                             <label>
-                                <input type="checkbox" name="remember" value="1" {{ (!old('username') || old('remember')) ? 'checked' : '' }}>
+                                <input type="checkbox" name="remember" value="1" {{ (!old('phone') || old('remember')) ? 'checked' : '' }}>
                                 记住我
                             </label>
                         </div>

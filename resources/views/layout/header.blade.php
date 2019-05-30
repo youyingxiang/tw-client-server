@@ -40,7 +40,7 @@
                                 <a href="" class="btn btn-default btn-flat">个人设置</a>
                             </div>
                             <div class="pull-right">
-                                <a href="" class="btn btn-default btn-flat">退出登录</a>
+                                <a href="{{route("tw.logout")}}" class="btn btn-default btn-flat">退出登录</a>
                             </div>
                         </li>
                     </ul>

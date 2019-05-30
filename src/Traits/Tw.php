@@ -29,6 +29,7 @@ trait Tw
                 $router->resource('tw-server', 'TwServerController')->names('tw.index');
                 $router->get('login', 'AuthController@getLogin')->name('tw.login');
                 $router->post('login', 'AuthController@postLogin');
+                $router->get('logout', 'AuthController@getLogout')->name('tw.logout');
             });
         });
     }
