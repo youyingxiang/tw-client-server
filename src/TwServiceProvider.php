@@ -44,6 +44,8 @@ class TwServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config' => config_path()], 'tw-server-config');
             $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/tw')], 'tw-server-assets');
+            $this->publishes([__DIR__.'/../database/migrations' => database_path('migrations')], 'tw-migrations');
+            $this->publishes([__DIR__.'/../database/seeds' => database_path('seeds')], 'seeds');
         }
         Tw::boot();
     }

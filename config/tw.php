@@ -28,7 +28,7 @@ return [
             "id"    => 3,
             'title' => "个人列表",
             "icon"  => "fa-users",
-            "url"   => "/tw-server",
+            "url"   => "/userinfo",
             "order" => 1,
             "parent_id"   => 1,
         ],

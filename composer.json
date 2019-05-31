@@ -1,0 +1,37 @@
+{
+  "name": "tw/server",
+  "description": "tw-server",
+  "type": "library",
+  "keywords": ["laravel", "swoole", "server"],
+  "require": {
+    "php": ">=7.0.0",
+    "laravel/framework": "~5.5",
+    "yxx/kindeditor": "dev-tw"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "yxx",
+      "email": "1365831278@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tw\\Server\\": "src/",
+      "files": [
+        "src/helpers.php"
+      ]
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Tw\\Server\\TwServiceProvider"
+      ],
+      "aliases": {
+        "Tw": "Tw\\Server\\Facades\\Tw::class"
+      }
+    }
+  },
+  "minimum-stability": "stable"
+}
