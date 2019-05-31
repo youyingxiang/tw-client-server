@@ -32,6 +32,14 @@ return [
             "order" => 1,
             "parent_id"   => 1,
         ],
+        [
+            "id"    => 4,
+            'title' => "消费记录",
+            "icon"  => "fa-circle-o",
+            "url"   => "/tw-server",
+            "order" => 1,
+            "parent_id"   => 1,
+        ],
     ],
     'route' => [
 
@@ -79,4 +87,5 @@ return [
         'connection' => '',
         'admin_table' => 'tw_admin',
     ],
+    'upload_url' => route('kindeditor.upload'),
 ];

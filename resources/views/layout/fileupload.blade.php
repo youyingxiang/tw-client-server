@@ -1,0 +1,1 @@
+<input id="fileupload_" type="file" style='display:none' name="imgFile"  data-url="{{$url}}" multiple>

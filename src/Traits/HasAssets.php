@@ -23,11 +23,11 @@ trait HasAssets
      * @var array
      */
     public static $headerJs = [];
-
     /**
      * @var string
      */
-//    public static $manifest = 'vendor/laravel-admin/minify-manifest.json';
+    protected static $file_upload_url = "";
+
 
 
 
@@ -77,7 +77,6 @@ trait HasAssets
         'vendor/tw/global/cropper/cropper.main.js',
         'vendor/tw/system/chart/Chart.min.js',
         'vendor/tw/system/dist/js/common.js',
-        'vendor/tw/system/dist/js/login.js',
     ];
 
     /**
@@ -180,7 +179,31 @@ trait HasAssets
         return view('tw::layout.script', ['script' => array_unique(self::$script)]);
     }
 
+    /**
+     * @param string $upType
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public static function fileUpload()
+    {
+        if (self::$file_upload_url)
+            return view("tw::layout.fileupload",['url'=>self::$file_upload_url]);
+    }
 
+    /**
+     * @param string $upType
+     */
+    public static  function setFileUploadUrl(string $upUrl):void
+    {
+        self::$file_upload_url = $upUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getFileUploadUrl():string
+    {
+        return self::$file_upload_url;
+    }
 
     /**
      * @return string

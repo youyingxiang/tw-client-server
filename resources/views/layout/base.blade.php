@@ -22,13 +22,11 @@
             </ol>
         </section>
         @yield('content')
+        {!! Tw::script() !!}
     </div>
+    {!! Tw::fileUpload() !!}
     @include('tw::layout.footer')
 </div>
 </body>
-<script>
-    function LA() {}
-    LA.token = "{{ csrf_token() }}";
-</script>
 {!! Tw::js() !!}
 </html>
