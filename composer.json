@@ -6,7 +6,7 @@
   "require": {
     "php": ">=7.0.0",
     "laravel/framework": "5.5.*",
-    "yxx/kindeditor":"dev-tw@dev"
+    "yxx/kindeditor":"1.0.1"
   },
   "license": "MIT",
   "authors": [
@@ -33,5 +33,5 @@
       }
     }
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "stable"
 }
