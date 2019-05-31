@@ -6,7 +6,7 @@
  * Time: 2:36 PM
  */
 namespace Tw\Server;
-use Tw\Server\Logic\AuthLogic as AuthLogin;
+use Tw\Server\Logic\AuthLogic as AuthLogic;
 class Tw
 {
     use \Tw\Server\Traits\Tw;
@@ -49,8 +49,8 @@ class Tw
         return $this->menu = (new \Tw\Server\Logic\MenuLogic())->reSort(config("tw.tw_server_menu"));
     }
 
-    public function authLogin():AuthLogin
+    public function authLogic():AuthLogic
     {
-       return new AuthLogin();
+       return new AuthLogic();
     }
 }

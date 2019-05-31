@@ -11,6 +11,7 @@ class TwServerController extends Controller
 {
     public function index()
     {
+        $routs = app()['router']->getRoutes()->getRoutesByName();
         return view('tw::index.index');
     }
 }

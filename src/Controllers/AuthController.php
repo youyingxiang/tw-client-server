@@ -8,15 +8,16 @@
 namespace Tw\Server\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Tw\Server\Facades\Tw;
 class AuthController extends Controller
 {
 
     public function getLogin()
     {
-        if (\Tw::authLogin()->guard()->check()) {
-            return redirect(\Tw::authLogin()->redirectPath());
+        if (Tw::authLogic()->guard()->check()) {
+            return redirect(Tw::authLogic()->redirectPath());
         }
-        return view(\Tw::authLogin()->showLoginForm());
+        return view(Tw::authLogic()->showLoginForm());
     }
 
     /**
@@ -28,7 +29,7 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        return \Tw::authLogin()->login($request);
+        return Tw::authLogic()->login($request);
     }
 
 
@@ -39,8 +40,8 @@ class AuthController extends Controller
      */
     public function getLogout(Request $request)
     {
-       \Tw::authLogin()->logout($request);
-       return redirect(\Tw::authLogin()->redirectPath());
+       Tw::authLogic()->logout($request);
+       return redirect(Tw::authLogic()->redirectPath());
     }
 
 

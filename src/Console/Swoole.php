@@ -15,7 +15,9 @@ class Swoole extends Command
      * @var string
      */
     protected $signature = 'tw:swoole';
-
+    /**
+     * @var string
+     */
     private  $key        = '^manks.top&swoole$';
     /**
      * The console command description.
