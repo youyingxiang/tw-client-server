@@ -17,11 +17,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Tw\\Server\\": "src/",
-      "files": [
-        "src/helpers.php"
-      ]
-    }
+      "Tw\\Server\\":"src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   },
   "extra": {
     "laravel": {
