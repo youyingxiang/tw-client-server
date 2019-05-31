@@ -5,7 +5,8 @@
   "keywords": ["laravel", "swoole", "server"],
   "require": {
     "php": ">=7.0.0",
-    "laravel/framework": "5.5.*"
+    "laravel/framework": "5.5.*",
+    "yxx/kindeditor":"dev-tw'"
   },
   "license": "MIT",
   "authors": [
