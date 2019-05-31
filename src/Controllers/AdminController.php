@@ -28,7 +28,14 @@ class AdminController extends Controller
      */
     public function postUserInfo()
     {
+        $id = request()->post("id");
+        $this->Model()->update($id);
+        //return Tw::ajaxResponse("操作成功",route("tw.index.index"));
+    }
 
+    public function Model():object
+    {
+       return Tw::moldelLogic(Tw::newModel("Admin"));
     }
 
 

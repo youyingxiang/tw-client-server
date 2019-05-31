@@ -32,6 +32,7 @@ trait Tw
                 $router->get('logout', 'AuthController@getLogout')->name('tw.logout');
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo');
+                $router->get('test', 'AdminController@test');
             });
         });
     }
