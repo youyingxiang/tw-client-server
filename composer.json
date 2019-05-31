@@ -29,7 +29,7 @@
         "Tw\\Server\\TwServiceProvider"
       ],
       "aliases": {
-        "Tw": "Tw\\Server\\Facades\\Tw::class"
+        "Tw": "Tw\\Server\\Facades\\Tw"
       }
     }
   },
