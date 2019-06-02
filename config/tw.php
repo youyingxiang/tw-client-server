@@ -87,5 +87,6 @@ return [
         'connection' => '',
         'admin_table' => 'tw_admin',
     ],
-    'upload_url' => route('kindeditor.upload'),
+
+    'upload_url' => "/yxx/kindeditor/upload?type=image",
 ];
