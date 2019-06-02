@@ -8,7 +8,10 @@
 namespace Tw\Server\Controllers;
 use Illuminate\Routing\Controller;
 use Tw\Server\Facades\Tw;
+use Illuminate\Support\Arr;
 use Tw\Server\Traits\Common;
+use Tw\Server\Requests\AdminRequest;
+use Tw\Server\Requests\UpdateAdminPost;
 class AdminController extends Controller
 {
 
@@ -26,11 +29,13 @@ class AdminController extends Controller
     /**
      *
      */
-    public function postUserInfo()
+    public function postUserInfo(AdminRequest $request)
     {
         $id = request()->post("id");
-        $this->Model()->update($id);
-        //return Tw::ajaxResponse("操作成功",route("tw.index.index"));
+        $aData = $request->post();
+        Arr::forget($aData,['id']);
+        return $this->Model()->update($id,$aData);
+
     }
 
     public function Model():object

@@ -7,11 +7,11 @@
  */
 namespace Tw\Server\Logic;
 use Closure;
-use Illuminate\Support\Facades\DB;
+use Tw\Server\Facades\Tw;
 use Illuminate\Support\Arr;
-use Illuminate\Support\MessageBag;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Relations;
 class ModelLogic implements Renderable
 {
     /**
@@ -32,16 +32,73 @@ class ModelLogic implements Renderable
         }
     }
 
+    protected $oModelResult;
+
+    /**
+     * @return object
+     */
+    public function getModel():object
+    {
+        return $this->model;
+    }
+
     /**
      * @param string $id
      * @param array $data
      */
     public function update(string $id, array $data = [])
     {
-        $data = ($data) ?: request()->all();
-        dd('222');
-
+        $bSaveRes = false;
+        $aData = ($data) ?: request()->all();
+        $this->oModelResult = $this->model::findOrFail($id);
+        DB::transaction(function () use ($aData,&$bSaveRes) {
+            $aUpdates = $this->prepare($aData);
+            foreach ($aUpdates as $column => $value) {
+                /* @var Model $this->model */
+                $this->oModelResult->setAttribute($column, $value?:'');
+            }
+            $bSaveRes = $this->oModelResult->save();
+        });
+        if ($bSaveRes)
+            return Tw::ajaxResponse("操作成功",$this->oModelResult->getIndexUrl());;
     }
+
+    /**
+     * @param array $aData
+     * @return array
+     */
+    protected function prepare($aData = [])
+    {
+        $this->relations = $this->getRelationInputs($aData);
+        return Arr::except($aData, array_keys($this->relations));
+    }
+
+    /**
+     * @param array $inputs
+     * @return array
+     */
+    protected function getRelationInputs($aData = []):array
+    {
+        $relations = [];
+
+        foreach ($aData as $column => $value) {
+            if (!method_exists($this->oModelResult, $column)) {
+                continue;
+            }
+
+            $relation = call_user_func([$this->oModelResult, $column]);
+
+            if ($relation instanceof Relations\Relation) {
+                $relations[$column] = $value;
+            }
+        }
+
+        return $relations;
+    }
+
+
+
+
     /**
      * @return string|void
      */

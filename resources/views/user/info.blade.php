@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">手机号</label>
-                                    <div class="col-sm-7"><input class="form-control" name="手机号" value="{{$user['phone']}}" placeholder="手机号"></div>
+                                    <div class="col-sm-7"><input class="form-control" name="phone" value="{{$user['phone']}}" placeholder="手机号"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">邮箱</label>

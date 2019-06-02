@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 class Admin extends Model implements AuthenticatableContract
 {
     use Authenticatable;
+
     /**
      * Admin constructor.
      * @param array $attributes
@@ -25,5 +26,10 @@ class Admin extends Model implements AuthenticatableContract
         $this->setTable(config('tw.database.admin_table'));
 
         parent::__construct($attributes);
+    }
+
+    public function getIndexUrl():string
+    {
+        return route('tw.userinfo');
     }
 }

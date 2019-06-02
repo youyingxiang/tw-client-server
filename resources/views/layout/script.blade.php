@@ -1,4 +1,4 @@
-<script data-exec-on-popstate>
+<script type="text/javascript">
 
     $(function () {
         @foreach($script as $s)
