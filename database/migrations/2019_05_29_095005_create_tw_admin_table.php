@@ -25,6 +25,37 @@ class CreateTwAdminTable extends Migration
             $table->string('remember_token', 100)->default('');
             $table->timestamps();
         });
+
+        Schema::create('tw_activity', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title',256)->default('')->comment("活动名称");
+            $table->string('logo',300)->default('')->comment("图像");
+            $table->tinyInteger('score_type')->default(1)->comment("评分方式 1:平均 2 去掉最大最小");
+            $table->string('banner',300)->default('')->comment("活动背景");
+            $table->integer("days")->default(3)->comment('活动天数');
+            $table->tinyInteger('level')->default(1)->comment("活动级别 1 普通活动 2高级活动");
+            $table->integer("admin_id")->default(3)->comment('所属用户');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('tw_player', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name',128)->default('')->comment("选手名称");
+            $table->string('img',300)->default('')->comment("图像");
+            $table->integer("score")->default(0)->comment('最终得分');
+            $table->tinyInteger('push_state')->default(0)->comment("推送状态 0 未推送 1 已推送");
+            $table->integer("activity_id")->default(3)->comment('所属活动');
+            $table->timestamps();
+        });
+
+        Schema::create('tw_judges', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name',128)->default('')->comment("评委姓名");
+            $table->string('img',300)->default('')->comment("图像");
+            $table->integer("activity_id")->default(3)->comment('所属活动');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -34,6 +65,9 @@ class CreateTwAdminTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tw_admin');
+        Schema::dropIfExists('tw_admin');       // 后台用户
+        Schema::dropIfExists('tw_activity');    // 活动
+        Schema::dropIfExists('tw_player');      // 参数选手
+        Schema::dropIfExists('tw_judges');      // 评委
     }
 }

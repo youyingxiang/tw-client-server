@@ -1,8 +1,9 @@
 <script type="text/javascript">
-
-    $(function () {
-        @foreach($script as $s)
+    $(document).ready(function() {
+        $(function () {
+            @foreach($script as $s)
             {!! $s !!}
-        @endforeach
+            @endforeach
+        });
     });
 </script>

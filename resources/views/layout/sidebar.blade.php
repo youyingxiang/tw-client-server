@@ -23,25 +23,27 @@
         </div>
 
         <script>
-            $(function () {
-                $(".search-btn-menu ").on('click',function () {
-                    var data_value = $("#search-btn-value").val().trim()
-                    $('.menu_check').each(function () {
-                        var obj = $(this)
-                        var search_content = obj.html()
-                        if (search_content.indexOf(data_value) >= 0) {
-                            if (obj.parent().parent().hasClass('treeview-menu')) {
-                                if (obj.parent().parent().parent().hasClass('active') == false) {
-                                    obj.parent().parent().prev().trigger('click')
-                                    obj.trigger('click')
+            $(document).ready(function() {
+                $(function () {
+                    $(".search-btn-menu ").on('click', function () {
+                        var data_value = $("#search-btn-value").val().trim()
+                        $('.menu_check').each(function () {
+                            var obj = $(this)
+                            var search_content = obj.html()
+                            if (search_content.indexOf(data_value) >= 0) {
+                                if (obj.parent().parent().hasClass('treeview-menu')) {
+                                    if (obj.parent().parent().parent().hasClass('active') == false) {
+                                        obj.parent().parent().prev().trigger('click')
+                                        obj.trigger('click')
+                                    } else {
+                                        obj.trigger('click')
+                                    }
                                 } else {
-                                    obj.trigger('click')
+                                    obj.trigger('click');
                                 }
-                            } else {
-                                obj.trigger('click');
+                                return false
                             }
-                            return false
-                        }
+                        })
                     })
                 })
             })

@@ -1,4 +1,4 @@
-@extends('tw::layout.base',['header' => "个人中心",'pageTitle'=>'个人中心',"pageBtnName"=>'用户信息'])
+@extends('tw::layout.base',['header' => "活动",'pageTitle'=>'个人中心',"pageBtnName"=>'用户信息'])
 @section('content')
     <section class="content">
         <div class="row">
@@ -14,7 +14,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">姓名</label>
+                                    <label class="col-sm-2 control-label">活动名称</label>
                                     <div class="col-sm-7"><input class="form-control" name="name" value="{{$user['name']}}"  placeholder="姓名"></div>
                                 </div>
                                 <div class="form-group">

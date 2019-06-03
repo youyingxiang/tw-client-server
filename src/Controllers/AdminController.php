@@ -11,7 +11,6 @@ use Tw\Server\Facades\Tw;
 use Illuminate\Support\Arr;
 use Tw\Server\Traits\Common;
 use Tw\Server\Requests\AdminRequest;
-use Tw\Server\Requests\UpdateAdminPost;
 class AdminController extends Controller
 {
 
