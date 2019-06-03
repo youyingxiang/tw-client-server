@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="{{ tw_asset("vendor/tw/system/dist/css/AdminLTE.min.css") }}">
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/iCheck/square/blue.css") }}">
-
+    {{--MY STYLE--}}
+    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/css/my_style.css") }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -23,16 +24,16 @@
     <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition login-page" @if(config('tw.login_background_image'))style="background: url({{config('tw.login_background_image')}}) no-repeat;background-size: cover;"@endif>
+<body id="login_bg" class="hold-transition login-page" @if(config('tw.login_background_image'))style="background: url({{config('tw.login_background_image')}}) no-repeat;background-size: cover;"@endif>
 <div class="login-box">
-    <div class="login-logo">
-        <a href="{{ tw_base_path('tw-server') }}"><b>{{config('tw.name',"后台管理系统")}}</b></a>
-    </div>
+    {{--<div class="login-logo">--}}
+        {{--<a href="{{ tw_base_path('tw-server') }}"><b>{{config('tw.name',"后台管理系统")}}</b></a>--}}
+    {{--</div>--}}
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">后台登陆系统</p>
+        <p class="login-box-msg"><b>天维</b>评分系统</p>
 
-        <form action="{{ tw_base_path('login') }}" method="post">
+        <form action="{{ tw_base_path('login') }}" method="post" id="login_input" >
             <div class="form-group has-feedback {!! !$errors->has('phone') ?: 'has-error' !!}">
 
                 @if($errors->has('phone'))
@@ -41,8 +42,8 @@
                     @endforeach
                 @endif
 
-                <input type="text" class="form-control" placeholder="用户手机号" name="phone" value="{{ old('phone') }}">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <input type="text" class="form-control" placeholder="请输入手机号" name="phone" value="{{ old('phone') }}">
+                <span id="login-ico-input" class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
 
@@ -52,8 +53,8 @@
                     @endforeach
                 @endif
 
-                <input type="password" class="form-control" placeholder="密码" name="password">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <input type="password" class="form-control" placeholder="请输入登陆密码" name="password">
+                <span id="login-ico-input" class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
                 <div class="col-xs-8">
@@ -72,6 +73,9 @@
                     <button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
                 </div>
                 <!-- /.col -->
+            </div>
+            <div class="col-xs-zc">
+                <p>还没有账号？<a href="">立即注册</a></p>
             </div>
         </form>
 
