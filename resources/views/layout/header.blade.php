@@ -2,9 +2,9 @@
     <!-- Logo -->
     <a href="/" class="logo">
         <!-- 窗口折叠 -->
-        <span class="logo-mini">php后台</span>
+        <span class="logo-mini">天维</span>
         <!-- 窗口展开 -->
-        <span class="logo-lg">php后台</span>
+        <span class="logo-lg">天维评分系统</span>
     </a>
     <!-- 右上导航 -->
     <nav class="navbar navbar-static-top">
