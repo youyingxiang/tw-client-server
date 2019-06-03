@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-12">
                 <form class="form-horizontal" method="POST" action="" onsubmit="return false" >
-                    @csrf
+                    {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{$user['id']}}" />
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
