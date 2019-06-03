@@ -1,0 +1,38 @@
+/*登陆页面*/
+.login-box-msg{
+    font-size: 34px;
+    font-weight: bold;
+    letter-spacing: 5pt;
+    color: #333333 !important;
+}
+.login-box-msg b{
+    color: #3aa2ff;
+}
+.col-xs-zc{
+    text-align: center;
+    margin-top: 2rem;
+}
+#login_input input{
+    border-radius: 10px;
+    padding-right: 0 !important;
+    padding-left:42.5px !important; ;
+    height: 35pt !important;
+    line-height: 35pt !important;
+}
+#login-ico-input {
+    left: 0 !important;
+    padding: 5pt;
+}
+#login_bg{
+    background-image: url("../img/login_bg.jpg") !important;
+    background-size: cover;
+}
+.login-box{
+    width: 20% !important;
+    margin: 0 auto !important;
+    padding-top: 15% !important;
+
+}
+.login-box-body {
+    border-radius: 15px;
+}
