@@ -22,7 +22,10 @@ trait HasAssets
     /**
      * @var array
      */
-    public static $headerJs = [];
+    public static $headerJs = [
+    ];
+
+
     /**
      * @var string
      */
@@ -77,6 +80,9 @@ trait HasAssets
         'vendor/tw/global/cropper/cropper.main.js',
         'vendor/tw/system/chart/Chart.min.js',
         'vendor/tw/system/dist/js/common.js',
+        'vendor/tw/global/fileupload/jquery.ui.widget.js',
+        'vendor/tw/global/fileupload/jquery.iframe-transport.js',
+        'vendor/tw/global/fileupload/jquery.fileupload.js',
     ];
 
     /**
@@ -185,8 +191,7 @@ trait HasAssets
      */
     public static function fileUpload()
     {
-        if (self::$file_upload_url)
-            return view("tw::layout.fileupload",['url'=>self::$file_upload_url]);
+        return view("tw::layout.fileupload",['url'=>self::$file_upload_url]);
     }
 
     /**

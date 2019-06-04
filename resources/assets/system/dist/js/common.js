@@ -79,6 +79,7 @@ $(function(){
         var _this = $(this);
         var title = _this.data('title')?_this.data('title'):'删除';
         var url_del = _this.data('url')||'';
+        var csrftoken = _this.data('csrftoken')||'';
         var message = _this.data('message')?_this.data('message'):'确认操作？';
         if(_this.hasClass('delete-all')){   //批量删除
             var id = '';
@@ -114,7 +115,7 @@ $(function(){
                             type : "post",
                             url : url_del,
                             dataType : 'json',
-                            data : { id:id, },
+                            data : { id:id,_method:'DELETE' ,_token:csrftoken},
                             success : function(data) {
                                 if(data.status == '1'){
                                     $.amaran({'message':data.info});

@@ -35,6 +35,9 @@ class AdminRequest extends FormRequest implements TwRequestI
         return $this->getRules();
     }
 
+    /**
+     * 设置验证属性
+     */
     public function setRules(): void
     {
         $this->rules = [

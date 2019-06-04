@@ -6,8 +6,8 @@
  * Time: 7:25 PM
  */
 namespace Tw\Server\Models;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 class Admin extends Model implements AuthenticatableContract
 {
@@ -28,6 +28,17 @@ class Admin extends Model implements AuthenticatableContract
         parent::__construct($attributes);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activitys()
+    {
+        return $this->hasMany('Tw\Server\Models\Activity');
+    }
+
+    /**
+     * @return string
+     */
     public function getIndexUrl():string
     {
         return route('tw.userinfo');

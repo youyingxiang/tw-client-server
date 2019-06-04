@@ -18,7 +18,7 @@ return [
         ],
         [
             "id"    => 2,
-            'title' => "活动列表",
+            'title' => "活动管理",
             "icon"  => "fa-circle-o",
             "url"   => "",
             "order" => 2,
@@ -40,6 +40,15 @@ return [
             "order" => 1,
             "parent_id"   => 1,
         ],
+        [
+            "id"    => 4,
+            'title' => "活动列表",
+            "icon"  => "fa-circle-o",
+            "url"   => "/activity",
+            "order" => 1,
+            "parent_id"   => 2,
+        ],
+
     ],
     'route' => [
 

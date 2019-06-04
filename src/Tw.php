@@ -6,6 +6,7 @@
  * Time: 2:36 PM
  */
 namespace Tw\Server;
+use Closure;
 use Tw\Server\Logic\AuthLogic;
 use Tw\Server\Logic\ModelLogic;
 use Illuminate\Http\Request;
@@ -79,6 +80,17 @@ class Tw
     {
         $className = "\\Tw\\Server\\Models\\".$modelName;
         return new $className;
+    }
+
+    /**
+     * @param $toolName
+     * @param array $aParam
+     * @return string
+     */
+    public function newTool($toolName,array $aParam = []):object
+    {
+        $className = "\\Tw\\Server\\Tool\\".$toolName;
+        return new $className($aParam);
     }
 
 

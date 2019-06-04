@@ -28,7 +28,7 @@ class ModelLogic implements Renderable
     {
         $this->model = $model;
         if ($callback instanceof Closure) {
-            $callback($this);
+           $callback($this);
         }
     }
 
@@ -46,10 +46,9 @@ class ModelLogic implements Renderable
      * @param string $id
      * @param array $data
      */
-    public function update(string $id, array $data = [])
+    public function update(string $id, array $aData = [])
     {
         $bSaveRes = false;
-        $aData = ($data) ?: request()->all();
         $this->oModelResult = $this->model::findOrFail($id);
         DB::transaction(function () use ($aData,&$bSaveRes) {
             $aUpdates = $this->prepare($aData);
@@ -60,8 +59,129 @@ class ModelLogic implements Renderable
             $bSaveRes = $this->oModelResult->save();
         });
         if ($bSaveRes)
-            return Tw::ajaxResponse("操作成功",$this->oModelResult->getIndexUrl());;
+            return Tw::ajaxResponse("操作成功",$this->oModelResult->getIndexUrl());
+        else
+            return Tw::ajaxResponse("操作失败");
+
     }
+
+    /**
+     * @param array $aData
+     */
+    public function store(array $aData = [])
+    {
+        $bSaveRes = false;
+        DB::transaction(function ()use($aData,&$bSaveRes) {
+            foreach ($aData as $column => $value) {
+                /* @var Model $this->model */
+                $this->model->setAttribute($column, $value?:'');
+            }
+            $bSaveRes =  $this->model->save();
+        });
+        if ($bSaveRes)
+            return Tw::ajaxResponse("操作成功",$this->model->getIndexUrl());
+        else
+            return Tw::ajaxResponse("操作失败");
+    }
+
+    /**
+     * @param array $whereAdata
+     */
+    public function query(array $aWhereData = []):object
+    {
+        $where   = $this->getWhere($aWhereData);
+        $orWhere = $this->getOrWhere($aWhereData);
+        if (!empty($aWhereData['_sort'])) {
+            $aOrder =  explode(',', $aWhereData['_sort']);
+        } else {
+            $aOrder = ['id','desc'];
+        }
+//        DB::enableQueryLog();
+        $aData = $this->model->where($where)->where($orWhere)->orderBy($aOrder[0],$aOrder[1])->paginate(10);
+//        dd((DB::getQueryLog()));
+        return $aData;
+    }
+
+    /**
+     * @param array $aWhereData
+     */
+    public function find(int $id,array $aWhereData = [])
+    {
+        $where   = $this->getWhere($aWhereData);
+        $orWhere = $this->getOrWhere($aWhereData);
+        $oData = $this->model->where($where)->where($orWhere)->find($id);
+        return $oData;
+    }
+
+    /**
+     * @param string $id
+     * @param $aWhereData
+     */
+    public function destroy(string $id,$aWhereData = [])
+    {
+        if (!empty($id)) {
+            $ids = explode(',',$id);
+        }
+        $where = $this->getWhere($aWhereData);
+        $bSaveRes = $this->model->where($where)->whereIn('id',$ids)->delete();
+        if ($bSaveRes)
+            return Tw::ajaxResponse("操作成功",$this->model->getIndexUrl());
+        else
+            return Tw::ajaxResponse("操作失败");
+    }
+
+    /**
+     * @param $search
+     * @return Closure
+     */
+    public function getWhere(array $aWhere):Closure
+    {
+
+        $where = function ($query) use ($aWhere) {
+            /**
+             * 当前项目归属谁
+             */
+            if (!empty($this->model->parentFlag())) {
+                foreach ($this->model->parentFlag() as $pk=> $pv) {
+                    $query->where($pk,$pv);
+                }
+            }
+            // and where
+            if ($aWhere &&
+                $this->model->getAndFieds()
+            ) {
+                foreach ($aWhere as $field => $value) {
+                    in_array($field,$this->model->getAndFieds()) &&
+                    $query->where($field,$value);
+                }
+            }
+        };
+        return $where;
+    }
+
+
+    /**
+     * @param $aWhere
+     * @return Closure
+     */
+    public function getOrWhere($aWhere) :Closure
+    {
+        $where = function ($query) use ($aWhere) {
+            // or where
+            if (!empty($aWhere['search']) &&
+                $this->model->getOrFields()
+            ) {
+                foreach ($this->model->getOrFields() as $field) {
+                    $query->orWhere($field, "like", "%" . $aWhere['search'] . "%");
+                }
+            }
+        };
+        return $where;
+    }
+
+
+
+
 
     /**
      * @param array $aData

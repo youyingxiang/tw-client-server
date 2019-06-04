@@ -9,24 +9,68 @@ namespace Tw\Server\Traits;
 use Tw\Server\Facades\Tw;
 trait Common
 {
+    /**
+     * @var string
+     */
     protected $icheck = <<<EOT
 $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
     checkboxClass: 'icheckbox_minimal-blue',
     radioClass: 'iradio_minimal-blue'
 });
+$('.checkbox-toggle').on('ifChecked', function(event){
+    var _this = $(this);
+    var _table = _this.closest('.table');
+    _table.find("tr td input[type='checkbox']").iCheck("check");
+});
+$('.checkbox-toggle').on('ifUnchecked', function(event){
+    var _this = $(this);
+    var _table = _this.closest('.table');
+    _table.find("tr td input[type='checkbox']").iCheck("uncheck");
+});
+EOT;
+
+    /**
+     * @var string $select2插件
+     */
+    protected $select2 = <<<EOT
+$(".select2").select2({language:"zh-CN"});
 EOT;
     /**
      * @var string
      */
-    protected $upUrl;
+    protected $editable = <<<EOT
+$('.editable').editable({
+        emptytext: "empty",
+        params: function(params) {      //参数
+            var data = {};
+            data['id'] = params.pk;
+            data[params.name] = params.value;
+            return data;
+        },
+        success: function(response, newValue) {
+            var res = $.parseJSON( response );
+            if(res.status == 1){
+            }else{
+                return res.info;
+            }
+        }
+    });
+EOT;
     /**
      * @var array
      */
     protected $file_upload_js     = [
-        'vendor/tw/global/fileupload/jquery.ui.widget.js',
-        'vendor/tw/global/fileupload/jquery.iframe-transport.js',
-        'vendor/tw/global/fileupload/jquery.fileupload.js',
+
     ];
+
+
+    
+    /**
+     * @var string
+     */
+    protected $upUrl;
+
+
     /**
      * @param array $scriptNames
      */
@@ -77,7 +121,6 @@ $(".up_img").on('click',function(){
 EOT;
         Tw::script($script);
         Tw::setFileUploadUrl($this->getUpUrl());
-        Tw::js($this->file_upload_js);
     }
 
     /**
@@ -87,6 +130,8 @@ EOT;
     {
         return config("tw.upload_url");
     }
+
+
 
 
 
