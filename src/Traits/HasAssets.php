@@ -191,7 +191,7 @@ trait HasAssets
      */
     public static function fileUpload()
     {
-        return view("tw::layout.fileupload",['url'=>self::$file_upload_url]);
+        return view("tw::layout.fileupload",['url'=>self::$file_upload_url ?:config("tw.upload_url")]);
     }
 
     /**
@@ -199,7 +199,7 @@ trait HasAssets
      */
     public static  function setFileUploadUrl(string $upUrl):void
     {
-        self::$file_upload_url = $upUrl;
+        self::$file_upload_url = config("tw.upload_url");
     }
 
     /**

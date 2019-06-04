@@ -7,11 +7,12 @@
  */
 namespace Tw\Server\Controllers;
 use Illuminate\Routing\Controller;
+use Tw\Server\Facades\Tw;
 class TwServerController extends Controller
 {
     public function index()
     {
-        $routs = app()['router']->getRoutes()->getRoutesByName();
-        return view('tw::index.index');
+        $user = Tw::authLogic()->guard()->user();
+        return view('tw::index.index',compact('user'));
     }
 }

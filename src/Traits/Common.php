@@ -120,7 +120,6 @@ $(".up_img").on('click',function(){
 })
 EOT;
         Tw::script($script);
-        Tw::setFileUploadUrl($this->getUpUrl());
     }
 
     /**

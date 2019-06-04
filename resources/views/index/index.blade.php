@@ -13,10 +13,10 @@
         <div class="sever_user">
             <p>个人信息</p>
             <div class="sever_user_text">
-                <img src="{{Tw::authLogic()->guard()->user()['img']}}" alt="">
+                <img src="{{$user['img']}}" alt="">
                 <ul>
-                    <li><b>{{Tw::authLogic()->guard()->user()['name']}}</b><a href="">编辑昵称</a></li>
-                    <li class="sever_a1">手机号：{{Tw::authLogic()->guard()->user()['phone']}} <a href="">修改手机</a></li>
+                    <li><b>{{$user['name']}}</b><a href="">编辑昵称</a></li>
+                    <li class="sever_a1">手机号：{{$user['phone']}} <a href="">修改手机</a></li>
                     <li class="sever_a1">密码：****** <a href="">修改密码</a></li>
                 </ul>
             </div>
