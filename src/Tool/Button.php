@@ -52,10 +52,24 @@ class Button
         return "<a class=\"btn btn-danger btn-xs delete-one\" href=\"javascript:void(0);\" data-url=\"".$this->url."\"  data-csrftoken=\"".csrf_token()."\"  data-id=\"".$this->id."\"><i class=\"fa fa-trash\"></i> 删除</a>";
     }
 
+    /**
+     * @return string
+     */
     public function delete_all():string
     {
         return  "<a class=\"btn btn-sm btn-danger delete-all\" data-csrftoken=\"".csrf_token()."\"  href=\"javascript:void(0);\" data-url=\"".$this->url."\" ><i class=\"fa fa-trash\"></i> 删除选中</a>";
     }
+
+    /**
+     * @return string
+     * @see 推送
+     */
+    public function push():string
+    {
+        return "<a class=\"btn btn-primary btn-xs push\"  data-url=\"".$this->url."\"    href=\"javascript:void(0);\"><i class=\"fa fa-sign-out\"></i> 推送大屏幕</a>";
+    }
+
+
     /**
      * @return string
      */

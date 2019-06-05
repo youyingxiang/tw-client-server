@@ -69,8 +69,7 @@ if (!function_exists('ajaxReturn')) {
         if (!empty($data)) {
             $result['data'] = $data;
         }
-        echo json_encode($result, JSON_UNESCAPED_UNICODE);
-        exit();
+        return response()->json($result);
     }
 }
 

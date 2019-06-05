@@ -21,7 +21,7 @@
                                 <th>logo</th>
                                 <th>评分方式</th>
                                 <th>背景图片</th>
-                                <th>创建时间</th>
+                                <th>期限</th>
                                 <th>操作</th>
                             </tr>
                             @foreach($aData as $vo)
@@ -32,7 +32,7 @@
                                 <td style="vertical-align:middle"><img src="{{$vo['logo']}}" style="width:40px;border-radius:40%;" /></td>
                                 <td style="vertical-align:middle">{{get_score_type($vo['score_type'])}}</td>
                                 <td style="vertical-align:middle"><img src="{{$vo['banner']}}" style="width:40px;border-radius:40%;" /></td>
-                                <td style="vertical-align:middle">{{$vo['created_at']}}</td>
+                                <td style="vertical-align:middle">{{$vo['term']}}</td>
                                 <td style="vertical-align:middle">
                                     {!! button(route('tw.activity.edit',$vo['id']),'edit') !!}
                                     {!! button(route('tw.activity.destroy',$vo['id']),'delete',$vo['id']) !!}

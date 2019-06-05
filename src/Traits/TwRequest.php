@@ -28,8 +28,9 @@ trait TwRequest
             $this->setRules();
         }
         $aInput  = $this->request->all();
-        if (count ($aInput) == 3) {
-            $aKey = array_keys(Arr::except($aInput,['_token','id']));
+
+        if (count ($aInput) == 4) {
+            $aKey = array_keys(Arr::except($aInput,['_token','id','_method']));
             foreach ($aKey as $v) {
                 $value[$v] = Arr::get($this->rules,$v);
             }

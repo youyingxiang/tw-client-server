@@ -48,6 +48,22 @@ return [
             "order" => 1,
             "parent_id"   => 2,
         ],
+        [
+            "id"    => 5,
+            'title' => "评委列表",
+            "icon"  => "fa-circle-o",
+            "url"   => "/judges",
+            "order" => 1,
+            "parent_id"   => 2,
+        ],
+        [
+            "id"    => 6,
+            'title' => "选手表",
+            "icon"  => "fa-circle-o",
+            "url"   => "/player",
+            "order" => 1,
+            "parent_id"   => 2,
+        ],
 
     ],
     'route' => [

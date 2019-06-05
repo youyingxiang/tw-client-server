@@ -2,20 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: youxingxiang
- * Date: 2019/6/3
- * Time: 5:37 PM
+ * Date: 2019/6/5
+ * Time: 10:50 AM
  */
 namespace Tw\Server\Requests;
 use Tw\Server\Traits\TwRequest;
 use Illuminate\Validation\Rule;
-use Tw\Server\Requests\TwRequest as TwRequestI;
 use Illuminate\Foundation\Http\FormRequest;
-class ActivityRequest extends FormRequest implements TwRequestI
+use Tw\Server\Requests\TwRequest as TwRequestI;
+class PlayerRequest extends FormRequest implements TwRequestI
 {
     use TwRequest;
+
     /**
-     * Determine if the user is authorized to make this request.
-     *
      * @return bool
      */
     public function authorize()
@@ -38,12 +37,11 @@ class ActivityRequest extends FormRequest implements TwRequestI
     public function setRules(): void
     {
         $this->rules = [
-            'title' => 'required|max:256',
-            'logo' => 'max:300',
-            'banner'=> 'max:300',
-            'days'  => 'integer',
-            'level' => Rule::in([1, 2]),
-            'score_type' => Rule::in([1, 2]),
+            'name' => 'required|max:128',
+            'img' => 'max:300',
+            'score' => 'integer',
+            'activity_id' => 'required|integer',
+            'push_state' => Rule::in([0, 1]),
         ];
     }
     /**
@@ -54,8 +52,9 @@ class ActivityRequest extends FormRequest implements TwRequestI
     public function messages() :array
     {
         return [
-            'title.required' => '活动名称不能为空！',
-            'title.max'  => "活动名称长度不能超过128个字符！",
+            'name.required' => '选手姓名不能为空！',
+            'name.max'  => "选手姓名长度不能超过128个字符！",
+            'score.integer' => '得分必须是一个整数',
         ];
     }
     /**

@@ -23,6 +23,7 @@ class CreateTwAdminTable extends Migration
             $table->string('email',60)->default('')->comment("邮箱");
             $table->string('wechat',60)->default('')->comment("微信");
             $table->string('remember_token', 100)->default('');
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -37,6 +38,7 @@ class CreateTwAdminTable extends Migration
             $table->integer("admin_id")->default(3)->comment('所属用户');
             $table->softDeletes();
             $table->timestamps();
+            $table->index('admin_id');
         });
 
         Schema::create('tw_player', function (Blueprint $table) {
@@ -46,6 +48,10 @@ class CreateTwAdminTable extends Migration
             $table->integer("score")->default(0)->comment('最终得分');
             $table->tinyInteger('push_state')->default(0)->comment("推送状态 0 未推送 1 已推送");
             $table->integer("activity_id")->default(3)->comment('所属活动');
+            $table->integer("admin_id")->default(3)->comment('所属用户');
+            $table->index('admin_id');
+            $table->index('activity_id');
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -54,6 +60,10 @@ class CreateTwAdminTable extends Migration
             $table->string('name',128)->default('')->comment("评委姓名");
             $table->string('img',300)->default('')->comment("图像");
             $table->integer("activity_id")->default(3)->comment('所属活动');
+            $table->integer("admin_id")->default(3)->comment('所属用户');
+            $table->index('admin_id');
+            $table->index('activity_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

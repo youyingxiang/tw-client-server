@@ -36,27 +36,6 @@ EOT;
 $(".select2").select2({language:"zh-CN"});
 EOT;
     /**
-     * @var string
-     */
-    protected $editable = <<<EOT
-$('.editable').editable({
-        emptytext: "empty",
-        params: function(params) {      //参数
-            var data = {};
-            data['id'] = params.pk;
-            data[params.name] = params.value;
-            return data;
-        },
-        success: function(response, newValue) {
-            var res = $.parseJSON( response );
-            if(res.status == 1){
-            }else{
-                return res.info;
-            }
-        }
-    });
-EOT;
-    /**
      * @var array
      */
     protected $file_upload_js     = [
@@ -78,9 +57,9 @@ EOT;
     {
         if (is_array($scriptNames)) {
             foreach ($scriptNames as $script) {
-                if ($script == "file_upload") {
-                    $this->getFileUploadScript();
-                } else {
+                if (method_exists($this,$script)) {
+                    $this->$script();
+                } else if (property_exists($this,$script)) {
                     Tw::script($this->$script);
                 }
             }
@@ -91,7 +70,7 @@ EOT;
     /**
      * 获取file_upload脚本 并加入一个hidden
      */
-    public function getFileUploadScript():void
+    public function file_upload():void
     {
         $token = csrf_token();
         $script = <<<EOT
@@ -117,6 +96,64 @@ $('#fileupload_').fileupload({
 $(".up_img").on('click',function(){
     obj = $(this);
     $('#fileupload_').trigger('click');
+})
+EOT;
+        Tw::script($script);
+    }
+
+    /**
+     * 表格修改
+     */
+    public function editable():void
+    {
+        $token = csrf_token();
+        $script = <<<EOT
+$('.editable').editable({
+        emptytext: "empty",
+        params: function(params) {      //参数
+            var data = {};
+            data['id'] = params.pk;
+            data['_token'] = "$token";
+            data['_method'] = 'PUT';
+            data[params.name] = params.value;
+            return data;
+        },
+        success: function(response, newValue) {
+            if(response.status == 1){
+            }else{
+                return res.info;
+            }
+        }
+    });
+EOT;
+        Tw::script($script);
+    }
+
+    /**
+     * 推送
+     */
+    public function pushAjax():void
+    {
+        $script = <<<EOT
+$('.push').on('click',function(){
+    var url = $(this).attr('data-url').trim();
+    $.ajax({
+            url: url, 
+            type:'get', 
+            dataType: "json", 
+            error:function(data){
+                 $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                 return;
+            },  
+            success:function(result){
+                if(result.status == 1){
+                    $.amaran({'message':result.info});
+                    $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})                   
+                } else {
+                    $.amaran({'message':result.info});
+                }
+            },
+    })
 })
 EOT;
         Tw::script($script);

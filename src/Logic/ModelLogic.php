@@ -46,10 +46,11 @@ class ModelLogic implements Renderable
      * @param string $id
      * @param array $data
      */
-    public function update(string $id, array $aData = [])
+    public function update(string $id, array $aData = [],array $aWhereData = [])
     {
         $bSaveRes = false;
-        $this->oModelResult = $this->model::findOrFail($id);
+        $where   = $this->getWhere($aWhereData);
+        $this->oModelResult = $this->model->where($where)->findOrFail($id);
         DB::transaction(function () use ($aData,&$bSaveRes) {
             $aUpdates = $this->prepare($aData);
             foreach ($aUpdates as $column => $value) {
@@ -217,7 +218,16 @@ class ModelLogic implements Renderable
     }
 
 
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement __call() method.
+        if (method_exists($this->model,$name)) {
+            return $this->model->$name($arguments);
+        } else {
+            abort(404);
+        }
 
+    }
 
     /**
      * @return string|void

@@ -33,6 +33,9 @@ trait Tw
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo');
                 $router->resource('activity', 'ActivityController')->names('tw.activity');
+                $router->resource('judges', 'JudgesController')->names('tw.judges');
+                $router->resource('player', 'PlayerController')->names('tw.player');
+                $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push');
             });
         });
     }

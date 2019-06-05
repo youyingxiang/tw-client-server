@@ -2,14 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: youxingxiang
- * Date: 2019/6/3
- * Time: 4:04 PM
+ * Date: 2019/6/5
+ * Time: 10:23 AM
  */
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Activity extends Model
+
+class Player extends Model
 {
 
     /**
@@ -23,15 +25,14 @@ class Activity extends Model
     /**
      * @var array or 条件查询字段
      */
-    protected $or_fields = ['title','id'];
+    protected $or_fields = ['name','score'];
     /**
      * @var array and 条件查询字段
      */
-    protected $and_fields = ['days'];
-
+    protected $and_fields = [];
 
     /**
-     * Activity constructor.
+     * Judges constructor.
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
@@ -40,25 +41,16 @@ class Activity extends Model
 
         $this->setConnection($connection);
 
-        $this->setTable('tw_activity');
+        $this->setTable('tw_player');
 
         parent::__construct($attributes);
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function admin()
-    {
-        return $this->belongsTo('Tw\Server\Models\Admin');
-    }
-
     /**
      * @return string
      */
     public function getIndexUrl(): string
     {
-        return route('tw.activity.index');
+        return route('tw.player.index');
     }
 
     /**
@@ -84,10 +76,31 @@ class Activity extends Model
         return ['admin_id'=>Tw::authLogic()->guard()->id()];
     }
 
-    public function getTermAttribute():string
+    /**
+     * @param array $aId
+     */
+    public function pushPlayer(array $aId)
     {
-        return $this->created_at." 至 ".
-            date('Y-m-d H:i:s',strtotime("+".$this->days."day",strtotime($this->created_at)));
+        $bSaveRes = false;
+        $id = $aId[0]??0;
+        $player  =  $this->where('admin_id',Tw::authLogic()->guard()->id())->find($id);
+
+        if ($player && $player->push_state != 1) {
+           $player->push_state = 1;
+           DB::transaction(function ()use($player,$id,&$bSaveRes) {
+               $player->save();
+               $this->where('id', '<>', $id)->update(['push_state' => 0]);
+               $bSaveRes = true;
+           });
+        }
+
+        if ($player->push_state == 1) {
+            return ajaxReturn("操作成功",$this->getIndexUrl());
+        }
+        else
+            return ajaxReturn("操作失败");
+
+
     }
 
 

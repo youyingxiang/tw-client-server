@@ -2,14 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: youxingxiang
- * Date: 2019/6/3
- * Time: 4:04 PM
+ * Date: 2019/6/5
+ * Time: 10:23 AM
  */
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
 use Illuminate\Database\Eloquent\Model;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Activity extends Model
+
+class Judges extends Model
 {
 
     /**
@@ -23,15 +25,14 @@ class Activity extends Model
     /**
      * @var array or 条件查询字段
      */
-    protected $or_fields = ['title','id'];
+    protected $or_fields = ['name'];
     /**
      * @var array and 条件查询字段
      */
-    protected $and_fields = ['days'];
-
+    protected $and_fields = [];
 
     /**
-     * Activity constructor.
+     * Judges constructor.
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
@@ -40,25 +41,16 @@ class Activity extends Model
 
         $this->setConnection($connection);
 
-        $this->setTable('tw_activity');
+        $this->setTable('tw_judges');
 
         parent::__construct($attributes);
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function admin()
-    {
-        return $this->belongsTo('Tw\Server\Models\Admin');
-    }
-
     /**
      * @return string
      */
     public function getIndexUrl(): string
     {
-        return route('tw.activity.index');
+        return route('tw.judges.index');
     }
 
     /**
@@ -84,11 +76,16 @@ class Activity extends Model
         return ['admin_id'=>Tw::authLogic()->guard()->id()];
     }
 
-    public function getTermAttribute():string
+    /**
+     * @param $value
+     * @return string
+     * @see 获取二维码
+     */
+    public function getQrCodeAttribute():string
     {
-        return $this->created_at." 至 ".
-            date('Y-m-d H:i:s',strtotime("+".$this->days."day",strtotime($this->created_at)));
+        return QrCode::size(100)->color(255,0,255)
+            ->backgroundColor(255,255,0)
+            ->generate("http://baidu.com?".$this->admin_id."-".$this->activity_id);
     }
-
 
 }

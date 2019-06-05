@@ -1,17 +1,17 @@
 @if(!empty($aData['id']))
-    {{$btname = '修改用户'}}
+    {{$btname = '修改选手'}}
 @else
-    {{$btname = '增加用户'}}
+    {{$btname = '增加选手'}}
 @endif
-@extends('tw::layout.base',['header' => "活动 ".$btname,'pageTitle'=>'个人中心',"pageBtnName"=>$btname])
+@extends('tw::layout.base',['header' => "活动 ".$btname,'pageTitle'=>'选手列表',"pageBtnName"=>$btname])
 @section('content')
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" method="POST" action="@if(empty($aData)){{route('tw.activity.store')}}@else{{route('tw.activity.update',$aData['id'])}}@endif" onsubmit="return false" >
+                <form class="form-horizontal" method="POST" action="@if(empty($aData)){{route('tw.player.store')}}@else{{route('tw.player.update',$aData['id'])}}@endif" onsubmit="return false" >
                     {{ csrf_field() }}
                     @if(!empty($aData['id']))
-                    <input type="hidden" name="id" value="{{$aData['id']}}" />
+                        <input type="hidden" name="id" value="{{$aData['id']}}" />
                         {{ method_field('PUT') }}
                     @endif
                     <div class="nav-tabs-custom">
@@ -22,20 +22,20 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">活动名称</label>
-                                    <div class="col-sm-7"><input class="form-control" name="title" value="{{$aData['title']??''}}"  placeholder="活动名称"></div>
+                                    <label class="col-sm-2 control-label">选手名称</label>
+                                    <div class="col-sm-7"><input class="form-control" name="name" value="{{$aData['name']??''}}"  placeholder="选手名称"></div>
                                 </div>
 
 
 
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">活动LOGO</label>
+                                    <label class="col-sm-2 control-label">选手头像</label>
                                     <div class="col-sm-7">
                                         <div class="input-group">
-                                            <input class="form-control" name="logo" value="{{$aData['logo']??''}}"  placeholder="活动LOGO" >
+                                            <input class="form-control" name="img" value="{{$aData['img']??''}}"  placeholder="选手头像" >
                                             <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['logo'] ?? asset("vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['logo'] ?? asset("vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
+                                        <a href="{{tw_asset($aData['img'] ?? asset("vendor/tw/global/face/no-image.png") )}}" target="_blank" >
+                                            <img src="{{tw_asset($aData['img'] ?? asset("vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
                                         </a>
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>
@@ -45,32 +45,22 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">评分方式</label>
+                                    <label class="col-sm-2 control-label">所属活动</label>
                                     <div class="col-sm-7">
-                                        <select class="form-control select2" name="score_type" style="width:100%;">
-                                            @foreach(get_score_type() as $k => $v)
-                                                <option @if(!empty($aData['score_type']) && $k == $aData['score_type'])selected="selected"@endif value="{{$k}}">{{$v}}</option>
+                                        <select class="form-control select2" name="activity_id" style="width:100%;">
+                                            @foreach($oActivitys as  $v)
+                                                <option @if(!empty($aData['activity_id']) && $v['id'] == $aData['activity_id'])selected="selected"@endif value="{{$v['id']}}">{{$v['title']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">活动背景</label>
-                                    <div class="col-sm-7">
-                                        <div class="input-group">
-                                            <input class="form-control" name="banner" value="{{$aData['banner']??''}}"  placeholder="活动背景" >
-                                            <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['banner'] ?? asset("vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['banner'] ?? asset("vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
-                                        </a>
-                                        <button class="btn btn-success btn-flat up_img" type="button">
-                                            <i class="fa fa-cloud-upload"> 上传</i>
-                                        </button></span>
-                                        </div>
-                                    </div>
+                                    <label class="col-sm-2 control-label">最终得分</label>
+                                    <div class="col-sm-7"><input class="form-control" name="score" value="{{$aData['score']??''}}"  placeholder="最终得分"></div>
                                 </div>
+
+
 
                             </div>
                         </div>
