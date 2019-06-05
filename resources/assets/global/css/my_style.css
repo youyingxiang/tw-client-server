@@ -1,39 +1,128 @@
 /*登陆页面*/
-.login-box-msg{
+.login-box-msg {
     font-size: 34px;
     font-weight: bold;
     letter-spacing: 5pt;
     color: #333333 !important;
 }
-.login-box-msg b{
+
+.login-box-msg b {
     color: #3aa2ff;
 }
-.col-xs-zc{
+
+.col-xs-zc {
     text-align: center;
     margin-top: 2rem;
 }
-#login_input input{
+
+#login_input input {
     border-radius: 10px;
     padding-right: 0 !important;
-    padding-left:42.5px !important; ;
+    padding-left: 42.5px !important;;
     height: 35pt !important;
     line-height: 35pt !important;
 }
+
 #login-ico-input {
     left: 0 !important;
     padding: 5pt;
 }
-#login_bg{
+
+#login_bg {
     background-image: url("../img/login_bg.jpg") !important;
     background-size: cover;
 }
-.login-box{
+
+.login-box {
     width: 20% !important;
     margin: 0 auto !important;
     padding-top: 15% !important;
 
 }
+
 .login-box-body {
     border-radius: 15px;
 }
 
+/*中心页面*/
+.sever_center {
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 20pt;
+    height: 500pt;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20pt;
+}
+
+.sever_user_text {
+    width: 100%;
+    border: 1px solid #eeeeee;
+    padding: 15pt;
+    overflow: hidden;
+}
+
+.sever_user_text img {
+    width: 120px;
+    border-radius: 50%;
+    float: left;
+
+}
+
+.sever_user_text ul {
+    float: left;
+    width: 90%;
+    overflow: hidden;
+}
+
+.sever_user_text li {
+    list-style: none;
+    line-height: 30pt;
+    width: 100%;
+}
+
+.sever_user_text b {
+    font-size: 16pt;
+    padding-right: 10pt;
+}
+
+.sever_a1 a {
+    float: right;
+}
+
+.sever_order {
+    margin-top: 20pt;
+    overflow: hidden;
+}
+
+.sever_order_title {
+    border-bottom: 2px solid #eee;
+}
+
+.sever_order_title a {
+    border-bottom: 2px solid #3c8dbc !important;
+    line-height: 35pt;
+    padding-bottom: 11pt;
+    z-index: 999;
+}
+
+.sever_order_list table {
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.sever_order_list tr {
+
+}
+
+.sever_order_list th {
+    background: #cce0e2;
+    padding-left: 5pt;
+
+}
+
+.sever_order_list td {
+    padding-left: 5pt;
+    border-bottom: 1px solid #ccc;
+
+}
