@@ -41,7 +41,7 @@ return [
             "parent_id"   => 1,
         ],
         [
-            "id"    => 4,
+            "id"    => 5,
             'title' => "活动列表",
             "icon"  => "fa-circle-o",
             "url"   => "/activity",
@@ -54,6 +54,15 @@ return [
             'title' => "选手列表",
             "icon"  => "fa-circle-o",
             "url"   => "/player",
+            "order" => 1,
+            "parent_id"   => 2,
+        ],
+        [
+
+            "id"    => 7,
+            'title' => "评委列表",
+            "icon"  => "fa-circle-o",
+            "url"   => "/judges",
             "order" => 1,
             "parent_id"   => 2,
         ],
