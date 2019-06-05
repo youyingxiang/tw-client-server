@@ -23,15 +23,15 @@
                 </li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{tw_asset("vendor/tw/global/face/default.png")}}" class="user-image" alt="User Image">
-                        <span class="hidden-xs">yxx</span>
+                        <img src="{{Tw::admin()['img'] ?:tw_asset("vendor/tw/global/face/default.png")}}" class="user-image" alt="User Image">
+                        <span class="hidden-xs">{{Tw::admin()['name']}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{tw_asset("vendor/tw/global/face/default.png")}}" class="img-circle" alt="User Image">
+                            <img src="{{Tw::admin()['img'] ?: tw_asset("vendor/tw/global/face/default.png")}}" class="img-circle" alt="User Image">
                             <p>
-                                yxx
+                                {{Tw::admin()['name']}}
                                 <small>管理员</small>
                             </p>
                         </li>

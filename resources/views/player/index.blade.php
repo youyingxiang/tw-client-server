@@ -1,4 +1,4 @@
-@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>'评委',"pageBtnName"=>'活动列表'])
+@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>'选手',"pageBtnName"=>'活动列表'])
 @section('content')
     <section class="content">
         <div class="row">

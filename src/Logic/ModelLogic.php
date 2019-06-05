@@ -58,7 +58,7 @@ class ModelLogic implements Renderable
             $aUpdates = $this->prepare($aData);
             foreach ($aUpdates as $column => $value) {
                 /* @var Model $this->model */
-                $this->oModelResult->setAttribute($column, !is_null($value)?:'');
+                $this->oModelResult->setAttribute($column, is_null($value)?'':$value);
             }
             $bSaveRes = $this->oModelResult->save();
         });
@@ -83,7 +83,7 @@ class ModelLogic implements Renderable
         DB::transaction(function ()use($aData,&$bSaveRes) {
             foreach ($aData as $column => $value) {
                 /* @var Model $this->model */
-                $this->model->setAttribute($column, !is_null($value)?:'');
+                $this->model->setAttribute($column, is_null($value)?'':$value);
             }
             $bSaveRes =  $this->model->save();
         });
@@ -150,13 +150,13 @@ class ModelLogic implements Renderable
             /**
              * 当前项目归属谁
              */
-            if (!empty($this->model->parentFlag())) {
+            if (method_exists($this->model,'parentFlag') && !empty($this->model->parentFlag())) {
                 foreach ($this->model->parentFlag() as $pk=> $pv) {
                     $query->where($pk,$pv);
                 }
             }
             // and where
-            if ($aWhere &&
+            if (method_exists($this->model,'getAndFieds') && $aWhere &&
                 $this->model->getAndFieds()
             ) {
                 foreach ($aWhere as $field => $value) {
@@ -177,7 +177,7 @@ class ModelLogic implements Renderable
     {
         $where = function ($query) use ($aWhere) {
             // or where
-            if (!empty($aWhere['search']) &&
+            if (method_exists($this->model,'getOrFields') && !empty($aWhere['search']) &&
                 $this->model->getOrFields()
             ) {
                 foreach ($this->model->getOrFields() as $field) {
@@ -199,6 +199,7 @@ class ModelLogic implements Renderable
     protected function prepare($aData = [])
     {
         $this->relations = $this->getRelationInputs($aData);
+        $aData = Arr::except($aData,['id']);
         return Arr::except($aData, array_keys($this->relations));
     }
 

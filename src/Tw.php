@@ -73,6 +73,14 @@ class Tw
     }
 
     /**
+     * @return object
+     */
+    public function admin():object
+    {
+        return $this->authLogic()->guard()->user();
+    }
+
+    /**
      * @param string $modelName
      * @return mixed
      */
