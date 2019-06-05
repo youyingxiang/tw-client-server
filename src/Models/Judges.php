@@ -88,4 +88,21 @@ class Judges extends Model
             ->generate("http://baidu.com?".$this->admin_id."-".$this->activity_id);
     }
 
+    /**
+     * @return array
+     * @see 普通用户 最多添加n个评委
+     */
+    public function restrict(string $activity_id):bool
+    {
+        $bFlag = false;
+        $limit = config('tw.restrict.judges',5);
+        $activityInfo = Tw::newModel('Activity')->where('admin_id',Tw::authLogic()->guard()->id())->find($activity_id);
+        if (isset($activityInfo['level']) && $activityInfo['level'] == 1) {
+            $players = $this->where(['admin_id' => Tw::authLogic()->guard()->id(),'activity_id'=>$activity_id])->count();
+            if (!empty($players)) $bFlag =  $limit > $players;
+        } else if (isset($activityInfo['level']) && $activityInfo['level'] == 2)
+            $bFlag = true;
+        return $bFlag;
+    }
+
 }

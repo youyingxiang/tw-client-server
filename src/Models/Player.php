@@ -7,8 +7,8 @@
  */
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Player extends Model
@@ -77,6 +77,23 @@ class Player extends Model
     }
 
     /**
+     * @return array
+     * @see 普通用户 最多添加n个选手
+     */
+    public function restrict(string $activity_id):bool
+    {
+        $bFlag = false;
+        $limit = config('tw.restrict.player',10);
+        $activityInfo = Tw::newModel('Activity')->where('admin_id',Tw::authLogic()->guard()->id())->find($activity_id);
+        if (isset($activityInfo['level']) && $activityInfo['level'] == 1) {
+            $players = $this->where(['admin_id' => Tw::authLogic()->guard()->id(),'activity_id'=>$activity_id])->count();
+            if (!empty($players)) $bFlag =  $limit > $players;
+        } else if (isset($activityInfo['level']) && $activityInfo['level'] == 2)
+            $bFlag = true;
+        return $bFlag;
+    }
+
+    /**
      * @param array $aId
      */
     public function pushPlayer(array $aId)
@@ -94,11 +111,10 @@ class Player extends Model
            });
         }
 
-        if ($player->push_state == 1) {
-            return ajaxReturn("操作成功",$this->getIndexUrl());
-        }
+        if ($player->push_state == 1)
+            return Tw::ajaxResponse("操作成功",$this->getIndexUrl());
         else
-            return ajaxReturn("操作失败");
+            return Tw::ajaxResponse("操作失败");
 
 
     }

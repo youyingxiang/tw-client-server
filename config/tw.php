@@ -105,6 +105,10 @@ return [
         'connection' => '',
         'admin_table' => 'tw_admin',
     ],
+    'restrict' => [
+        'player'    => 10,      //普通用户限制选手个数
+        'judges'    => 5,       //普通用户限制评委个数
+    ],
 
     'upload_url' => "/yxx/kindeditor/upload?type=image",
 ];

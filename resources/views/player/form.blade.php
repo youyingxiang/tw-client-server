@@ -57,7 +57,7 @@
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最终得分</label>
-                                    <div class="col-sm-7"><input class="form-control" name="score" value="{{$aData['score']??''}}"  placeholder="最终得分"></div>
+                                    <div class="col-sm-7"><input class="form-control" name="score" value="{{$aData['score']??0}}"  placeholder="最终得分"></div>
                                 </div>
 
 

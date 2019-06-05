@@ -19,6 +19,12 @@ class ModelLogic implements Renderable
      */
     protected $model;
 
+
+    /**
+     * @var
+     */
+    protected $oModelResult;
+
     /**
      * ModelLogic constructor.
      * @param $model
@@ -28,12 +34,9 @@ class ModelLogic implements Renderable
     {
         $this->model = $model;
         if ($callback instanceof Closure) {
-           $callback($this);
+            $callback($this);
         }
     }
-
-    protected $oModelResult;
-
     /**
      * @return object
      */
@@ -55,7 +58,7 @@ class ModelLogic implements Renderable
             $aUpdates = $this->prepare($aData);
             foreach ($aUpdates as $column => $value) {
                 /* @var Model $this->model */
-                $this->oModelResult->setAttribute($column, $value?:'');
+                $this->oModelResult->setAttribute($column, !is_null($value)?:'');
             }
             $bSaveRes = $this->oModelResult->save();
         });
@@ -71,11 +74,16 @@ class ModelLogic implements Renderable
      */
     public function store(array $aData = [])
     {
+        if (method_exists($this->model,'restrict') && !empty($aData['activity_id'])) {
+            $res = call_user_func([$this->model, 'restrict'],$aData['activity_id']);
+            if (false == $res)
+                return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
+        }
         $bSaveRes = false;
         DB::transaction(function ()use($aData,&$bSaveRes) {
             foreach ($aData as $column => $value) {
                 /* @var Model $this->model */
-                $this->model->setAttribute($column, $value?:'');
+                $this->model->setAttribute($column, !is_null($value)?:'');
             }
             $bSaveRes =  $this->model->save();
         });
@@ -222,7 +230,8 @@ class ModelLogic implements Renderable
     {
         // TODO: Implement __call() method.
         if (method_exists($this->model,$name)) {
-            return $this->model->$name($arguments);
+            $jResult = call_user_func([$this->model, $name],$arguments);
+            return $jResult;
         } else {
             abort(404);
         }
