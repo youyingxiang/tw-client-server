@@ -48,6 +48,14 @@ return [
             "order" => 1,
             "parent_id"   => 2,
         ],
+        [
+            "id"    => 6,
+            'title' => "选手列表",
+            "icon"  => "fa-circle-o",
+            "url"   => "/player",
+            "order" => 1,
+            "parent_id"   => 2,
+        ],
 
     ],
     'route' => [
