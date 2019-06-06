@@ -94,7 +94,10 @@ class Player extends Model
         $activityInfo = Tw::newModel('Activity')->where('admin_id',Tw::authLogic()->guard()->id())->find($activity_id);
         if (isset($activityInfo['level']) && $activityInfo['level'] == 1) {
             $players = $this->where(['admin_id' => Tw::authLogic()->guard()->id(),'activity_id'=>$activity_id])->count();
-            if (!empty($players)) $bFlag =  $limit > $players;
+            if ($players > 0)
+                $bFlag =  $limit > $players;
+            else if ($players == 0)
+                $bFlag = true;
         } else if (isset($activityInfo['level']) && $activityInfo['level'] == 2)
             $bFlag = true;
         return $bFlag;
