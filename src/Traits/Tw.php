@@ -7,6 +7,8 @@
  */
 namespace Tw\Server\Traits;
 use Illuminate\Support\Arr;
+use Tw\Server\Controllers\IndexController;
+
 trait Tw
 {
     public static $commands = [
@@ -37,6 +39,9 @@ trait Tw
                 $router->resource('player', 'PlayerController')->names('tw.player');
                 $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push');
             });
+        });
+        app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
+            $router->get('activity/{activityId}', "HomeController@index")->name('tw.home');
         });
     }
 

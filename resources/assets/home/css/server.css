@@ -1,0 +1,316 @@
+HTML, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote,
+pre, form, fieldset, table, th, td {
+    border: none;
+    font-family: "微软雅黑", "黑体", "宋体";
+    font-size: 14px;
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #fff;
+}
+
+a:visited {
+    color: #fff;
+}
+
+a:hover {
+    color: #fff;
+}
+
+a:active {
+    color: #fff;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+input::-ms-reveal {
+    display: none;
+}
+
+input {
+    -webkit-appearance: none;
+    margin: 0;
+    outline: none;
+    padding: 0;
+}
+
+input::-webkit-input-placeholder {
+    color: #ccc;
+}
+
+input::-ms-input-placeholder {
+    color: #ccc;
+}
+
+input::-moz-placeholder {
+    color: #ccc;
+}
+
+input[type=submit], input[type=button] {
+    cursor: pointer;
+}
+
+button[disabled], input[disabled] {
+    cursor: default;
+}
+
+img {
+    border: none;
+}
+
+ul, ol, li {
+    list-style-type: none;
+}
+
+/*公共方法*/
+.clear {
+    clear: both;
+}
+
+.clearleft {
+    clear: left;
+}
+
+.clearright {
+    clear: right;
+}
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+/*背景及色值表*/
+.bg000 {
+    background: #000;
+}
+
+.color000 {
+    color: #000;
+}
+
+/*评分大屏幕*/
+#screen_body {
+    background-image: url("../img/screen_bg.jpg");
+    background-size: cover;
+}
+
+.screen_logo {
+    color: #fff;
+    font-size: 24pt;
+}
+
+.screen_logo p {
+    font-size: 28pt;
+    font-weight: bold;
+    letter-spacing: 3pt;
+    margin-left: 5%;
+}
+
+.screen_logo b {
+    color: #FF9800;
+}
+
+.screen {
+    width: 100%;
+    overflow: hidden;
+}
+
+.screen_title {
+    width: 100%;
+    overflow: hidden;
+}
+
+#screen_title_img {
+    width: 100%;
+    height: auto;
+}
+
+.screen_player {
+    margin-top: 1%;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+
+.screen_player h1 {
+    font-size: 48pt;
+    color: #fff;
+}
+
+.screen_player img {
+    width: 10%;
+    border-radius: 50%;
+    border: 8px solid #ffda00;
+    margin-top: 1%;
+}
+
+.screen_player p {
+    font-size: 30pt;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 1%;
+    letter-spacing: 5pt;
+}
+
+.screen_judge {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.screen_judge li {
+    width: 15%;
+    margin: 1% 0.5%;
+    display: inline-table;
+    text-align: center;
+}
+
+.screen_judge img {
+    width: 100%;
+}
+
+.screen_judge_pw {
+    background: #FF9800;
+    overflow: hidden;
+    border: 5px solid #fff;
+    border-radius: 15pt;
+}
+
+.screen_judge_pw p {
+    font-size: 21pt;
+    line-height: 3rem;
+}
+
+.screen_judge p {
+    color: #fff;
+    text-align: center;
+}
+
+.pw_name {
+    margin-top: 10pt;
+    font-size: 18pt;
+}
+
+.screen_popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(204, 204, 204, 0.5);
+    /*opacity: 0.5;*/
+}
+
+.screen_popup_sc {
+    text-align: center;
+
+}
+
+.screen_popup_sc p {
+    margin-top: 30%;
+    color: #fff;
+    font-size: 45pt;
+    font-weight: bold;
+}
+
+/*排名页面*/
+.rank_top{
+    width: 70%;
+    margin: 0 auto;
+    /*overflow: hidden;*/
+}
+.rank_top li{
+    width: 30%;
+    margin: 1%;
+    height: 180px;
+    background: #fff;
+    float: left;
+    border: 5px solid #ffda00;
+    border-radius: 10pt;
+}
+.rank_bot{
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.rank_bot li{
+    width: 48%;
+    height: 80px;
+    background: #fff;
+    float: left;
+    margin: 1%;
+    padding: 5pt 0;
+}
+.rank_bot p{
+    width: 20%;
+    float: left;
+    line-height: 80px;
+    height: 80px;
+    font-size: 18pt;
+    text-align: center;
+}
+.p1{
+    width: 20% !important;
+    font-size: 18pt;
+    font-weight: bold;
+    padding-left: 10pt;
+}
+.p2 img{
+    height: 100%;
+    border-radius: 50%;
+}
+.p3 {
+    font-weight: bold;
+    color: #FF9800;
+}
+.top_img{
+    position: relative;
+}
+.top_img img{
+    position: absolute;
+    width: 140px !important;
+    top: -70px;
+    left: 50%;
+    margin-left: -70px;
+    border: 5px solid #ffda00;
+    border-radius: 50%;
+    z-index: 999;
+}
+.top_img p{
+    margin-top: 100px;
+    text-align: center;
+    font-size: 24pt;
+    font-weight: bold;
+}
+.top_img b{
+    color: darkred;
+}

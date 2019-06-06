@@ -30,7 +30,7 @@
                                     </div>
                                     <div class='pull-left' style="width:60%">
                                         <select name="activity_id" class="form-control select2" placeholder="搜索">
-                                            <option value="">不限</option>
+                                            <option value="">请选择活动项目</option>
                                             @foreach(Tw::admin()->activitys as $vo)
                                             <option @if(request()->get('activity_id') == $vo['id'])selected='selected' @endif value="{{$vo['id']}}">
                                             {{$vo['title']}}
@@ -72,7 +72,7 @@
                                     </td>
                                     <td style="vertical-align:middle">{{$vo['updated_at']}}</td>
                                     <td style="vertical-align:middle">
-                                        {!! button(route('tw.player.push',$vo['id']),'push') !!}
+                                        {!! button(route('tw.player.push',$vo['id']),'push',$vo['id']) !!}
                                         {!! button(route('tw.player.edit',$vo['id']),'edit') !!}
                                         {!! button(route('tw.player.destroy',$vo['id']),'delete',$vo['id']) !!}
                                     </td>

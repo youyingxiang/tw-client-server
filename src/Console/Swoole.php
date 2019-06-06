@@ -8,6 +8,7 @@
 namespace Tw\Server\Console;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\DB;
 class Swoole extends Command
 {
     /**
@@ -102,12 +103,14 @@ class Swoole extends Command
      */
     public function onMessage($server, $frame)
     {
-        $this->line(dd($frame->data));
-        if ($frame->data == "2") {
-            $this->line('123');
-            $this->pushMessage();
+        $aData = json_decode($frame->data,true);
+        /**
+         * @see
+         * type = 1 推送选手到大屏幕
+         */
+        if ( isset($aData['type']) ) {
+            $this->pushMessage($aData);
         }
-        self::$server->push($frame->fd, json_encode(["message"=>"服务:$frame->data"]));
     }
 
     /**
@@ -132,14 +135,19 @@ class Swoole extends Command
     /**
      * 推送请求消息处理
      */
-    public function pushMessage()
+    public function pushMessage(array $aData)
     {
+        if (isset($aData['player']))
+            $aResult = DB::table('tw_player')->find($aData['player']);
         foreach (self::$server->connections as $fd) {
             if (self::$server->isEstablished($fd)) {
                 $jContent = json_decode($this->redis->hget('tw:swoole',$fd),true);
-                if ($jContent && $jContent['page'] == 'test') {
-                    self::$server->push($fd, json_encode(['url'=>"http://tw.com"]));
+                if ($jContent && $jContent['page'] == "home" && $aData['type'] == "1") {
+                    if ($aResult->activity_id == $jContent['activity'])  // 根据推送返回Id 查询选手信息 找到属于活动 只推送给对应活动
+                        self::$server->push($fd, json_encode($aResult,JSON_UNESCAPED_UNICODE));
                 }
+            } else {
+                $this->redis->hdel('tw:swoole',$fd);
             }
         }
     }
@@ -166,7 +174,13 @@ class Swoole extends Command
             self::$server->close($request->fd);
             return false;
         } else {
-            $jContent = json_encode(['page'=>$request->get['page'],'fd'=>$request->fd],true);
+            // 存储请求url带的信息
+            $jContent = json_encode(
+                [
+                    'page'=> $request->get['page'],
+                    'fd'  => $request->fd,
+                    'activity'=> $request->get['activity']
+                ],true);
             $this->redis->hset('tw:swoole',$request->fd,$jContent);
             return true;
         }

@@ -34,6 +34,7 @@
                                 <td style="vertical-align:middle"><img src="{{$vo['banner']}}" style="width:40px;border-radius:40%;" /></td>
                                 <td style="vertical-align:middle">{{$vo['term']}}</td>
                                 <td style="vertical-align:middle">
+                                    <a class="btn btn-primary btn-xs" target="_blank" href="{{route('tw.home',$vo['id'])}}"><i class="fa fa-hand-pointer-o"></i> 前往活动</a>
                                     {!! button(route('tw.activity.edit',$vo['id']),'edit') !!}
                                     {!! button(route('tw.activity.destroy',$vo['id']),'delete',$vo['id']) !!}
                                 </td>

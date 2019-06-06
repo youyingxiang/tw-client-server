@@ -30,7 +30,7 @@
                                     </div>
                                     <div class='pull-left' style="width:60%">
                                         <select name="activity_id" class="form-control select2" placeholder="搜索">
-                                            <option value="">不限</option>
+                                            <option value="">请选择活动项目</option>
                                             @foreach(Tw::admin()->activitys as $vo)
                                                 <option @if(request()->get('activity_id') == $vo['id'])selected='selected' @endif value="{{$vo['id']}}">
                                                     {{$vo['title']}}

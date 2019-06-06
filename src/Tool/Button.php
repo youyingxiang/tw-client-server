@@ -66,7 +66,7 @@ class Button
      */
     public function push():string
     {
-        return "<a class=\"btn btn-primary btn-xs push\"  data-url=\"".$this->url."\"    href=\"javascript:void(0);\"><i class=\"fa fa-sign-out\"></i> 推送大屏幕</a>";
+        return "<a class=\"btn btn-primary btn-xs push\"  data-url=\"".$this->url."\"  data-id=\"".$this->id."\"  href=\"javascript:void(0);\"><i class=\"fa fa-sign-out\"></i> 推送大屏幕</a>";
     }
 
 

@@ -137,11 +137,10 @@ EOT;
         $key = '^manks.top&swoole$';
         $uid = 100;
         $token = md5(md5($uid) . $key);
-        $json = json_encode(['is_head'=>1],true);
         $script = <<<EOT
 $('.push').on('click',function(){
     var url = $(this).attr('data-url').trim();
-    pushSwoole();
+    var id  = $(this).attr('data-id').trim();
     $.ajax({
             url: url, 
             type:'get', 
@@ -152,6 +151,7 @@ $('.push').on('click',function(){
             },  
             success:function(result){
                 if(result.status == 1){
+                    pushSwoole(id);
                     $.amaran({'message':result.info});
                     $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})                   
                 } else {
@@ -160,14 +160,13 @@ $('.push').on('click',function(){
             },
     })
 });
-function pushSwoole()
+function pushSwoole(id)
 {
-   var wsUrl = "ws://127.0.0.1:9502?page=test&uid=100&token=$token";
+   var wsUrl = "ws://tw.com:9502?page=test&uid=100&token=$token";
    var ws = new WebSocket(wsUrl);
-   ws.onmessage = function (event) {
-        ws.send("2");
+   ws.onopen= function (event) {
+        ws.send('{"type":"1","player":"'+id+'"}');
    }
-   
 }
 
 EOT;

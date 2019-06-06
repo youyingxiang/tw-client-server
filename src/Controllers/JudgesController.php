@@ -26,7 +26,7 @@ class JudgesController extends Controller
      */
     public function index()
     {
-        $this->bindScript(['icheck','editable']);
+        $this->bindScript(['icheck','editable','select2']);
         $aWhereData = request()->query();
         $aData = $this->Model()->query($aWhereData);
         return view('tw::judges.index',compact('aData'));
