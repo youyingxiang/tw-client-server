@@ -26,7 +26,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $this->bindScript(['icheck','editable','pushAjax']);
+        $this->bindScript(['icheck','editable','pushAjax','select2']);
         $aWhereData = request()->query();
         $aData = $this->Model()->query($aWhereData);
         return view('tw::player.index',compact('aData'));

@@ -134,9 +134,14 @@ EOT;
      */
     public function pushAjax():void
     {
+        $key = '^manks.top&swoole$';
+        $uid = 100;
+        $token = md5(md5($uid) . $key);
+        $json = json_encode(['is_head'=>1],true);
         $script = <<<EOT
 $('.push').on('click',function(){
     var url = $(this).attr('data-url').trim();
+    pushSwoole();
     $.ajax({
             url: url, 
             type:'get', 
@@ -154,7 +159,17 @@ $('.push').on('click',function(){
                 }
             },
     })
-})
+});
+function pushSwoole()
+{
+   var wsUrl = "ws://127.0.0.1:9502?page=test&uid=100&token=$token";
+   var ws = new WebSocket(wsUrl);
+   ws.onmessage = function (event) {
+        ws.send("2");
+   }
+   
+}
+
 EOT;
         Tw::script($script);
     }

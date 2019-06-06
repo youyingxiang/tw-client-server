@@ -29,7 +29,7 @@ class Judges extends Model
     /**
      * @var array and 条件查询字段
      */
-    protected $and_fields = [];
+    protected $and_fields = ['activity_id'];
 
     /**
      * Judges constructor.
@@ -74,6 +74,14 @@ class Judges extends Model
     public function parentFlag():array
     {
         return ['admin_id'=>Tw::authLogic()->guard()->id()];
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function activity()
+    {
+        return $this->belongsTo('Tw\Server\Models\Activity');
     }
 
     /**

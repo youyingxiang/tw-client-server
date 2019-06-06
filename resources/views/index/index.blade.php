@@ -1,4 +1,4 @@
-@extends('tw::layout.base',['header' => "测试",'pageTitle'=>'后台首页',"pageBtnName"=>'按钮'])
+@extends('tw::layout.base',['header' => "天维",'pageTitle'=>'后台首页',"pageBtnName"=>'按钮'])
 @section('content')
     {{--MY STYLE--}}
     <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/css/my_style.css") }}">
@@ -13,7 +13,7 @@
         <div class="sever_user">
             <p>个人信息</p>
             <div class="sever_user_text">
-                <img src="{{$user['img']}}" alt="">
+                <img src="{{$user['img'] ?:tw_asset("vendor/tw/global/face/default.png")}}" alt="">
                 <ul>
                     <li><b>{{$user['name']}}</b><a href="">编辑昵称</a></li>
                     <li class="sever_a1">手机号：{{$user['phone']}} <a href="">修改手机</a></li>

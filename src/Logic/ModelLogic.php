@@ -160,8 +160,10 @@ class ModelLogic implements Renderable
                 $this->model->getAndFieds()
             ) {
                 foreach ($aWhere as $field => $value) {
-                    in_array($field,$this->model->getAndFieds()) &&
-                    $query->where($field,$value);
+                    if (in_array($field,$this->model->getAndFieds()) && isset($value)) {
+                        $query->where($field,$value);
+                    }
+
                 }
             }
         };

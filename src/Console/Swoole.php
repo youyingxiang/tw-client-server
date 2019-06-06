@@ -7,6 +7,7 @@
  */
 namespace Tw\Server\Console;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 class Swoole extends Command
 {
     /**
@@ -26,6 +27,8 @@ class Swoole extends Command
      */
     protected $description = "this is websocket push client";
 
+    protected $redis;
+
     // websocket服务
     private static $server = null;
 
@@ -41,7 +44,6 @@ class Swoole extends Command
     public function __construct()
     {
         parent::__construct();
-
     }
 
     protected static  function setWebSocketServer():void
@@ -61,6 +63,7 @@ class Swoole extends Command
      */
     public function handle()
     {
+        $this->redis = Redis::connection('websocket');
         $server = self::getWebSocketServer();
         $server->on('open',[$this,'onOpen']);
         $server->on('message', [$this, 'onMessage']);
@@ -70,6 +73,7 @@ class Swoole extends Command
         $server->start();
 
     }
+
 
     /**
      * 获取server实列
@@ -98,6 +102,11 @@ class Swoole extends Command
      */
     public function onMessage($server, $frame)
     {
+        $this->line(dd($frame->data));
+        if ($frame->data == "2") {
+            $this->line('123');
+            $this->pushMessage();
+        }
         self::$server->push($frame->fd, json_encode(["message"=>"服务:$frame->data"]));
     }
 
@@ -116,7 +125,8 @@ class Swoole extends Command
      */
     public function onClose($serv, $fd)
     {
-       $this->line("客户端 {$fd} 关闭");
+        $this->redis->hdel('tw:swoole',$fd);
+        $this->line("客户端 {$fd} 关闭");
     }
 
     /**
@@ -126,7 +136,10 @@ class Swoole extends Command
     {
         foreach (self::$server->connections as $fd) {
             if (self::$server->isEstablished($fd)) {
-                self::$server->push($fd, json_encode(['name'=>'游兴祥','age'=>23]));
+                $jContent = json_decode($this->redis->hget('tw:swoole',$fd),true);
+                if ($jContent && $jContent['page'] == 'test') {
+                    self::$server->push($fd, json_encode(['url'=>"http://tw.com"]));
+                }
             }
         }
     }
@@ -153,6 +166,8 @@ class Swoole extends Command
             self::$server->close($request->fd);
             return false;
         } else {
+            $jContent = json_encode(['page'=>$request->get['page'],'fd'=>$request->fd],true);
+            $this->redis->hset('tw:swoole',$request->fd,$jContent);
             return true;
         }
     }

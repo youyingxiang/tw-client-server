@@ -54,6 +54,22 @@ class Activity extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function players()
+    {
+        return $this->hasMany('Tw\Server\Models\Player');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function judges()
+    {
+        return $this->hasMany('Tw\Server\Models\Judges');
+    }
+
+    /**
      * @return string
      */
     public function getIndexUrl(): string

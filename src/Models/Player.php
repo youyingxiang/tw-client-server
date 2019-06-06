@@ -29,7 +29,7 @@ class Player extends Model
     /**
      * @var array and 条件查询字段
      */
-    protected $and_fields = [];
+    protected $and_fields = ['activity_id'];
 
     /**
      * Judges constructor.
@@ -77,6 +77,13 @@ class Player extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function activity()
+    {
+        return $this->belongsTo('Tw\Server\Models\Activity');
+    }
+    /**
      * @return array
      * @see 普通用户 最多添加n个选手
      */
@@ -106,7 +113,7 @@ class Player extends Model
            $player->push_state = 1;
            DB::transaction(function ()use($player,$id,&$bSaveRes) {
                $player->save();
-               $this->where('id', '<>', $id)->update(['push_state' => 0]);
+               $this->where('id', '<>', $id)->where('activity_id',$player['activity_id'])->update(['push_state' => 0]);
                $bSaveRes = true;
            });
         }
