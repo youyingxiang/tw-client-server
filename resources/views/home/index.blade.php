@@ -90,7 +90,7 @@
             //如果获取到消息，心跳检测重置
             //拿到任何消息都说明当前连接是正常的
             var data = JSON.parse(event.data);
-            $('#screen_player_img').attr('attr',data.img);
+            $('#screen_player_img').attr('src',data.img);
             $('#screen_player_name').html(data.name);
             heartCheck.reset().start();
         }

@@ -179,7 +179,7 @@ class Swoole extends Command
                 [
                     'page'=> $request->get['page'],
                     'fd'  => $request->fd,
-                    'activity'=> $request->get['activity']
+                    'activity'=> $request->get['activity'] ?? ''
                 ],true);
             $this->redis->hset('tw:swoole',$request->fd,$jContent);
             return true;
