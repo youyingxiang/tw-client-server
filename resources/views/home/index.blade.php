@@ -64,7 +64,7 @@
      */
     var ws;//websocket实例
     var lockReconnect = false;//避免重复连接
-    var wsUrl = 'ws://tw.com:9502?page=home&activity={{$oData['id']}}&uid=<?php echo $uid; ?>&token=<?php echo $token; ?>';
+    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=home&activity={{$oData['id']}}&uid=<?php echo $uid; ?>&token=<?php echo $token; ?>';
 
     function createWebSocket(url) {
         try {

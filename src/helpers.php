@@ -128,4 +128,49 @@ if (!function_exists('search_url' )) {
         return $url_path;
     }
 }
+/**
+ * @Title: table_sort
+ * @Description: todo(列表table排序)
+ * @param string $param
+ * @return string
+ * @author yxx
+ * @date 2017年8月21日
+ * @throws
+ */
+if (!function_exists('table_sort' )) {
+    function table_sort($param)
+    {
+        $url_path = request()->path();
+        $get = $_GET;
+        $faStr = 'fa-sort';
+        if (isset($get['_pjax'])) {
+            unset($get['_pjax']);
+        }
+
+        if (isset($get['_sort'])) {   //判断是否存在排序字段
+            $sortArr = explode(',', $get['_sort']);
+            if ($sortArr[0] == $param) {   //当前排序
+                if ($sortArr[1] == 'asc') {
+                    $faStr = 'fa-sort-asc';
+                    $sort = 'desc';
+                } elseif ($sortArr[1] == 'desc') {
+                    $faStr = 'fa-sort-desc';
+                    $sort = 'asc';
+                }
+                $get['_sort'] = $param . ',' . $sort;
+            } else {   //非当前排序
+                $get['_sort'] = $param . ',asc';
+            }
+        } else {
+            $get['_sort'] = $param . ',asc';
+        }
+        $paramStr = [];
+        foreach ($get as $k => $v) {
+            $paramStr[] = $k . '=' . $v;
+        }
+        $paramStrs = implode('&', $paramStr);
+        $url_path = $url_path . '?' . $paramStrs;
+        return "<a class=\"fa " . $faStr . "\" href=\"" . asset($url_path) . "\"></a>";
+    }
+}
 

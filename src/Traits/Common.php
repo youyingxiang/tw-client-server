@@ -162,7 +162,7 @@ $('.push').on('click',function(){
 });
 function pushSwoole(id)
 {
-   var wsUrl = "ws://tw.com:9502?page=test&uid=100&token=$token";
+   var wsUrl = "ws://$_SERVER[HTTP_HOST]:9502?page=test&uid=100&token=$token";
    var ws = new WebSocket(wsUrl);
    ws.onopen= function (event) {
         ws.send('{"type":"1","player":"'+id+'"}');

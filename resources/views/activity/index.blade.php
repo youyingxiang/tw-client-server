@@ -16,7 +16,7 @@
                         <table class="table table-bordered table-hover table-sort">
                             <tr>
                                 <th width="35"><input type="checkbox" class="minimal checkbox-toggle"></th>
-                                <th>ID</th>
+                                <th>ID:{!! table_sort('id') !!}</th>
                                 <th>活动名称</th>
                                 <th>logo</th>
                                 <th>评分方式</th>

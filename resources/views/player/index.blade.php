@@ -49,11 +49,11 @@
                         <table class="table table-bordered table-hover table-sort">
                             <tr>
                                 <th width="35"><input type="checkbox" class="minimal checkbox-toggle"></th>
-                                <th>ID</th>
+                                <th>ID{!! table_sort('id') !!}</th>
                                 <th>选手名称</th>
                                 <th>图像</th>
                                 <th>所属活动</th>
-                                <th>最终得分</th>
+                                <th>最终得分{!! table_sort('id') !!}</th>
                                 <th>推送状态</th>
                                 <th>修改日期</th>
                                 <th>操作</th>
