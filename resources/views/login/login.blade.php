@@ -75,7 +75,7 @@
                 <!-- /.col -->
             </div>
             <div class="col-xs-zc">
-                <p>还没有账号？<a href="">立即注册</a></p>
+                <p>还没有账号？<a href="{{route('tw.register')}}">立即注册</a></p>
             </div>
         </form>
 

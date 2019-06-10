@@ -42,6 +42,7 @@ class AdminRequest extends FormRequest implements TwRequestI
         $this->rules = [
             'name' => 'required|max:128',
             'phone' => 'required|max:20|unique:tw_admin,phone,'.$this->getInputId(),
+            'rphone' => 'required|max:20|unique:tw_admin,phone',  // 前端发送验证码
             'password' => 'required|max:60|min:6',
             'repassword' => 'same:password',
             'email' => 'nullable|email',
@@ -77,6 +78,9 @@ class AdminRequest extends FormRequest implements TwRequestI
             'password.min' => '密码长度最小6位',
             'repassword.same' => '两次密码输入不一致！',
             'email.email'   => '请输入正确的邮箱地址！',
+            'rphone.required' => '手机号码不能为空！',
+            'rphone.unique' => '手机号码已经存在！',
+            'rphone.max'     => '手机号码长度不能超过20个字符！',
         ];
     }
 

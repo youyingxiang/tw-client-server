@@ -12,7 +12,10 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 class Admin extends Model implements AuthenticatableContract
 {
     use Authenticatable;
-
+    /**
+     * @var array
+     */
+    protected $fillable = ['name','password','phone'];
     /**
      * Admin constructor.
      * @param array $attributes

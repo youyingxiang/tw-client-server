@@ -32,6 +32,9 @@ trait Tw
                 $router->get('login', 'AuthController@getLogin')->name('tw.login');
                 $router->post('login', 'AuthController@postLogin');
                 $router->get('logout', 'AuthController@getLogout')->name('tw.logout');
+                $router->get('register','AuthController@getRegister')->name('tw.register');
+                $router->post('register','AuthController@postRegister');
+                $router->post('sendMsg','AuthController@sendMsg')->name('tw.sendmsg');
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo');
                 $router->resource('activity', 'ActivityController')->names('tw.activity');

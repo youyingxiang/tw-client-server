@@ -107,6 +107,8 @@ return [
         'excepts' => [
             'login',
             'logout',
+            'register',
+            'sendMsg',
         ],
     ],
 
@@ -117,6 +119,11 @@ return [
     'restrict' => [
         'player'    => 10,      //普通用户限制选手个数
         'judges'    => 5,       //普通用户限制评委个数
+    ],
+    // 短信配置
+    'short_message' => [
+        'key'    => 'facf957222f2638085762e47bd7303c1', // 短信app_key
+        'tpl_id' => '159713',                           // 短信模版id
     ],
 
     'upload_url' => "/yxx/kindeditor/upload?type=image",

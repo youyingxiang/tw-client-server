@@ -33,17 +33,17 @@
     <div class="login-box-body">
         <p class="login-box-msg"><b>天维</b>评分系统</p>
 
-        <form action="{{ tw_base_path('login') }}" method="post" id="login_input" >
+        <form action="{{ route("tw.register")}}" method="post" id="login_input" >
             {{--用户名--}}
-            <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
+            <div class="form-group has-feedback {!! !$errors->has('name') ?: 'has-error' !!}">
 
-                @if($errors->has('phone'))
-                    @foreach($errors->get('phone') as $message)
+                @if($errors->has('name'))
+                    @foreach($errors->get('name') as $message)
                         <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
                     @endforeach
                 @endif
 
-                <input type="text" class="form-control" placeholder="请输入昵称" name="username" >
+                <input type="text" class="form-control" placeholder="请输入昵称" name="name" value="{{ old('name') }}" >
                 <span id="login-ico-input" class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             {{--END--}}
@@ -66,19 +66,20 @@
                     @endforeach
                 @endif
 
-                <input type="password" class="form-control" placeholder="请输入登陆密码" name="password">
+                <input type="password" class="form-control"  placeholder="请输入登陆密码" name="password">
                 <span id="login-ico-input" class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             {{--验证码--}}
-            <div style="overflow: hidden;" class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
+            <div style="overflow: hidden;" class="form-group has-feedback {!! !$errors->has('code') ?: 'has-error' !!}">
 
-                @if($errors->has('phone'))
-                    @foreach($errors->get('phone') as $message)
+                @if($errors->has('code'))
+                    @foreach($errors->get('code') as $message)
                         <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
                     @endforeach
                 @endif
 
-                <input type="text" class="form-control" placeholder="请输入验证码" name="code" style="width: 60%;float: left" ><a style="background: #FF9800;border: none; margin-top:5pt;width: 30%;float: right" type="submit" class="btn btn-primary btn-block btn-flat">获取验证码</a>
+                <input type="text" class="form-control" placeholder="请输入验证码" name="code" style="width: 60%;float: left" >
+                    <a style="background: #FF9800;border: none; margin-top:5pt;width: 30%;float: right" type="submit" class="btn code btn-primary btn-block btn-flat">获取验证码</a>
                 <span id="login-ico-input" class="glyphicon glyphicon-comment form-control-feedback"></span>
             </div>
             {{--END--}}
@@ -107,11 +108,67 @@
 <script src="{{ tw_asset("vendor/tw/global/iCheck/icheck.min.js")}}"></script>
 <script>
     $(function () {
+
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
+        /**
+         * @see 点击发送短信
+         */
+        $(".code").on('click',function(){
+            var phone = $('input[name="phone"]').val().trim();
+            if (phone) {
+                ajaxGetCode(phone)
+            } else {
+                alert("手机号码不能为空");
+            }
+        })
+
+        /**
+         * @see ajax 获取短信
+         * @param $phone
+         */
+        function ajaxGetCode(phone) {
+            $.ajax({
+                url: "{{route('tw.sendmsg')}}",
+                type:'post',
+                dataType: "json",
+                data:{ id:1,rphone:phone,_method:'post' ,_token:"{{csrf_token()}}"},
+                error:function(data){
+                    $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                    return;
+                },
+                success:function(result){
+                    if(result.status == 1){
+                        settime($(".code"));
+                    } else {
+                       alert(result.info)
+                    }
+                },
+            })
+        }
+        /**
+         * [countdown 60S验证码]
+         */
+        var countdown = 60;
+        function settime(obj) {
+            if (countdown == 0) {
+                obj.html("获取验证码");
+                obj.css('background','#FF9800');
+                obj.attr('disabled',"true");
+                countdown = 60;
+                return;
+            } else {
+                obj.css('background','#666');
+                obj.html("重新发送(" + countdown + ")");
+                obj.removeAttr("disabled");
+                countdown--;
+            }
+            setTimeout(function(){settime(obj)},1000)
+        }
+
     });
 </script>
 </body>
