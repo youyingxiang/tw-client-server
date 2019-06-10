@@ -6,6 +6,7 @@
  * Time: 4:04 PM
  */
 namespace Tw\Server\Models;
+use function PHPSTORM_META\type;
 use Tw\Server\Facades\Tw;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -100,11 +101,51 @@ class Activity extends Model
         return ['admin_id'=>Tw::authLogic()->guard()->id()];
     }
 
+    /**
+     * @return string
+     */
     public function getTermAttribute():string
     {
-        return $this->created_at." 至 ".
-            date('Y-m-d H:i:s',strtotime("+".$this->days."day",strtotime($this->created_at)));
+        return $this->created_at." 至 ".$this->term_date;
     }
+
+    /**
+     * @return string
+     */
+    public function getTermDateAttribute():string
+    {
+        return $this->getTermDate();
+    }
+
+    /**
+     * @param int|null $days
+     * @param string|null $time
+     * @return string
+     */
+    public function getTermDate(int $days = null ,string $time = null):string
+    {
+        return date('Y-m-d H:i:s',strtotime("+".($days ?? $this->days)."day",strtotime(($time ?? $this->created_at))));
+    }
+
+
+    /**
+     * @param int $activityIds
+     * @return array
+     * @see 获取首页有效活动
+     */
+    public function getHomeActivity(int $activityIds)
+    {
+        $object =  (object)null;
+        $oData = $this->find($activityIds);
+        if ($oData) {
+            $dResult = $this->getTermDate($oData['days'],$oData['created_at']);
+            if ($dResult > date('Y-m-d H:i:s')) {
+                $object = $oData;
+            }
+        }
+       return $object;
+    }
+
 
 
 }

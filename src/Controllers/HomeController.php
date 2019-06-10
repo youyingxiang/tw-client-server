@@ -15,8 +15,8 @@ class HomeController extends Controller
      */
     public function index(int $activityId)
     {
-        $oData = Tw::newModel('Activity')->find($activityId);
-        if ($oData) {
+        $oData = Tw::newModel('Activity')->getHomeActivity($activityId);
+        if ((array)$oData) {
             $player = $oData->players()->where('push_state',1)->first();
             $judges = $oData->judges;
             return view('tw::home.index',compact('oData','player','judges'));

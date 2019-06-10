@@ -106,7 +106,7 @@
     }
     //心跳检测
     var heartCheck = {
-        timeout: 30000,//60秒
+        timeout: 60000,//60秒
         timeoutObj: null,
         serverTimeoutObj: null,
         reset: function(){
