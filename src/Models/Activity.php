@@ -106,7 +106,21 @@ class Activity extends Model
      */
     public function getTermAttribute():string
     {
-        return $this->created_at." 至 ".$this->term_date;
+        if ($this->is_term)
+            $sData = $this->created_at." 至 ".$this->term_date;
+        else
+            $sData = '<span style="color: red">已过期</span>';
+        return $sData;
+    }
+
+    public function getJumpAttribute():string
+    {
+        $str = '';
+        if ($this->is_term) {
+            $url = route('tw.home',$this->id);
+            $str = "<a class=\"btn btn-primary btn-xs\" target=\"_blank\" href=\"$url\"><i class=\"fa fa-hand-pointer-o\"></i> 前往活动</a>";
+        }
+        return $str;
     }
 
     /**
@@ -129,17 +143,35 @@ class Activity extends Model
 
 
     /**
+     * @param string $dTerm
+     * @return bool
+     */
+    public function IsTerm(string $dTerm = null):bool
+    {
+        return ($dTerm ?? $this->term_date) > date('Y-m-d H:i:s');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsTermAttribute():bool
+    {
+        return $this->IsTerm();
+    }
+
+
+    /**
      * @param int $activityIds
      * @return array
      * @see 获取首页有效活动
      */
-    public function getHomeActivity(int $activityIds)
+    public function getHomeActivity(int $activityIds):object
     {
         $object =  (object)null;
         $oData = $this->find($activityIds);
         if ($oData) {
             $dResult = $this->getTermDate($oData['days'],$oData['created_at']);
-            if ($dResult > date('Y-m-d H:i:s')) {
+            if ($this->IsTerm($dResult)) {
                 $object = $oData;
             }
         }
