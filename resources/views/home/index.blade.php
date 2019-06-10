@@ -6,7 +6,7 @@
     <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <link rel="stylesheet" href="{{tw_asset("vendor/tw/home/css/server.css")}}">
 </head>
-<body id="screen_body" style="background-image: none">
+<body id="screen_body" style="background-image: url({{$oData['banner']}})">
 <div class="screen">
     <!--标题-->
     <div class="screen_title">
@@ -106,7 +106,7 @@
     }
     //心跳检测
     var heartCheck = {
-        timeout: 60000,//60秒
+        timeout: 30000,//60秒
         timeoutObj: null,
         serverTimeoutObj: null,
         reset: function(){
