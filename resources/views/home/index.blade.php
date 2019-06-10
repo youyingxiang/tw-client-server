@@ -6,7 +6,7 @@
     <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <link rel="stylesheet" href="{{tw_asset("vendor/tw/home/css/server.css")}}">
 </head>
-<body id="screen_body">
+<body id="screen_body" style="background-image: none">
 <div class="screen">
     <!--标题-->
     <div class="screen_title">
