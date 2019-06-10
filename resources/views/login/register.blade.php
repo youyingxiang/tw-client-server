@@ -34,6 +34,19 @@
         <p class="login-box-msg"><b>天维</b>评分系统</p>
 
         <form action="{{ tw_base_path('login') }}" method="post" id="login_input" >
+            {{--用户名--}}
+            <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
+
+                @if($errors->has('phone'))
+                    @foreach($errors->get('phone') as $message)
+                        <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
+                    @endforeach
+                @endif
+
+                <input type="text" class="form-control" placeholder="请输入昵称" name="username" >
+                <span id="login-ico-input" class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            {{--END--}}
             <div class="form-group has-feedback {!! !$errors->has('phone') ?: 'has-error' !!}">
 
                 @if($errors->has('phone'))
@@ -56,26 +69,28 @@
                 <input type="password" class="form-control" placeholder="请输入登陆密码" name="password">
                 <span id="login-ico-input" class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            {{--验证码--}}
+            <div style="overflow: hidden;" class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
+
+                @if($errors->has('phone'))
+                    @foreach($errors->get('phone') as $message)
+                        <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
+                    @endforeach
+                @endif
+
+                <input type="text" class="form-control" placeholder="请输入验证码" name="code" style="width: 60%;float: left" ><a style="background: #FF9800;border: none; margin-top:5pt;width: 30%;float: right" type="submit" class="btn btn-primary btn-block btn-flat">获取验证码</a>
+                <span id="login-ico-input" class="glyphicon glyphicon-comment form-control-feedback"></span>
+            </div>
+            {{--END--}}
             <div class="row">
-                <div class="col-xs-8">
-                    @if(config('tw.auth.remember'))
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox" name="remember" value="1" {{ (!old('phone') || old('remember')) ? 'checked' : '' }}>
-                                记住我
-                            </label>
-                        </div>
-                    @endif
-                </div>
-                <!-- /.col -->
-                <div class="col-xs-4">
+                <div class="col-xs-4" style="width: 100%">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
+                    <button style="width: 100%" type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
                 </div>
                 <!-- /.col -->
             </div>
             <div class="col-xs-zc">
-                <p>还没有账号？<a href="">立即注册</a></p>
+                <p>已有账号！<a href="">立即登陆</a></p>
             </div>
         </form>
 
