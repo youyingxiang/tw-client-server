@@ -107,7 +107,7 @@ class Activity extends Model
     public function getTermAttribute():string
     {
         if ($this->is_term)
-            $sData = $this->created_at." 至 ".$this->term_date;
+            $sData = '<span style="color: green">'.$this->created_at." 至 ".$this->term_date.'</span>';
         else
             $sData = '<span style="color: red">已过期</span>';
         return $sData;
