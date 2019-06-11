@@ -6,6 +6,7 @@
  * Time: 4:22 PM
  */
 namespace Tw\Server\Requests;
+use Illuminate\Support\Arr;
 use Tw\Server\Traits\TwRequest;
 use Tw\Server\Requests\TwRequest as TwRequestI;
 use Illuminate\Foundation\Http\FormRequest;
@@ -31,7 +32,13 @@ class AdminRequest extends FormRequest implements TwRequestI
      */
     public function rules():array
     {
-        return $this->getRules();
+        $rphone = $this->request->get('rphone');
+        if ($rphone) {
+            return $this->getRules();
+        } else {
+            $rules = $this->getRules();
+            return Arr::except($rules,'rphone');
+        }
     }
 
     /**
