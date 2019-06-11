@@ -137,7 +137,7 @@
                 dataType: "json",
                 data:{ id:1,rphone:phone,_method:'post' ,_token:"{{csrf_token()}}"},
                 error:function(data){
-                    $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                    alert("服务器繁忙, 请联系管理员！");
                     return;
                 },
                 success:function(result){
