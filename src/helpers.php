@@ -254,7 +254,7 @@ if (!function_exists('sendMsg' )) {
             Redis::set($sCodeKey, $rand);
             Redis::expire($sCodeKey, 300);                               // 验证码有效期5分钟
         } else if ($result && $result['reason']) {
-            $sLogKey = "send_msg:log:";
+            $sLogKey = "send_msg:log";
             Redis::hset($sLogKey,$to.':'.date("Y-m-d H:i:s"),$content);   // 记录日志
             throw new Exception($result['reason']);
         } else {
