@@ -34,8 +34,8 @@
                                         <div class="input-group">
                                             <input class="form-control" name="logo" value="{{$aData['logo']??''}}"  placeholder="活动LOGO" >
                                             <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['logo'] ?? asset("vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['logo'] ?? asset("vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
+                                        <a href="{{tw_asset($aData['logo'] ?? asset("/vendor/tw/global/face/no-image.png") )}}" target="_blank" >
+                                            <img src="{{tw_asset($aData['logo'] ?? asset("/vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
                                         </a>
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>
@@ -62,8 +62,8 @@
                                         <div class="input-group">
                                             <input class="form-control" name="banner" value="{{$aData['banner']??''}}"  placeholder="活动背景" >
                                             <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['banner'] ?? asset("vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['banner'] ?? asset("vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
+                                        <a href="{{tw_asset($aData['banner'] ?? asset("/vendor/tw/global/face/no-image.png") )}}" target="_blank" >
+                                            <img src="{{tw_asset($aData['banner'] ?? asset("/vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
                                         </a>
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>

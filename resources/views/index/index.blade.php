@@ -13,7 +13,7 @@
         <div class="sever_user">
             <p>个人信息</p>
             <div class="sever_user_text">
-                <img src="{{$user['img'] ?:tw_asset("vendor/tw/global/face/default.png")}}" alt="">
+                <img src="{{$user['img'] ?:tw_asset("/vendor/tw/global/face/default.png")}}" alt="">
                 <ul>
                     <li><b>{{$user['name']}}</b><a href="">编辑昵称</a></li>
                     <li class="sever_a1">手机号：{{$user['phone']}} <a href="">修改手机</a></li>

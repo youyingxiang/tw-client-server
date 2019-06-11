@@ -34,8 +34,8 @@
                                         <div class="input-group">
                                             <input class="form-control" name="img" value="{{$aData['img']??''}}"  placeholder="评委头像" >
                                             <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['img'] ?? asset("vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['img'] ?? asset("vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
+                                        <a href="{{tw_asset($aData['img'] ?? asset("/vendor/tw/global/face/no-image.png") )}}" target="_blank" >
+                                            <img src="{{tw_asset($aData['img'] ?? asset("/vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
                                         </a>
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>
