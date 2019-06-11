@@ -128,7 +128,7 @@ class Swoole extends Command
      */
     public function onClose($serv, $fd)
     {
-        $this->redis->hdel('tw:swoole',$fd);
+        $this->redis->hdel(config('tw.redis_key.h2'),$fd);
         $this->line("客户端 {$fd} 关闭");
     }
 
@@ -141,13 +141,18 @@ class Swoole extends Command
             $aResult = DB::table('tw_player')->find($aData['player']);
         foreach (self::$server->connections as $fd) {
             if (self::$server->isEstablished($fd)) {
-                $jContent = json_decode($this->redis->hget('tw:swoole',$fd),true);
-                if ($jContent && $jContent['page'] == "home" && $aData['type'] == "1") {
+                $jContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
+                if ($jContent && ($jContent['page'] == "home" || $jContent['page'] =="judges" )&& $aData['type'] == "1") {
                     if ($aResult->activity_id == $jContent['activity'])  // 根据推送返回Id 查询选手信息 找到属于活动 只推送给对应活动
                         self::$server->push($fd, json_encode($aResult,JSON_UNESCAPED_UNICODE));
+                } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 2) {
+                    if ($aResult->activity_id == $jContent['activity']) {
+                        $hData['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+                        self::$server->push($fd, json_encode($hData,JSON_UNESCAPED_UNICODE));
+                    }
                 }
             } else {
-                $this->redis->hdel('tw:swoole',$fd);
+                $this->redis->hdel(config('tw.redis_key.h2'),$fd);
             }
         }
     }
@@ -181,7 +186,7 @@ class Swoole extends Command
                     'fd'  => $request->fd,
                     'activity'=> $request->get['activity'] ?? ''
                 ],true);
-            $this->redis->hset('tw:swoole',$request->fd,$jContent);
+            $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
             return true;
         }
     }

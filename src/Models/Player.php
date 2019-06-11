@@ -8,6 +8,7 @@
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -117,6 +118,7 @@ class Player extends Model
            DB::transaction(function ()use($player,$id,&$bSaveRes) {
                $player->save();
                $this->where('id', '<>', $id)->where('activity_id',$player['activity_id'])->update(['push_state' => 0]);
+               $this->storePushPlayer($player->toArray());
                $bSaveRes = true;
            });
         }
@@ -127,6 +129,20 @@ class Player extends Model
             return Tw::ajaxResponse("操作失败");
 
 
+    }
+
+    /**
+     * @param array $player
+     * @see 将当前活动推送上去的选手存储在redis
+     */
+    public function storePushPlayer(array $player):void
+    {
+        if (!empty($player) && is_array($player)) {
+            $playerKey = config('tw.redis_key.h3');
+            $field = $player['activity_id'];
+            Redis::hset($playerKey,$field,json_encode($player,true));
+            Redis::del(config('tw.redis_key.h1').$player['id']);
+        }
     }
 
 

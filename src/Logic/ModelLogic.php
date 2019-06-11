@@ -10,8 +10,9 @@ use Closure;
 use Tw\Server\Facades\Tw;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Relations;
+use Illuminate\Contracts\Support\Renderable;
 class ModelLogic implements Renderable
 {
     /**
@@ -24,6 +25,10 @@ class ModelLogic implements Renderable
      * @var
      */
     protected $oModelResult;
+    /**
+     * @var
+     */
+    protected $aDataScore;
 
     /**
      * ModelLogic constructor.
@@ -228,7 +233,79 @@ class ModelLogic implements Renderable
         return $relations;
     }
 
+    /**
+     * @param array $aData
+     * @see 为防止redis key过多
+     * 在没有得分时候 score:player:选手id  field=评委id   value=评委打出的分数
+     * 获取得分以后   score:activity:活动id  field=选手id  value = json(key="评委id",value="评委打出的分数"）
+     */
+    public function storeScore($aData = []):void
+    {
+        $this->aDataScore = $aData;
+        $this->playerKey = config('tw.redis_key.h1').$this->aDataScore['player_id'];
+        $field     = $this->aDataScore['judges_id'];
+        $score     = $this->aDataScore['score'];
+        // 判断是否已经进行进行过评分
+        if (Redis::hexists($this->playerKey,$field))
+            throw new \Exception("您已经对当前选手进行过评分！无需再次评分");
+        if ($score < 0)
+            throw new \Exception("请输入正确的分数！");
+        Redis::hset($this->playerKey,$field,$score);
+        // 获取有多少评委
+        $iSumJudges = $this->model->where('activity_id',$this->aDataScore['activity_id'])->count();
+        // 当前所有评委都已经打分完毕
+        if ($iSumJudges > 0 && $iSumJudges == Redis::hlen($this->playerKey)) {
+            $this->scoreType();
+//            $activityKey = "score:activity:".$this->aDataScore['activity_id'];
+//            $aValue = Redis::hgetall($this->playerKey);
+//            Redis::hset($activityKey,$this->aDataScore['player_id'],json_encode($aValue,true));
+//            Redis::del($this->playerKey);
+        }
+    }
 
+    /**
+     * @see 设置分数
+     */
+    public function scoreType():void
+    {
+        $oData = Tw::newModel("Activity")->find($this->aDataScore['activity_id']);
+        $scoreType = $oData['score_type'];
+        // 1 取平均 2 去掉最大最小
+        if ($scoreType == 1) {
+            $score = $this->avgScore();
+        } elseif ($scoreType == 2) {
+            $score = $this->removeMinAndMaxScore();
+        }
+        Tw::newModel("Player")->where('id',$this->aDataScore['player_id'])->update(['score'=>$score]);
+    }
+
+    /**
+     * @param array $aData
+     * @see 平均算法
+     */
+    public function avgScore():float
+    {
+        $aScores = Redis::hvals($this->playerKey);
+        return round(array_sum($aScores)/count($aScores),2);
+    }
+    /**
+     * @param array $aData
+     * @see 去掉最大值最小值算法
+     */
+    public function removeMinAndMaxScore():float
+    {
+        $aScores = Redis::hvals($this->playerKey);
+        sort($aScores);
+        array_pop($aScores);
+        array_shift($aScores);
+        return round(array_sum($aScores)/count($aScores),2);
+    }
+
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
     public function __call($name, $arguments)
     {
         // TODO: Implement __call() method.

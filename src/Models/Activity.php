@@ -6,7 +6,6 @@
  * Time: 4:04 PM
  */
 namespace Tw\Server\Models;
-use function PHPSTORM_META\type;
 use Tw\Server\Facades\Tw;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

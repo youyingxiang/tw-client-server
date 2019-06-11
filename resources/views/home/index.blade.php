@@ -28,8 +28,8 @@
             @foreach($judges as $vo)
             <li>
                 <div class="screen_judge_pw">
-                    <img src="{{$vo['img']}}" alt="">
-                    <p>0.00</p>
+                    <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
+                    <p class="score_res">0.00</p>
                 </div>
                 <p class="pw_name">{{$vo['name']}}</p>
             </li>
@@ -90,8 +90,19 @@
             //如果获取到消息，心跳检测重置
             //拿到任何消息都说明当前连接是正常的
             var data = JSON.parse(event.data);
-            $('#screen_player_img').attr('src',data.img);
-            $('#screen_player_name').html(data.name);
+            // 评委打分
+            if (data.judges_score) {
+                console.log(data.judges_score);
+                $.each(data.judges_score,function (key,value) {
+                    $("#judge"+key+"").next().html(value);
+                })
+            } else {
+                $('#screen_player_img').attr('src', data.img);
+                $('#screen_player_name').html(data.name);
+                $('.score_res').each(function () {
+                    $(this).empty().html('0.00');
+                })
+            }
             heartCheck.reset().start();
         }
     }

@@ -7,6 +7,7 @@
  */
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -114,6 +115,24 @@ class Judges extends Model
         } else if (isset($activityInfo['level']) && $activityInfo['level'] == 2)
             $bFlag = true;
         return $bFlag;
+    }
+
+    /**
+     * @param $id 评委id
+     * @return array
+     */
+    public function getPlayerByRedis(int $id):array
+    {
+        $aData = [];
+        $oJudges = $this->find($id);
+        if ($oJudges) {
+            $playerKey = config('tw.redis_key.h3');
+            $field = $oJudges['activity_id'];
+            $player = Redis::hget($playerKey,$field);
+            if ($player)
+                $aData = json_decode($player, true);
+        }
+        return $aData;
     }
 
 }

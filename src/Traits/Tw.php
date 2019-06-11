@@ -45,6 +45,8 @@ trait Tw
         });
         app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
             $router->get('activity/{activityId}', "HomeController@index")->name('tw.home');
+            $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges');
+            $router->post('postScoring',"HomeController@postScoring")->name('tw.home.postScoring');
         });
     }
 

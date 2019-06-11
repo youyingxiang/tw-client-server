@@ -233,8 +233,8 @@ if (!function_exists('sendMsg' )) {
         );
         $ip = request()->getClientIp();
 
-        $sToKey = "send_msg:phone:" . $to;
-        $sIpKey = "send_msg:ip:" . $ip;
+        $sToKey = config('tw.redis_key.s1') . $to;
+        $sIpKey = config('tw.redis_key.s2') . $ip;
         if ($ip) {
             Redis::incr($sIpKey);
             Redis::expire($sIpKey, 180);
@@ -250,11 +250,11 @@ if (!function_exists('sendMsg' )) {
         $content = juheCurl("http://v.juhe.cn/sms/send", $paramstring);
         $result = json_decode($content, true);
         if ($result && $result['error_code'] == 0) {
-            $sCodeKey = "send_msg:code:" . $to;
+            $sCodeKey = config('tw.redis_key.s3') . $to;
             Redis::set($sCodeKey, $rand);
             Redis::expire($sCodeKey, 300);                               // 验证码有效期5分钟
         } else if ($result && $result['reason']) {
-            $sLogKey = "send_msg:log";
+            $sLogKey = config('tw.redis_key.s4');
             Redis::hset($sLogKey,$to.':'.date("Y-m-d H:i:s"),$content);   // 记录日志
             throw new Exception($result['reason']);
         } else {
@@ -272,7 +272,7 @@ if (!function_exists('comparisonCode' )) {
     function comparisonCode(string $code,string $key = null):bool
     {
         $bData = false;
-        $sCodeKey = "send_msg:code:" . $key;
+        $sCodeKey = config('tw.redis_key.s3') . $key;
         $sRedisCode = Redis::get($sCodeKey);
         if (!empty($sRedisCode) && $sRedisCode == $code) {
             Redis::del($sCodeKey);

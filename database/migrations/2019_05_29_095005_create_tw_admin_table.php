@@ -45,7 +45,7 @@ class CreateTwAdminTable extends Migration
             $table->increments('id');
             $table->string('name',128)->default('')->comment("选手名称");
             $table->string('img',300)->default('')->comment("图像");
-            $table->integer("score")->default(0)->comment('最终得分');
+            $table->decimal("score",8,2)->default(0.00)->comment('最终得分');
             $table->tinyInteger('push_state')->default(0)->comment("推送状态 0 未推送 1 已推送");
             $table->integer("activity_id")->default(3)->comment('所属活动');
             $table->integer("admin_id")->default(3)->comment('所属用户');
