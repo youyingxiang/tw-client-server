@@ -4,7 +4,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{Tw::admin()['img'] ?: tw_asset("vendor/tw/global/face/default.png")}}" class="img-circle" alt="User Image">
+                <img src="{{Tw::admin()['img'] ?: tw_asset("/vendor/tw/global/face/default.png")}}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{Tw::admin()['name']}}</p>

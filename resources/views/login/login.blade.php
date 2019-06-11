@@ -8,15 +8,15 @@
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/bootstrap/css/bootstrap.min.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/bootstrap/css/bootstrap.min.css") }}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/bootstrap/css/font-awesome.min.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/bootstrap/css/font-awesome.min.css") }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/system/dist/css/AdminLTE.min.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/system/dist/css/AdminLTE.min.css") }}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/iCheck/square/blue.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/iCheck/square/blue.css") }}">
     {{--MY STYLE--}}
-    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/css/my_style.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -85,11 +85,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery 2.1.4 -->
-<script src="{{ tw_asset("vendor/tw/global/jQuery/jquery-2.2.3.min.js")}} "></script>
+<script src="{{ tw_asset("/vendor/tw/global/jQuery/jquery-2.2.3.min.js")}} "></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="{{ tw_asset("vendor/tw/global/bootstrap/js/bootstrap.min.js")}}"></script>
+<script src="{{ tw_asset("/vendor/tw/global/bootstrap/js/bootstrap.min.js")}}"></script>
 <!-- iCheck -->
-<script src="{{ tw_asset("vendor/tw/global/iCheck/icheck.min.js")}}"></script>
+<script src="{{ tw_asset("/vendor/tw/global/iCheck/icheck.min.js")}}"></script>
 <script>
     $(function () {
         $('input').iCheck({

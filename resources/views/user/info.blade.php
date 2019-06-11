@@ -52,8 +52,8 @@
                                         <div class="input-group">
                                             <input class="form-control" name="img" value="{{$user['img']}}"  placeholder="图像" >
                                             <span class="input-group-btn">
-                                        <a href="{{tw_asset($user['img'] ?: asset("vendor/tw/global/face/default.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($user['img'] ?: asset("vendor/tw/global/face/default.png"))}}" style="height:34px; width:68px;" />
+                                        <a href="{{tw_asset($user['img'] ?: asset("/vendor/tw/global/face/default.png") )}}" target="_blank" >
+                                            <img src="{{tw_asset($user['img'] ?: asset("/vendor/tw/global/face/default.png"))}}" style="height:34px; width:68px;" />
                                         </a>
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>
