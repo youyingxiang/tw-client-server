@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>评分大屏幕</title>
     <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link rel="stylesheet" href="{{tw_asset("vendor/tw/home/css/server.css")}}">
+    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}">
 </head>
 <body id="screen_body" style="background-image: url({{$oData['banner']}})">
 <div class="screen">
     <!--标题-->
     <div class="screen_title">
-        <img id="screen_title_img" src="{{tw_asset("vendor/tw/home/img/screen_title_all.png")}}" alt="">
+        <img id="screen_title_img" src="{{tw_asset("/vendor/tw/home/img/screen_title_all.png")}}" alt="">
     </div>
     <!--LOGO-->
     <div class="screen_logo">

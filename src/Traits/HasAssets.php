@@ -38,57 +38,57 @@ trait HasAssets
      * @var array
      */
     public static $baseCss = [
-        'vendor/tw/global/bootstrap/css/bootstrap.min.css',
-        'vendor/tw/global/bootstrap/css/font-awesome.min.css',
-        'vendor/tw/system/iCheck/minimal/blue.css',
-        'vendor/tw/system/select2/select2.min.css',
-        'vendor/tw/system/dist/css/AdminLTE.min.css',
-        'vendor/tw/system/dist/css/skins/skin-blue.min.css',
-        'vendor/tw/system/kindeditor/themes/default/default.css',
-        'vendor/tw/system/editable/bootstrap-editable.css',
-        'vendor/tw/global/nprogress/nprogress.css',
-        'vendor/tw/global/jQuery-gDialog/animate.min.css',
-        'vendor/tw/global/Amaranjs/amaran.min.css',
-        'vendor/tw/global/bootstrap/js/bootstrap-dialog.min.css',
-        'vendor/tw/system/datetimepicker/bootstrap-datetimepicker.min.css',
-        'vendor/tw/global/cropper/cropper.min.css',
-        'vendor/tw/global/cropper/cropper.main.css',
+        '/vendor/tw/global/bootstrap/css/bootstrap.min.css',
+        '/vendor/tw/global/bootstrap/css/font-awesome.min.css',
+        '/vendor/tw/system/iCheck/minimal/blue.css',
+        '/vendor/tw/system/select2/select2.min.css',
+        '/vendor/tw/system/dist/css/AdminLTE.min.css',
+        '/vendor/tw/system/dist/css/skins/skin-blue.min.css',
+        '/vendor/tw/system/kindeditor/themes/default/default.css',
+        '/vendor/tw/system/editable/bootstrap-editable.css',
+        '/vendor/tw/global/nprogress/nprogress.css',
+        '/vendor/tw/global/jQuery-gDialog/animate.min.css',
+        '/vendor/tw/global/Amaranjs/amaran.min.css',
+        '/vendor/tw/global/bootstrap/js/bootstrap-dialog.min.css',
+        '/vendor/tw/system/datetimepicker/bootstrap-datetimepicker.min.css',
+        '/vendor/tw/global/cropper/cropper.min.css',
+        '/vendor/tw/global/cropper/cropper.main.css',
     ];
 
     /**
      * @var array
      */
     public static $baseJs = [
-        'vendor/tw/global/bootstrap/js/bootstrap.min.js',
-        'vendor/tw/system/slimScroll/jquery.slimscroll.min.js',
-        'vendor/tw/system/dist/js/app.min.js',
-        'vendor/tw/global/jQuery/jquery.pjax.js',
-        'vendor/tw/system/kindeditor/kindeditor-all.js',
-        'vendor/tw/system/kindeditor/lang/zh-CN.js',
-        'vendor/tw/global/jQuery/jquery.form.js',
-        'vendor/tw/system/editable/bootstrap-editable.js',
-        'vendor/tw/global/nprogress/nprogress.js',
-        'vendor/tw/global/Amaranjs/jquery.amaran.min.js',
-        'vendor/tw/global/bootstrap/js/bootstrap-dialog.min.js',
-        'vendor/tw/system/datetimepicker/moment-with-locales.min.js',
-        'vendor/tw/system/datetimepicker/bootstrap-datetimepicker.min.js',
-        'vendor/tw/system/multiselect/multiselect.min.js',
-        'vendor/tw/system/iCheck/icheck.min.js',
-        'vendor/tw/system/select2/select2.min.js',
-        'vendor/tw/system/select2/i18n/zh-CN.js',
-        'vendor/tw/global/cropper/cropper.min.js',
-        'vendor/tw/global/cropper/cropper.main.js',
-        'vendor/tw/system/chart/Chart.min.js',
-        'vendor/tw/system/dist/js/common.js',
-        'vendor/tw/global/fileupload/jquery.ui.widget.js',
-        'vendor/tw/global/fileupload/jquery.iframe-transport.js',
-        'vendor/tw/global/fileupload/jquery.fileupload.js',
+        '/vendor/tw/global/bootstrap/js/bootstrap.min.js',
+        '/vendor/tw/system/slimScroll/jquery.slimscroll.min.js',
+        '/vendor/tw/system/dist/js/app.min.js',
+        '/vendor/tw/global/jQuery/jquery.pjax.js',
+        '/vendor/tw/system/kindeditor/kindeditor-all.js',
+        '/vendor/tw/system/kindeditor/lang/zh-CN.js',
+        '/vendor/tw/global/jQuery/jquery.form.js',
+        '/vendor/tw/system/editable/bootstrap-editable.js',
+        '/vendor/tw/global/nprogress/nprogress.js',
+        '/vendor/tw/global/Amaranjs/jquery.amaran.min.js',
+        '/vendor/tw/global/bootstrap/js/bootstrap-dialog.min.js',
+        '/vendor/tw/system/datetimepicker/moment-with-locales.min.js',
+        '/vendor/tw/system/datetimepicker/bootstrap-datetimepicker.min.js',
+        '/vendor/tw/system/multiselect/multiselect.min.js',
+        '/vendor/tw/system/iCheck/icheck.min.js',
+        '/vendor/tw/system/select2/select2.min.js',
+        '/vendor/tw/system/select2/i18n/zh-CN.js',
+        '/vendor/tw/global/cropper/cropper.min.js',
+        '/vendor/tw/global/cropper/cropper.main.js',
+        '/vendor/tw/system/chart/Chart.min.js',
+        '/vendor/tw/system/dist/js/common.js',
+        '/vendor/tw/global/fileupload/jquery.ui.widget.js',
+        '/vendor/tw/global/fileupload/jquery.iframe-transport.js',
+        '/vendor/tw/global/fileupload/jquery.fileupload.js',
     ];
 
     /**
      * @var string
      */
-    public static $jQuery = 'vendor/tw/global/jQuery/jquery-2.2.3.min.js';
+    public static $jQuery = '/vendor/tw/global/jQuery/jquery-2.2.3.min.js';
 
     /**
      * Add css or get all css.
