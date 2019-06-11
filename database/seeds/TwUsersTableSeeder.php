@@ -16,7 +16,7 @@ class TwUsersTableSeeder extends Seeder
             'name' => "游兴祥",
             'phone' => '18123670736',
             'password' => Hash::make("123456"),
-            'img' => "vendor/tw/global/face/default.png",
+            'img' => "/vendor/tw/global/face/default.png",
             'created_at' => date("Y-m-d H:i:s",time()),
             'updated_at' => date("Y-m-d H:i:s",time())
         ]);
@@ -24,7 +24,7 @@ class TwUsersTableSeeder extends Seeder
             'name' => "里斯",
             'phone' => '15211266576',
             'password' => Hash::make("123456"),
-            'img' => "vendor/tw/global/face/default.png",
+            'img' => "/vendor/tw/global/face/default.png",
             'created_at' => date("Y-m-d H:i:s",time()),
             'updated_at' => date("Y-m-d H:i:s",time())
         ]);
