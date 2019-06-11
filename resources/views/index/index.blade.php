@@ -1,7 +1,7 @@
 @extends('tw::layout.base',['header' => "天维",'pageTitle'=>'后台首页',"pageBtnName"=>'按钮'])
 @section('content')
     {{--MY STYLE--}}
-    <link rel="stylesheet" href="{{ tw_asset("vendor/tw/global/css/my_style.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}">
     <style>
         .content-header {
             display: none !important;
