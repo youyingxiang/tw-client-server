@@ -5,8 +5,9 @@
  * Date: 2019/5/29
  * Time: 10:44 AM
  */
-use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
+
 if (!function_exists('tw_base_path')) {
     /**
      * Get admin url.
@@ -279,6 +280,32 @@ if (!function_exists('comparisonCode' )) {
             $bData = true;
         }
         return $bData;
+    }
+}
+if (!function_exists("hash_make")) {
+    /**
+     * @param array $params
+     * @return string
+     * @hash 加密
+     */
+    function hash_make(array $params):string
+    {
+        $params = implode("-",$params);
+        return Hash::make($params);
+    }
+
+}
+
+if (!function_exists("hash_check")) {
+    /**
+     * @param string $old
+     * @param array $now
+     * @return bool 检测是否对
+     */
+    function hash_check(string $old, array $now):bool
+    {
+        $now  = implode("-",$now);
+        return Hash::check($now,$old);
     }
 }
 

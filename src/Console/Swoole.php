@@ -6,9 +6,11 @@
  * Time: 4:13 PM
  */
 namespace Tw\Server\Console;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+
 class Swoole extends Command
 {
     /**
@@ -166,15 +168,14 @@ class Swoole extends Command
     public function checkAccess($server, $request)
     {
         // get不存在或者uid和token有一项不存在，关闭当前连接
-        if (!isset($request->get) || !isset($request->get['uid']) || !isset($request->get['token'])) {
+        if (!isset($request->get) || !isset($request->get['token'])) {
             self::$server->close($request->fd);
             $this->line("接口验证字段不全");
             return false;
         }
-        $uid   = $request->get['uid'];
-        $token = $request->get['token'];
+        $aData = Arr::except($request->get,"token");
         // 校验token是否正确,无效关闭连接
-        if (md5(md5($uid) . $this->key) != $token) {
+        if (hash_check($request->get['token'],$aData) == false) {
             $this->line("接口验证错误");
             self::$server->close($request->fd);
             return false;

@@ -134,9 +134,8 @@ EOT;
      */
     public function pushAjax():void
     {
-        $key = '^manks.top&swoole$';
-        $uid = 100;
-        $token = md5(md5($uid) . $key);
+
+        $token = hash_make(['push']);
         $script = <<<EOT
 $('.push').on('click',function(){
     var url = $(this).attr('data-url').trim();
@@ -162,7 +161,7 @@ $('.push').on('click',function(){
 });
 function pushSwoole(id)
 {
-   var wsUrl = "ws://$_SERVER[HTTP_HOST]:9502?page=test&uid=100&token=$token";
+   var wsUrl = "ws://$_SERVER[HTTP_HOST]:9502?page=push&token=$token";
    var ws = new WebSocket(wsUrl);
    ws.onopen= function (event) {
         ws.send('{"type":"1","player":"'+id+'"}');

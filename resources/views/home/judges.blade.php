@@ -33,19 +33,17 @@
 </div>
 </body>
 <script src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
+<script src="{{tw_asset('/vendor/tw/home/js/wbsocket.js')}}"></script>
 <script>
-    <?php
-    $key = '^manks.top&swoole$';
-    $uid = 100;
-    $token = md5(md5($uid) . $key);
-    ?>
 
-
-    $("#input_sub").on('click',function(){
+    $("#input_sub").on('click',function() {
         var score = $("#score").val();
         var playerid = $("#screen_player_img").attr('data-id').trim();
         if (/^\d+$/.test(score) == false && /^\d+\.\d{0,2}$/.test(score) == false) {
-            alert('你输入的不是有效分数！');
+            alert('请输入0-100有效分数！');
+            $("#score").val("");
+        } else if (score > 100) {
+            alert('请输入0-100有效分数！');
             $("#score").val("");
         } else {
             $.ajax({
@@ -78,20 +76,13 @@
      */
     var ws;//websocket实例
     var lockReconnect = false;//避免重复连接
-    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$aPlayer['activity_id']}}&uid=<?php echo $uid; ?>&token=<?php echo $token; ?>';
+    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$aPlayer['activity_id']}}&token={{hash_make(['judges',$aPlayer['activity_id']])}}';
 
-    function createWebSocket(url) {
-        try {
-            ws = new WebSocket(url);
-            initEventHandle();
-        } catch (e) {
-            reconnect(url);
-        }
-    }
+
 
     function pushSwoole(playerid)
     {
-        var wsUrl = "ws://{{$_SERVER['HTTP_HOST']}}:9502?page=judges&uid=100&token={{$token}}";
+        var wsUrl = "ws://{{$_SERVER['HTTP_HOST']}}:9502?page=judges&token={{hash_make(['judges'])}}";
         var ws = new WebSocket(wsUrl);
         ws.onopen= function (event) {
             //ws.send('{"type":"1","player":"'+id+'"}');
@@ -121,41 +112,6 @@
 
             heartCheck.reset().start();
         }
-    }
-    function reconnect(url) {
-        if(lockReconnect) return;
-        lockReconnect = true;
-        //没连接上会一直重连，设置延迟避免请求过多
-        setTimeout(function () {
-            createWebSocket(url);
-            lockReconnect = false;
-        }, 2000);
-    }
-    //心跳检测
-    var heartCheck = {
-        timeout: 60000,//60秒
-        timeoutObj: null,
-        serverTimeoutObj: null,
-        reset: function(){
-            clearTimeout(this.timeoutObj);
-            clearTimeout(this.serverTimeoutObj);
-            return this;
-        },
-        start: function(){
-            var self = this;
-            this.timeoutObj = setTimeout(function(){
-                //这里发送一个心跳，后端收到后，返回一个心跳消息，
-                //onmessage拿到返回的心跳就说明连接正常
-                ws.send("心跳检测消息");
-                self.serverTimeoutObj = setTimeout(function(){//如果超过一定时间还没重置，说明后端主动断开了
-                    ws.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-                }, self.timeout);
-            }, this.timeout);
-        },
-        header:function(url) {
-            window.location.href=url
-        }
-
     }
     createWebSocket(wsUrl);
 </script>

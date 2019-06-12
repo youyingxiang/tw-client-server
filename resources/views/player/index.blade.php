@@ -53,7 +53,7 @@
                                 <th>选手名称</th>
                                 <th>图像</th>
                                 <th>所属活动</th>
-                                <th>最终得分{!! table_sort('id') !!}</th>
+                                <th>最终得分{!! table_sort('score') !!}</th>
                                 <th>推送状态</th>
                                 <th>修改日期</th>
                                 <th>操作</th>

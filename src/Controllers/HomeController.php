@@ -59,4 +59,17 @@ class HomeController extends Controller
         }
 
     }
+
+    /**
+     * @see 打分排名
+     */
+    public function rank(int $activityId)
+    {
+        // 获取选手排名
+        $aRank = Tw::newModel('Player')->getRank($activityId);
+        if ($aRank)
+            return view('tw::home.rank',compact('aRank'));
+        else
+            abort(404);
+    }
 }

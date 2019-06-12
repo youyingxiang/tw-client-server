@@ -116,7 +116,7 @@ ul, ol, li {
 
 /*评分大屏幕*/
 #screen_body {
-    background-image: url("../img/screen_bg.jpg");
+
     background-size: cover;
 }
 
@@ -243,12 +243,13 @@ ul, ol, li {
 }
 
 /*排名页面*/
-.rank_top{
+.rank_top {
     width: 70%;
     margin: 0 auto;
     /*overflow: hidden;*/
 }
-.rank_top li{
+
+.rank_top li {
     width: 30%;
     margin: 1%;
     height: 180px;
@@ -257,12 +258,14 @@ ul, ol, li {
     border: 5px solid #ffda00;
     border-radius: 10pt;
 }
-.rank_bot{
+
+.rank_bot {
     width: 70%;
     margin: 0 auto;
     overflow: hidden;
 }
-.rank_bot li{
+
+.rank_bot li {
     width: 48%;
     height: 80px;
     background: #fff;
@@ -270,7 +273,8 @@ ul, ol, li {
     margin: 1%;
     padding: 5pt 0;
 }
-.rank_bot p{
+
+.rank_bot p {
     width: 20%;
     float: left;
     line-height: 80px;
@@ -278,24 +282,29 @@ ul, ol, li {
     font-size: 18pt;
     text-align: center;
 }
-.p1{
+
+.p1 {
     width: 20% !important;
     font-size: 18pt;
     font-weight: bold;
     padding-left: 10pt;
 }
-.p2 img{
+
+.p2 img {
     height: 100%;
     border-radius: 50%;
 }
+
 .p3 {
     font-weight: bold;
     color: #FF9800;
 }
-.top_img{
+
+.top_img {
     position: relative;
 }
-.top_img img{
+
+.top_img img {
     position: absolute;
     width: 140px !important;
     top: -70px;
@@ -305,12 +314,181 @@ ul, ol, li {
     border-radius: 50%;
     z-index: 999;
 }
-.top_img p{
+
+.top_img p {
     margin-top: 100px;
     text-align: center;
     font-size: 24pt;
     font-weight: bold;
 }
-.top_img b{
+
+.top_img b {
     color: darkred;
+}
+
+/*评委评分页面*/
+.judge_main {
+    width: 100%;
+}
+
+.judge_top {
+    display: grid;
+}
+
+.judge_top img {
+    width: 100%;
+
+}
+
+.judge_player {
+    width: 100%;
+    margin-top: -60px;
+}
+
+.judge_tx {
+    width: 30%;
+    margin: 0 auto;
+
+}
+
+.judge_tx img {
+    width: 100%;
+    border: 5px solid #fff;
+    border-radius: 50%;
+
+}
+
+.judge_player p {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.judge_player b {
+    font-size: 2rem;
+    color: #FF9800;
+}
+
+.judge_fg {
+    height: 0.5rem;
+    width: 100%;
+    background: cadetblue;
+    margin-top: 1rem;
+}
+
+.judge_conter {
+    width: 96%;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #92cbf9;
+    margin-top: 1rem;
+    border-radius: 1rem;
+}
+
+.judge_from {
+    width: 80%;
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+.judge_from p {
+    color: #666;
+}
+
+.judge_from input {
+    background: #fff;
+    height: 3rem;
+    width: 100%;
+    margin: 1rem 0;
+    border: 0;
+    text-align: center;
+    color: #ccc;
+}
+
+#input_sub {
+    background: #2196F3;
+    color: #fff;
+}
+
+.judge_from h3 {
+    text-align: center;
+    color: #eee;
+    line-height: 2rem;
+}
+
+#input_sub_p {
+    color: #ce2519;
+    text-align: center;
+}
+
+.judge_footer {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.judge_footer img {
+    width: 100%;
+}
+
+
+/*多端*/
+
+@media screen and (max-width: 375px) {
+    .judge_tx {
+        width: 20%;
+    }
+    .judge_player{
+        margin-top: -40px;
+    }
+    .judge_from{
+        padding: 2rem;
+    }
+    .judge_player b{
+        font-size: 1.5rem;
+    }
+    #input_sub_p{
+        font-size: 12px;
+    }
+}
+@media screen and (min-width: 768px ){
+    .judge_tx {
+        width: 25%;
+    }
+    .judge_player{
+        margin-top: -110px;
+    }
+    .judge_player p{
+        font-size: 1.5rem;
+    }
+    .judge_from{
+        width: 60%;
+    }
+    .judge_from input{
+        height: 4rem;
+    }
+    .judge_from p{
+        font-size: 18px;
+    }
+    .judge_from h3{
+        font-size: 21px;
+    }
+}
+@media screen and (min-width: 1000px){
+    .judge_player p{
+        font-size: 32px;
+    }
+    .judge_from h3{
+        font-size: 28px;
+    }
+    .judge_from p{
+        font-size: 24px;
+    }
+    .judge_from input{
+        height: 80px;
+        font-size: 24px;
+        margin: 25px 0;
+    }
+    .judge_player b{
+        font-size: 38px;
+    }
 }

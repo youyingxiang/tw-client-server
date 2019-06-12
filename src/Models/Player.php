@@ -145,5 +145,16 @@ class Player extends Model
         }
     }
 
+    /**
+     * @param int $activityId
+     * @return array
+     * @see 选手得分排名
+     */
+    public function getRank(int $activityId):array
+    {
+        $aData = $this->where("activity_id",$activityId)->orderBy('score','desc')->get()->toArray();
+        return $aData;
+    }
+
 
 }

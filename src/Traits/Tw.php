@@ -47,6 +47,7 @@ trait Tw
             $router->get('activity/{activityId}', "HomeController@index")->name('tw.home');
             $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges');
             $router->post('postScoring',"HomeController@postScoring")->name('tw.home.postScoring');
+            $router->get('rank/{activityId}',"HomeController@rank")->name("tw.home.rank");
         });
     }
 
