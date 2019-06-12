@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>评委评分</title>
-    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}">
+    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}?version=1.0.1">
 </head>
 <body>
 <div class="judge_main">

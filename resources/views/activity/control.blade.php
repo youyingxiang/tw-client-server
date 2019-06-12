@@ -1,7 +1,7 @@
 @extends('tw::layout.base',['header' => "控制台",'pageTitle'=>'控制台',"pageBtnName"=>'控制台'])
 @section('content')
     {{--MY STYLE--}}
-    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}?version=1.0.1">
     {{--样式--}}
 
 
