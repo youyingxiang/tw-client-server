@@ -66,12 +66,12 @@ a {
 .sever_user_text {
     width: 100%;
     border: 1px solid #eeeeee;
-    padding: 15pt;
+    padding: 30pt;
     overflow: hidden;
 }
 
 .sever_user_text img {
-    width: 10%;
+    width: 8%;
     border-radius: 50%;
     float: left;
 
@@ -177,11 +177,15 @@ a {
 
 .pt_left {
     width: 40%;
-    background: #3F51B5;
+    background: #3c8dbc;
     overflow: hidden;
     padding: 10px 20px;
     color: #fff;
     float: left;
+}
+
+.pt_left span {
+    color: #fff !important;
 }
 
 .actvity_pt ul {
@@ -213,42 +217,65 @@ a {
     margin: 0;
     margin-top: 25px;
 }
-.img_1{
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      background-image: url("../img/tb1.png");
-      background-size: 100% 100%;
-  }
-.img_2{
+
+.img_1 {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url("../img/tb1.png");
+    background-size: 100% 100%;
+}
+
+.img_2 {
     display: inline-block;
     width: 30px;
     height: 30px;
     background-image: url("../img/tb2.png");
     background-size: 100% 100%;
 }
-.img_3{
+
+.img_3 {
     display: inline-block;
     width: 30px;
     height: 30px;
     background-image: url("../img/tb3.png");
     background-size: 100% 100%;
 }
-.img_4{
+
+.img_4 {
     display: inline-block;
     width: 30px;
     height: 30px;
     background-image: url("../img/tb4.png");
     background-size: 100% 100%;
 }
-.img_5{
+
+.img_5 {
     display: inline-block;
     width: 30px;
     height: 30px;
     background-image: url("../img/tb5.png");
     background-size: 100% 100%;
 }
-.pt_ico p{
+
+.pt_ico p {
     margin: 0;
     padding: 0;
+}
+/*控制台*/
+.control_box{
+    width: 100%;
+    padding: 20pt;
+    background: red;
+    overflow: hidden;
+}
+.control_box li{
+    width: 23%;
+    text-align: center;
+    line-height: 45pt;
+    float: left;
+    background: #3c8dbc;
+    margin: 1%;
+    color: #fff;
+    font-size: 14pt;
 }
