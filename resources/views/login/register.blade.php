@@ -91,7 +91,7 @@
                 <!-- /.col -->
             </div>
             <div class="col-xs-zc">
-                <p>已有账号！<a href="">立即登陆</a></p>
+                <p>已有账号！<a href="{{route("tw.login")}}">立即登陆</a></p>
             </div>
         </form>
 

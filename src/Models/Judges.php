@@ -94,7 +94,7 @@ class Judges extends Model
     {
         return QrCode::size(100)->color(255,0,255)
             ->backgroundColor(255,255,0)
-            ->generate("http://baidu.com?".$this->admin_id."-".$this->activity_id);
+            ->generate(route("tw.home.judges",$this->id));
     }
 
     /**

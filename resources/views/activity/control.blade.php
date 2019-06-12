@@ -17,7 +17,7 @@
                 <a href="">
                     <li>推送下一个选手</li>
                 </a>
-                <a href="">
+                <a href="{{route('tw.player.index')}}">
                     <li>选手列表</li>
                 </a>
             </ul>

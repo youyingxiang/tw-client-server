@@ -111,7 +111,7 @@ class ModelLogic implements Renderable
             $aOrder = ['id','desc'];
         }
 //        DB::enableQueryLog();
-        $aData = $this->model->where($where)->where($orWhere)->orderBy($aOrder[0],$aOrder[1])->paginate(10);
+        $aData = $this->model->where($where)->where($orWhere)->orderBy($aOrder[0],$aOrder[1])->paginate(15);
 //        dd((DB::getQueryLog()));
         return $aData;
     }

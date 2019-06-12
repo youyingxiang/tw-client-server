@@ -73,7 +73,6 @@ class AuthController extends Controller
      */
     public function sendMsg(AdminRequest $request)
     {
-        dd('123');
         $to = $request->post('rphone');
         try {
             sendMsg($to);

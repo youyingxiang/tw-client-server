@@ -20,7 +20,7 @@
                     {{--普通--}}
                     <div class="actvity_pt" id="putong">
                         <ul>
-                            @foreach($aData as $vo)
+                            @foreach($aData1 as $vo)
                                 <li>
                                     <div class="pt_left">
                                         <h4>{{$vo['title']}}</h4>
@@ -42,18 +42,23 @@
                                                     href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i
                                                         class="img_4"></i>
                                                 <p>选手设置</p></a></div>
-                                        <div class="pt_ico"><i class="img_5"></i>
-                                            <p>屏幕控制</p></div>
+                                        <div class="pt_ico">
+                                            <a href="{{route('tw.activity.control',$vo['id'])}}">
+                                            <i class="img_5"></i>
+                                            <p>屏幕控制</p></a></div>
                                     </div>
                                 </li>
                             @endforeach
                         </ul>
+                        <div class="box-footer clearfix">
+                            {{ $aData1->links() }}
+                        </div>
                     </div>
 
                     {{--高级--}}
                     <div class="actvity_pt" id="gaoji" style="display: none">
                         <ul>
-                            @foreach($aData as $vo)
+                            @foreach($aData2 as $vo)
                                 <li>
                                     <div class="pt_left">
                                         <h4>{{$vo['title']}}</h4>
@@ -81,10 +86,11 @@
                                 </li>
                             @endforeach
                         </ul>
+                        <div class="box-footer clearfix">
+                            {{ $aData2->links() }}
+                        </div>
                     </div>
-                    <div class="box-footer clearfix">
-                        {{ $aData->links() }}
-                    </div>
+
                 </div>
 
             </div>

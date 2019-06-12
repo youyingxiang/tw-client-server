@@ -27,7 +27,7 @@ class Activity extends Model
     /**
      * @var array and 条件查询字段
      */
-    protected $and_fields = ['days'];
+    protected $and_fields = ['days','level'];
 
 
     /**
@@ -106,9 +106,9 @@ class Activity extends Model
     public function getTermAttribute():string
     {
         if ($this->is_term)
-            $sData = '<span style="color: green">'.$this->created_at." 至 ".$this->term_date.'</span>';
+            $sData = '<span>'.$this->created_at." 至 ".$this->term_date.'</span>';
         else
-            $sData = '<span style="color: red">已过期</span>';
+            $sData = '<span>已过期</span>';
         return $sData;
     }
 
