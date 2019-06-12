@@ -86,7 +86,7 @@ $('#fileupload_').fileupload({
             if (obj.prev().children('img').length>0) {
                 obj.prev().attr('href',up_url );
                 obj.prev().find('img').attr('src',up_url );
-                $.amaran({'message':'上次成功！'});
+                $.amaran({'message':'上传成功！'});
             }
         } else {
             $.amaran({'message':data.result.info});
