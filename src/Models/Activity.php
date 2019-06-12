@@ -177,6 +177,26 @@ class Activity extends Model
        return $object;
     }
 
+    /**
+     * @param int $id
+     * @see 获取下一位推送选手的id
+     */
+    public function getNextPushStateIdByActivityId(int $id):int
+    {
+        $nextplayerId  = null;
+        $id = $id??null;
+        $oAcitity = $this->find($id);
+        if ((array)($oAcitity)) {
+            $player = get_push_player($id);
+            if (!$player) {
+                $nextplayerId = $oAcitity->players()->orderBy('id','desc')->value('id');
+            } else {
+                $nextplayerId = $oAcitity->players()->where('id',"<",$player['id'])->orderBy('id','desc')->value('id');
+            }
+        }
+        return (int)$nextplayerId ;
+    }
+
 
 
 }

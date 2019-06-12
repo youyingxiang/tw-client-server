@@ -309,5 +309,27 @@ if (!function_exists("hash_check")) {
     }
 }
 
+if (!function_exists("get_push_player")) {
+
+    /**
+     * @param int $activity_id
+     * @return array
+     * 获取当前推送的选手
+     */
+    function get_push_player(int $activity_id):array
+    {
+        $aData = [];
+        $playerKey = config('tw.redis_key.h3');
+        $field  = $activity_id;
+        $player = Redis::hget($playerKey,$field);
+        if ($player)
+            $aData = json_decode($player, true);
+        return $aData;
+
+    }
+}
+
+
+
 
 

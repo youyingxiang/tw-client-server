@@ -93,9 +93,30 @@ class ActivityController extends Controller
         return Tw::moldelLogic(Tw::newModel("Activity"));
     }
 
-    public function control($id)
+    /**
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @see 控制大屏幕
+     */
+    public function control(int $id)
     {
         return view('tw::activity.control');
+    }
+
+    /**
+     * @see 更换下一位选手
+     */
+    public function nextPlayer(int $activity_id)
+    {
+        //下一位选手的id
+        $nextPlayId = Tw::newModel("Activity")->getNextPushStateIdByActivityId($activity_id);
+        if ($nextPlayId) {
+            Tw::moldelLogic(Tw::newModel("Player"))->pushPlayer($nextPlayId);
+            return Tw::ajaxResponse($nextPlayId,'1');
+        } else {
+            return Tw::ajaxResponse("已经没有可以推送的选手选择了！");
+        }
+
     }
 
 }

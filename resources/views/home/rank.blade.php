@@ -24,9 +24,15 @@
     <div class="rank_list">
         <div class="rank_top">
             <ul>
-                <li class="top_img" style="margin-top: 5%"><img src="{{$aRank[1]['img']}}" alt=""><p>{{$aRank[1]['name']}} <b>{{$aRank[1]['score']}}</b></p><img  style="width: 40px !important;" src="{{tw_asset("/vendor/tw/home/img/two.png")}}" alt=""></li>
-                <li class="top_img"><img src="{{$aRank[0]['img']}}" alt=""><p>{{$aRank[0]['name']}} <b>{{$aRank[0]['score']}}</b></p><img  style="width: 40px !important;" src="{{tw_asset("/vendor/tw/home/img/one.png")}}" alt=""></li>
-                <li class="top_img" style="margin-top: 5%"><img src="{{$aRank[2]['img']}}" alt=""><p>{{$aRank[2]['name']}} <b>{{$aRank[2]['score']}}</b></p><img  style="width: 40px !important;" src="{{tw_asset("/vendor/tw/home/img/three.png")}}" alt=""></li>
+                @if(isset($aRank[1]))
+                    <li class="top_img" style="margin-top: 5%"><img src="{{$aRank[1]['img']}}" alt=""><p>{{$aRank[1]['name']}} <b>{{$aRank[1]['score']}}</b></p><img  style="width: 40px !important;" src="{{tw_asset("/vendor/tw/home/img/two.png")}}" alt=""></li>
+                @endif
+                @if(isset($aRank[0]))
+                    <li class="top_img"><img src="{{$aRank[0]['img']}}" alt=""><p>{{$aRank[0]['name']}} <b>{{$aRank[0]['score']}}</b></p><img  style="width: 40px !important;" src="{{tw_asset("/vendor/tw/home/img/one.png")}}" alt=""></li>
+                @endif
+                @if(isset($aRank[2]))
+                    <li class="top_img" style="margin-top: 5%"><img src="{{$aRank[2]['img']}}" alt=""><p>{{$aRank[2]['name']}} <b>{{$aRank[2]['score']}}</b></p><img  style="width: 40px !important;" src="{{tw_asset("/vendor/tw/home/img/three.png")}}" alt=""></li>
+                @endif
             </ul>
         </div>
         <div class="rank_bot">
@@ -40,4 +46,39 @@
 
 </div>
 </body>
+<script src="{{tw_asset('/vendor/tw/home/js/wbsocket.js')}}"></script>
+<script>
+    /**
+     * ws推送
+     */
+    var ws;//websocket实例
+    var lockReconnect = false;//避免重复连接
+    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=rank&activity={{request("activityId")}}&token={{hash_make(['rank',request("activityId")])}}';
+
+
+
+    function initEventHandle() {
+        ws.onclose = function () {
+            reconnect(wsUrl);
+        };
+        ws.onerror = function () {
+            reconnect(wsUrl);
+        };
+        ws.onopen = function () {
+            //心跳检测重置
+            heartCheck.reset().start();
+        };
+        ws.onmessage = function (event) {
+            //如果获取到消息，心跳检测重置
+            //拿到任何消息都说明当前连接是正常的
+            var data = JSON.parse(event.data);
+
+            if(data.url){
+                window.location.href=data.url;
+            }
+            heartCheck.reset().start();
+        }
+    }
+    createWebSocket(wsUrl);
+</script>
 </html>

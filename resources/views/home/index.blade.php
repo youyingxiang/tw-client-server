@@ -29,7 +29,7 @@
             <li>
                 <div class="screen_judge_pw">
                     <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
-                    <p class="score_res">0.00</p>
+                    <p class="score_res">{{$hScore[$vo['id']] ?? 0.00}}</p>
                 </div>
                 <p class="pw_name">{{$vo['name']}}</p>
             </li>
@@ -85,12 +85,16 @@
                 $.each(data.judges_score,function (key,value) {
                     $("#judge"+key+"").next().html(value);
                 })
+            } else if(data.url){
+                window.location.href=data.url;
             } else {
                 $('#screen_player_img').attr('src', data.img);
                 $('#screen_player_name').html(data.name);
-                $('.score_res').each(function () {
-                    $(this).empty().html('0.00');
-                })
+                if (!data.message) {
+                    $('.score_res').each(function () {
+                        $(this).empty().html('0.00');
+                    })
+                }
             }
             heartCheck.reset().start();
         }

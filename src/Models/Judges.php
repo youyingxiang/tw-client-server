@@ -123,16 +123,8 @@ class Judges extends Model
      */
     public function getPlayerByRedis(int $id):array
     {
-        $aData = [];
         $oJudges = $this->find($id);
-        if ($oJudges) {
-            $playerKey = config('tw.redis_key.h3');
-            $field = $oJudges['activity_id'];
-            $player = Redis::hget($playerKey,$field);
-            if ($player)
-                $aData = json_decode($player, true);
-        }
-        return $aData;
+        return get_push_player($oJudges['activity_id']);
     }
 
 }

@@ -124,7 +124,7 @@ class Player extends Model
         }
 
         if ($player->push_state == 1)
-            return Tw::ajaxResponse("操作成功",$this->getIndexUrl());
+            return Tw::ajaxResponse("操作成功",$this->getIndexUrl()."?activity_id=".$player['activity_id']);
         else
             return Tw::ajaxResponse("操作失败");
 

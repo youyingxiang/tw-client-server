@@ -139,8 +139,10 @@ class Swoole extends Command
      */
     public function pushMessage(array $aData)
     {
-        if (isset($aData['player']))
+        if (isset($aData['player'])) {
             $aResult = DB::table('tw_player')->find($aData['player']);
+        }
+
         foreach (self::$server->connections as $fd) {
             if (self::$server->isEstablished($fd)) {
                 $jContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
@@ -151,6 +153,16 @@ class Swoole extends Command
                     if ($aResult->activity_id == $jContent['activity']) {
                         $hData['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
                         self::$server->push($fd, json_encode($hData,JSON_UNESCAPED_UNICODE));
+                    }
+                } else if ($jContent && $jContent['page'] == "rank" && $aData['type'] == 3) {
+                    if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
+                        $jData['url'] = route('tw.home',$aData['activity']);
+                        self::$server->push($fd,json_encode($jData,true));
+                    }
+                } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 4) {
+                    if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
+                        $jData['url'] = route('tw.home.rank',$aData['activity']);
+                        self::$server->push($fd,json_encode($jData,true));
                     }
                 }
             } else {

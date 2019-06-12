@@ -6,8 +6,9 @@
  * Time: 10:52 AM
  */
 namespace Tw\Server\Controllers;
-use Illuminate\Routing\Controller;
 use Tw\Server\Facades\Tw;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Redis;
 class HomeController extends Controller
 {
     /**
@@ -17,9 +18,10 @@ class HomeController extends Controller
     {
         $oData = Tw::newModel('Activity')->getHomeActivity($activityId);
         if ((array)$oData) {
-            $player = $oData->players()->where('push_state',1)->first();
             $judges = $oData->judges;
-            return view('tw::home.index',compact('oData','player','judges'));
+            $player = get_push_player($activityId);
+            $hScore = Redis::hgetall(config('tw.redis_key.h1').$player['id']);
+            return view('tw::home.index',compact('oData','player','judges','hScore'));
         } else
             abort(404);
     }

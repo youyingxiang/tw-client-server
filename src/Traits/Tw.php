@@ -42,6 +42,7 @@ trait Tw
                 $router->resource('judges', 'JudgesController')->names('tw.judges');
                 $router->resource('player', 'PlayerController')->names('tw.player');
                 $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push');
+                $router->get('nextPlayer/{activity_id}', 'ActivityController@nextPlayer')->name('tw.player.nextPlayer');
             });
         });
         app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
