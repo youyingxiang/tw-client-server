@@ -14,7 +14,7 @@
                         <ul>
                             <li onclick="act_pt()" id="act_pt" style="background: #3c8dbc;color: #fff">普通活动</li>
                             <li onclick="act_gj()" id="act_gj">高级活动</li>
-                            <a href="{!!route('tw.activity.create')!!}">创建新活动</a>
+                            <a id="create_activity" href="{!!route('tw.activity.create')!!}">创建新活动</a>
                         </ul>
                     </div>
                     {{--普通--}}
@@ -104,6 +104,7 @@
             document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
             document.getElementById("gaoji").style.cssText = 'display:none';
             document.getElementById("putong").style.cssText = 'display:block';
+            $("#create_activity").show();
         }
 
         function act_gj() {
@@ -111,6 +112,7 @@
             document.getElementById("act_pt").style.cssText = 'background:none;color:#000;';
             document.getElementById("gaoji").style.cssText = 'display:block';
             document.getElementById("putong").style.cssText = 'display:none';
+            $("#create_activity").hide();
         }
     </script>
 @endsection

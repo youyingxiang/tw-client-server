@@ -39,7 +39,7 @@ class PlayerRequest extends FormRequest implements TwRequestI
         $this->rules = [
             'name' => 'required|max:128',
             'img' => 'max:300',
-            'score' => 'integer',
+            'score' => 'numeric',
             'activity_id' => 'required|integer',
             'push_state' => Rule::in([0, 1]),
         ];
@@ -54,7 +54,7 @@ class PlayerRequest extends FormRequest implements TwRequestI
         return [
             'name.required' => '选手姓名不能为空！',
             'name.max'  => "选手姓名长度不能超过128个字符！",
-            'score.integer' => '得分必须是一个整数',
+            'score.numeric' => '得分必须是一个数字',
         ];
     }
     /**
