@@ -17,23 +17,6 @@
                             <a href="{!!route('tw.activity.create')!!}">创建新活动</a>
                         </ul>
                     </div>
-                    {{--TAB切换--}}
-                    <script>
-                        function act_pt() {
-                            document.getElementById("act_pt").style.cssText = 'background:#3c8dbc;color:#fff;';
-                            document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
-                            document.getElementById("gaoji").style.cssText = 'display:none';
-                            document.getElementById("putong").style.cssText = 'display:block';
-                        }
-
-                        function act_gj() {
-                            document.getElementById("act_gj").style.cssText = 'background:#3c8dbc;color:#fff;';
-                            document.getElementById("act_pt").style.cssText = 'background:none;color:#000;';
-                            document.getElementById("gaoji").style.cssText = 'display:block';
-                            document.getElementById("putong").style.cssText = 'display:none';
-                        }
-                    </script>
-
                     {{--普通--}}
                     <div class="actvity_pt" id="putong">
                         <ul>
@@ -55,8 +38,10 @@
                                                     href="{!!route('tw.judges.index')!!}?activity_id={{$vo['id']}}"><i
                                                         class="img_3"></i>
                                                 <p>评委设置</p></a></div>
-                                        <div class="pt_ico"><a href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i class="img_4"></i>
-                                            <p>选手设置</p></a></div>
+                                        <div class="pt_ico"><a
+                                                    href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i
+                                                        class="img_4"></i>
+                                                <p>选手设置</p></a></div>
                                         <div class="pt_ico"><i class="img_5"></i>
                                             <p>屏幕控制</p></div>
                                     </div>
@@ -86,7 +71,9 @@
                                                     href="{!!route('tw.judges.index')!!}?activity_id={{$vo['id']}}"><i
                                                         class="img_3"></i>
                                                 <p>评委设置</p></a></div>
-                                        <div class="pt_ico"><a href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i class="img_4"></i>
+                                        <div class="pt_ico"><a
+                                                    href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i
+                                                        class="img_4"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico"><i class="img_5"></i>
                                             <p>屏幕控制</p></div>
@@ -103,4 +90,21 @@
             </div>
         </div>
     </section>
+
+    {{--TAB切换--}}
+    <script>
+        function act_pt() {
+            document.getElementById("act_pt").style.cssText = 'background:#3c8dbc;color:#fff;';
+            document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
+            document.getElementById("gaoji").style.cssText = 'display:none';
+            document.getElementById("putong").style.cssText = 'display:block';
+        }
+
+        function act_gj() {
+            document.getElementById("act_gj").style.cssText = 'background:#3c8dbc;color:#fff;';
+            document.getElementById("act_pt").style.cssText = 'background:none;color:#000;';
+            document.getElementById("gaoji").style.cssText = 'display:block';
+            document.getElementById("putong").style.cssText = 'display:none';
+        }
+    </script>
 @endsection
