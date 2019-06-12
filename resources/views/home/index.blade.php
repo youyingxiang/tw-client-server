@@ -18,9 +18,9 @@
     </div>
     <!--选手-->
     <div class="screen_player">
-        <h1>{{$oData['title']}}</h1>
-        <img id="screen_player_img" src="{{$player['img']}}" alt="{{$player['name']}}">
-        <p><b>当前选手:</b><span id="screen_player_name">{{$player['name']}}</span></p>
+        <h1>{{$oData['title'] ?? ''}}</h1>
+        <img id="screen_player_img" src="{{$player['img']??''}}" alt="{{$player['name']??''}}">
+        <p><b>当前选手:</b><span id="screen_player_name">{{$player['name']??''}}</span></p>
     </div>
     <!--评委-->
     <div class="screen_judge">

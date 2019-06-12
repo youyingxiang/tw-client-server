@@ -20,7 +20,7 @@ class HomeController extends Controller
         if ((array)$oData) {
             $judges = $oData->judges;
             $player = get_push_player($activityId);
-            $hScore = Redis::hgetall(config('tw.redis_key.h1').$player['id']);
+            $hScore = empty($player) ? [] :Redis::hgetall(config('tw.redis_key.h1').$player['id']);
             return view('tw::home.index',compact('oData','player','judges','hScore'));
         } else
             abort(404);
