@@ -342,6 +342,20 @@ if (!function_exists("del_push_player")) {
     }
 
 }
+if (!function_exists("tw_abort")) {
+    /**
+     * @param $title
+     * @param $code
+     * @return \Illuminate\Http\Response
+     * @see 异常处理
+     */
+    function tw_abort($title,$code):object
+    {
+        return response()->view('tw::home.exception', ['title' => $title], $code);
+    }
+
+}
+
 
 
 

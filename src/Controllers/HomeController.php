@@ -23,7 +23,7 @@ class HomeController extends Controller
             $hScore = empty($player) ? [] :Redis::hgetall(config('tw.redis_key.h1').$player['id']);
             return view('tw::home.index',compact('oData','player','judges','hScore'));
         } else
-            abort(404);
+            return tw_abort("活动不存在或者已经过期！",404);
     }
 
     /**
@@ -38,7 +38,7 @@ class HomeController extends Controller
             $aPlayer = get_push_player($sActivityId);
             return view('tw::home.judges', compact('aPlayer', 'sActivityId'));
         } else {
-            abort(404);
+            return tw_abort("没有找到当前评委所在活动！",404);
         }
     }
 
