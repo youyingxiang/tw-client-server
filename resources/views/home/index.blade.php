@@ -84,6 +84,9 @@
 
                 $('#screen_player_img').attr('src', data.player.img);
                 $('#screen_player_name').html(data.player.name);
+                $('.score_res').each(function () {
+                    $(this).empty().html('0.00');
+                })
                 $.each(data.judges_score,function (key,value) {
                     $("#judge"+key+"").next().html(value);
                 })
