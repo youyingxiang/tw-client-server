@@ -51,7 +51,10 @@ class Player extends Model
      */
     public function getIndexUrl(): string
     {
-        return route('tw.player.index');
+        $url = empty(request()->get('activity_id'))
+            ? route('tw.player.index')
+            : route('tw.player.index')."?activity_id=".request()->get('activity_id');
+        return $url;
     }
 
     /**

@@ -51,7 +51,10 @@ class Judges extends Model
      */
     public function getIndexUrl(): string
     {
-        return route('tw.judges.index');
+        $url = empty(request()->get('activity_id'))
+            ? route('tw.judges.index')
+            : route('tw.judges.index')."?activity_id=".request()->get('activity_id');
+        return $url;
     }
 
     /**

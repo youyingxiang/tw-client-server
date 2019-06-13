@@ -8,7 +8,12 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" method="POST" action="@if(empty($aData)){{route('tw.player.store')}}@else{{route('tw.player.update',$aData['id'])}}@endif" onsubmit="return false" >
+                @if(empty($aData))
+                    @php $action = route('tw.player.store')@endphp
+                @else
+                    @php $action = route('tw.player.update',$aData['id']) @endphp
+                @endif
+                <form class="form-horizontal" method="POST" action="{{$action}}" onsubmit="return false" >
                     {{ csrf_field() }}
                     @if(!empty($aData['id']))
                         <input type="hidden" name="id" value="{{$aData['id']}}" />
@@ -49,7 +54,13 @@
                                     <div class="col-sm-7">
                                         <select class="form-control select2" name="activity_id" style="width:100%;">
                                             @foreach($oActivitys as  $v)
-                                                <option @if(!empty($aData['activity_id']) && $v['id'] == $aData['activity_id'])selected="selected"@endif value="{{$v['id']}}">{{$v['title']}}</option>
+                                                @if(!empty($aData['activity_id']))
+                                                    <option @if($v['id'] == $aData['activity_id'])selected="selected"@endif value="{{$v['id']}}">{{$v['title']}}</option>
+                                                @elseif (!empty(request()->get('activity_id')))
+                                                    <option @if($v['id'] == request()->get('activity_id'))selected="selected"@endif value="{{$v['id']}}">{{$v['title']}}</option>
+                                                @else
+                                                    <option value="{{$v['id']}}">{{$v['title']}}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

@@ -100,7 +100,11 @@ class ActivityController extends Controller
      */
     public function control(int $id)
     {
-        return view('tw::activity.control');
+        $oAcitity = $this->Model()->find($id);
+        if ($oAcitity)
+            return view('tw::activity.control');
+        else
+            return tw_abort("活动不存在！",404);
     }
 
     /**
