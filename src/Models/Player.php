@@ -141,7 +141,7 @@ class Player extends Model
             $playerKey = config('tw.redis_key.h3');
             $field = $player['activity_id'];
             Redis::hset($playerKey,$field,json_encode($player,true));
-            Redis::del(config('tw.redis_key.h1').$player['id']);
+//            Redis::del(config('tw.redis_key.h1').$player['id']);
         }
     }
 

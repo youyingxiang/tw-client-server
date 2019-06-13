@@ -29,7 +29,7 @@
             <li>
                 <div class="screen_judge_pw">
                     <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
-                    <p class="score_res">{{$hScore[$vo['id']] ?? 0.00}}</p>
+                    <p class="score_res">{{$hScore[$vo['id']] ?? "0.00"}}</p>
                 </div>
                 <p class="pw_name">{{$vo['name']}}</p>
             </li>
@@ -80,21 +80,25 @@
             //拿到任何消息都说明当前连接是正常的
             var data = JSON.parse(event.data);
             // 评委打分
-            if (data.judges_score) {
-                console.log(data.judges_score);
+            if (data.player && !jQuery.isEmptyObject(data.judges_score)) {
+
+                $('#screen_player_img').attr('src', data.player.img);
+                $('#screen_player_name').html(data.player.name);
                 $.each(data.judges_score,function (key,value) {
                     $("#judge"+key+"").next().html(value);
                 })
+            } else if (!data.player && data.judges_score) {
+                $.each(data.judges_score,function (key,value) {
+                    $("#judge"+key+"").next().html(value);
+                })
+            } else if (data.player && jQuery.isEmptyObject(data.judges_score)) {
+                $('#screen_player_img').attr('src', data.player.img);
+                $('#screen_player_name').html(data.player.name);
+                $('.score_res').each(function () {
+                    $(this).empty().html('0.00');
+                })
             } else if(data.url){
                 window.location.href=data.url;
-            } else {
-                $('#screen_player_img').attr('src', data.img);
-                $('#screen_player_name').html(data.name);
-                if (!data.message) {
-                    $('.score_res').each(function () {
-                        $(this).empty().html('0.00');
-                    })
-                }
             }
             heartCheck.reset().start();
         }
