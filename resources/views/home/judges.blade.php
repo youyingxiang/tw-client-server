@@ -13,9 +13,9 @@
     </div>
     <div class="judge_player">
         <div class="judge_tx">
-            <img id="screen_player_img" data-id="{{$aPlayer['id']}}" src="{{$aPlayer['img']}}" alt="">
+            <img id="screen_player_img" data-id="{{$aPlayer['id'] ?? ''}}" src="{{$aPlayer['img'] ?? ''}}" alt="">
         </div>
-        <p>当前选手：<b id="screen_player_name" >{{$aPlayer['name']}}</b></p>
+        <p>当前选手：<b id="screen_player_name" >{{$aPlayer['name'] ?? ''}}</b></p>
     </div>
     <div class="judge_fg"></div>
     <div class="judge_conter">
@@ -45,12 +45,15 @@
         } else if (score > 100) {
             alert('请输入0-100有效分数！');
             $("#score").val("");
+        } else if (!playerid) {
+            alert('当前没有推送的选手！');
+            $("#score").val("");
         } else {
             $.ajax({
                 url: "{{route('tw.home.postScoring')}}",
                 type:'post',
                 dataType: "json",
-                data:{activity_id:"{{$aPlayer['activity_id']}}",player_id:playerid,score:score,'judges_id':"{{request('judgesId')}}"},
+                data:{activity_id:"{{$sActivityId ??''}}",player_id:playerid,score:score,'judges_id':"{{request('judgesId')}}"},
                 error:function(data){
                     alert("服务器繁忙, 请联系管理员！");
                     return;
@@ -76,7 +79,7 @@
      */
     var ws;//websocket实例
     var lockReconnect = false;//避免重复连接
-    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$aPlayer['activity_id']}}&token={{hash_make(['judges',$aPlayer['activity_id']])}}';
+    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$sActivityId ??''}}&token={{hash_make(['judges',$sActivityId ??''])}}';
 
 
 

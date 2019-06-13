@@ -59,13 +59,20 @@ class ModelLogic implements Renderable
         $bSaveRes = false;
         $where   = $this->getWhere($aWhereData);
         $this->oModelResult = $this->model->where($where)->findOrFail($id);
-        DB::transaction(function () use ($aData,&$bSaveRes) {
+        DB::transaction(function () use ($aData,&$bSaveRes,$id) {
+            if (method_exists($this->model,'beforeUpdate')) {
+                call_user_func([$this->model,'beforeUpdate'],$id);
+            }
             $aUpdates = $this->prepare($aData);
             foreach ($aUpdates as $column => $value) {
                 /* @var Model $this->model */
                 $this->oModelResult->setAttribute($column, is_null($value)?'':$value);
             }
             $bSaveRes = $this->oModelResult->save();
+
+            if (method_exists($this->model,'afterUpdate')) {
+                call_user_func([$this->model,'afterUpdate'],$this->oModelResult);
+            }
         });
         if ($bSaveRes)
             return Tw::ajaxResponse("操作成功",$this->oModelResult->getIndexUrl());
@@ -133,11 +140,17 @@ class ModelLogic implements Renderable
      */
     public function destroy(string $id,$aWhereData = [])
     {
+        $bSaveRes = false;
         if (!empty($id)) {
             $ids = explode(',',$id);
         }
         $where = $this->getWhere($aWhereData);
-        $bSaveRes = $this->model->where($where)->whereIn('id',$ids)->delete();
+        DB::transaction(function ()use($where,$ids,&$bSaveRes) {
+            if (method_exists($this->model,'beforeDelete')) {
+                call_user_func([$this->model,'beforeDelete'],$ids);
+            }
+            $bSaveRes = $this->model->where($where)->whereIn('id',$ids)->delete();
+        });
         if ($bSaveRes)
             return Tw::ajaxResponse("操作成功",$this->model->getIndexUrl());
         else

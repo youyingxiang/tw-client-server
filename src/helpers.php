@@ -329,6 +329,22 @@ if (!function_exists("get_push_player")) {
     }
 }
 
+if (!function_exists("del_push_player")) {
+    /**
+     * @param int $activity_id
+     * @return mixed
+     * @see 删除推送选手
+     */
+    function del_push_player(int $activity_id)
+    {
+        $playerKey = config('tw.redis_key.h3');
+        return Redis::hdel($playerKey,$activity_id);
+    }
+
+}
+
+
+
 
 
 

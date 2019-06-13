@@ -33,11 +33,13 @@ class HomeController extends Controller
     public function judges(int $judgesId)
     {
         // 获取当前打分选手
-        $aPlayer = Tw::newModel('Judges')->getPlayerByRedis($judgesId);
-        if ($aPlayer)
-            return view('tw::home.judges',compact('aPlayer'));
-        else
+        $sActivityId = Tw::newModel("Judges")->where('id',$judgesId)->value('activity_id');
+        if ($sActivityId) {
+            $aPlayer = get_push_player($sActivityId);
+            return view('tw::home.judges', compact('aPlayer', 'sActivityId'));
+        } else {
             abort(404);
+        }
     }
 
     /**
@@ -69,9 +71,6 @@ class HomeController extends Controller
     {
         // 获取选手排名
         $aRank = Tw::newModel('Player')->getRank($activityId);
-        if ($aRank)
-            return view('tw::home.rank',compact('aRank'));
-        else
-            abort(404);
+        return view('tw::home.rank',compact('aRank'));
     }
 }

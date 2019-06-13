@@ -156,5 +156,42 @@ class Player extends Model
         return $aData;
     }
 
+    /**
+     * @param array $ids
+     * @see 删除之前对选手的redis同步
+     */
+    public function beforeDelete(array $ids)
+    {
+        foreach ($ids as $id) {
+            $activity_id = $this->where('id',$id)->value('activity_id');
+            $pushPlayer = get_push_player($activity_id);
+            if (!empty($pushPlayer) && $pushPlayer['id'] == $id)
+                del_push_player($activity_id); // 如果推送选手在删除之内 将其删除
+            $playerKey = config('tw.redis_key.h1').$id; // 删除得分信息
+            Redis::del($playerKey);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @see 修改之前钩子
+     */
+    public function beforeUpdate(int $id)
+    {
+
+    }
+
+    /**
+     * @author yxx
+     * @param int $id
+     * @see 修改之后钩子
+     */
+    public function afterUpdate(object $oData)
+    {
+        $aData = $oData->toArray();
+        $pushPlayer = get_push_player($aData['activity_id']);
+        if ($pushPlayer && $pushPlayer['id'] == $aData['id'])
+            $this->storePushPlayer($aData);
+    }
 
 }
