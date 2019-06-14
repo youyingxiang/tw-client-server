@@ -93,7 +93,7 @@ class PayOrderController extends Controller
     public function checkOrderState($order_no)
     {
         $aInput['order_no'] = $order_no;
-        $aData = $this->Model()->query();
+        $aData = $this->Model()->query($aInput);
         if (isset($aData[0]['pay_state'])) {
             $iState =  $aData[0]['pay_state'];
             if ($iState == 1) {
