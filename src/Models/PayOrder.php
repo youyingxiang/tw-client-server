@@ -8,6 +8,7 @@
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
 use Illuminate\Database\Eloquent\Model;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class PayOrder extends Model
 {
@@ -55,7 +56,7 @@ class PayOrder extends Model
      */
     public function getQrCodeByUrl(string $url)
     {
-        return \QrCode::size(400)->color(255,0,255)
+        return QrCode::size(400)->color(255,0,255)
             ->backgroundColor(255,255,0)
             ->generate($url);
     }

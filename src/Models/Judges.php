@@ -7,7 +7,6 @@
  */
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\Eloquent\SoftDeletes;

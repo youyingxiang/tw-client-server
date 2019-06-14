@@ -7,6 +7,7 @@
  */
 namespace Tw\Server\Logic;
 use Closure;
+use EasyWeChat;
 use Tw\Server\Facades\Tw;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -267,7 +268,8 @@ class ModelLogic implements Renderable
     public function wechatPay(object $orderInfo):string
     {
         $sData = "";
-        $app  = \EasyWeChat::payment();
+
+        $app  = EasyWeChat::payment();
         $result = $app->order->unify([
             'body'         => $orderInfo->order_info,
             'out_trade_no' => $orderInfo->order_no,
