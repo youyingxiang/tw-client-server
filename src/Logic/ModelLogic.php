@@ -208,6 +208,75 @@ class ModelLogic implements Renderable
         return $where;
     }
 
+    /**
+     * @param array $aInput
+     * @return mixed
+     * @see 生成订单
+     */
+    public function generateOrder(array $aInput)
+    {
+        if(
+            !empty($aInput['type'])
+            && in_array($aInput['type'],[1,2])
+            && !empty($aInput['pay_type'])
+            && !empty($aInput['activity_id'])
+        ) {
+            if ($aInput['type'] == 1) {
+                $aData['order_info'] = "开通高级活动";
+            } else if (request()->post('type') == 2) {
+                $aData['order_info'] = "购买天数";
+            }
+            $aData['order_no']   = get_order_no();
+            $aData['pay_type']   = $aInput['pay_type'];
+            $aData['pay_amount'] = 0.01;
+            $aData['admin_id']   = Tw::authLogic()->guard()->id();
+            $aData['activity_id']= $aInput['activity_id'];
+            return $this->store($aData);
+        } else {
+            return Tw::ajaxResponse("操作失败！");
+        }
+    }
+
+    /**
+     * @param array $aInput
+     * @return string
+     * @根据订单生成二维码
+     */
+    public function generateQrCode(array $aInput):string
+    {
+        $sData = "";
+        $aData     = $this->query($aInput);
+        $orderInfo = $aData['0']??'';
+
+        if ($orderInfo) {
+            $sCodeUrl = $this->wechatPay($orderInfo);
+            $sData = $this->model->getQrCodeByUrl($sCodeUrl);
+        }
+        return $sData;
+    }
+
+    /**
+     * @param object $orderInfo
+     * @return string
+     * @获取微信扫码支付二维码地址
+     */
+    public function wechatPay(object $orderInfo):string
+    {
+        $sData = "";
+        $app  = \EasyWeChat::payment();
+        $result = $app->order->unify([
+            'body'         => $orderInfo->order_info,
+            'out_trade_no' => $orderInfo->order_no,
+            'total_fee'    => ($orderInfo->pay_amount)*100,
+            'notify_url'   => route("tw.payorder.notify"), // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'trade_type'   => 'NATIVE',
+            'product_id'   => $orderInfo->activity_id
+        ]);
+        if (!empty($result['code_url'])) {
+            $sData = $result['code_url'];
+        }
+        return $sData;
+    }
 
 
 

@@ -355,6 +355,16 @@ if (!function_exists("tw_abort")) {
     }
 
 }
+if (!function_exists("get_order_no")) {
+    /**
+     * @return string
+     * @see 生成唯一单号
+     */
+    function get_order_no():string
+    {
+        return date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+    }
+}
 
 
 

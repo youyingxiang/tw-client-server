@@ -40,6 +40,14 @@ class Admin extends Model implements AuthenticatableContract
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pay_orders()
+    {
+        return $this->hasMany('Tw\Server\Models\PayOrder');
+    }
+
+    /**
      * @return string
      */
     public function getIndexUrl():string

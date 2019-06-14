@@ -15,9 +15,9 @@
             <div class="sever_user_text">
                 <img src="{{$user['img'] ?:tw_asset("/vendor/tw/global/face/default.png")}}" alt="">
                 <ul>
-                    <li><b>{{$user['name']}}</b><a href="">编辑昵称</a></li>
-                    <li class="sever_a1">手机号：{{$user['phone']}} <a href="">修改手机</a></li>
-                    <li class="sever_a1">密码：****** <a href="">修改密码</a></li>
+                    <li><b>{{$user['name']}}</b></li>
+                    <li class="sever_a1">手机号：{{$user['phone']}} </li>
+                    <li class="sever_a1">密码：****** </li>
                 </ul>
             </div>
         </div>
@@ -35,42 +35,17 @@
                         <th>时间</th>
                         <th>操作</th>
                     </tr>
+                    @foreach($oOrder as $v)
                     <tr>
-                        <td>2019060317210011</td>
-                        <td>开通高级活动</td>
-                        <td>微信支付</td>
-                        <td>已付款</td>
-                        <td>300.00</td>
-                        <td>2019-06-03 17:21:55</td>
-                        <td><a href="">删除</a></td>
+                        <td>{{$v['order_no']}}</td>
+                        <td>{{$v['order_info']}}</td>
+                        <td>{{$v['s_pay_type']}}</td>
+                        <td>{{$v['s_pay_state']}}</td>
+                        <td>{{$v['pay_amount']}}</td>
+                        <td>{{$v['created_at']}}</td>
+                        <td>{!! $v['go_pay'] !!}</td>
                     </tr>
-                    <tr>
-                        <td>2019060317210011</td>
-                        <td>开通高级活动</td>
-                        <td>微信支付</td>
-                        <td>已付款</td>
-                        <td>300.00</td>
-                        <td>2019-06-03 17:21:55</td>
-                        <td><a href="">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>2019060317210011</td>
-                        <td>开通高级活动</td>
-                        <td>微信支付</td>
-                        <td>已付款</td>
-                        <td>300.00</td>
-                        <td>2019-06-03 17:21:55</td>
-                        <td><a href="">删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>2019060317210011</td>
-                        <td>购买天数1天</td>
-                        <td>微信支付</td>
-                        <td>已付款</td>
-                        <td>300.00</td>
-                        <td>2019-06-03 17:21:55</td>
-                        <td><a href="">删除</a></td>
-                    </tr>
+                    @endforeach
                 </table>
             </div>
         </div>

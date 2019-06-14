@@ -43,6 +43,8 @@ trait Tw
                 $router->resource('player', 'PlayerController')->names('tw.player');
                 $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push');
                 $router->get('nextPlayer/{activity_id}', 'ActivityController@nextPlayer')->name('tw.player.nextPlayer');
+                $router->post('storeorder','PayOrderController@storeOrder')->name('tw.payorder.store');
+                $router->get('qrcode/{order_no}','PayOrderController@qrCode')->name('tw.payorder.qrcode');
             });
         });
         app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
@@ -50,6 +52,7 @@ trait Tw
             $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges');
             $router->post('postScoring',"HomeController@postScoring")->name('tw.home.postScoring');
             $router->get('rank/{activityId}',"HomeController@rank")->name("tw.home.rank");
+            $router->any('wechat_notify',"PayOrderController@wechatNotify")->name("tw.payorder.notify");
         });
     }
 

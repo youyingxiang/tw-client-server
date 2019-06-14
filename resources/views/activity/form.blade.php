@@ -71,6 +71,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if(!empty($aData))
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">活动续费</label>
+                                    <div class="col-sm-7"><a class="btn btn-default" id="level2"> 升级为高级活动</a><a style="margin-left:20px" class="btn btn-default"> 增加活动天数</a></div>
+                                </div>
+                                @endif
 
                             </div>
                         </div>
@@ -90,4 +96,55 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        $(function() {
+            function dialog(title,message,func) {
+                BootstrapDialog.confirm({
+                    onshow: function (obj) {
+                        var cssConf = {};
+                        cssConf['width'] = 300;
+                        if (cssConf) {
+                            obj.getModal().find('div.modal-dialog').css(cssConf);
+                        }
+                    },
+                    title: title,
+                    message: message,
+                    btnCancelLabel: '取消',
+                    btnOKLabel: '确定',
+                    callback: func
+                });
+            }
+            @if (!empty($aData['id']))
+            $("#level2").on('click',function(){
+                dialog("活动升级","确认升级高级活动？",function () {
+                    var url = '{{route("tw.payorder.store")}}';
+                    $.ajax({
+                        url: url,
+                        type:'post',
+                        data:{
+                            type:1,
+                            _token:"{{csrf_token()}}",
+                            pay_type:1,
+                            activity_id:"{{$aData['id']}}"
+                        },
+                        dataType: "json",
+                        error:function(data){
+                            $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                            return;
+                        },
+                        success:function(result){
+                            if(result.status == 1){
+                                $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})
+                            } else {
+                                $.amaran({'message':result.info});
+                            }
+                        },
+                    })
+                });
+            })
+            @endif
+
+
+        })
+    </script>
 @endsection

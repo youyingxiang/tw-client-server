@@ -13,6 +13,7 @@ class TwServerController extends Controller
     public function index()
     {
         $user = Tw::authLogic()->guard()->user();
-        return view('tw::index.index',compact('user'));
+        $oOrder = Tw::moldelLogic(Tw::newModel("PayOrder"))->query();
+        return view('tw::index.index',compact('user'),compact('oOrder'));
     }
 }
