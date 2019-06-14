@@ -48,6 +48,9 @@
                     @endforeach
                 </table>
             </div>
+            <div class="box-footer clearfix">
+                {{ $oOrder->links() }}
+            </div>
         </div>
     </div>
 @endsection

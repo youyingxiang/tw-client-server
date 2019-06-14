@@ -26,6 +26,11 @@ class PayOrder extends Model
      * @var array and 条件查询字段
      */
     protected $and_fields = ['order_no'];
+    /**
+     * @var int
+     * @see 分页
+     */
+    public  $query_page = 5;
 
     /**
      * PayOrder constructor.

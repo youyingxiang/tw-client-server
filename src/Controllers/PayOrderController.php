@@ -22,7 +22,15 @@ class PayOrderController extends Controller
         $aInput['pay_type']    = (int)request()->post('pay_type'); // 支付类型
         $aInput['activity_id'] = (int)request()->post('activity_id');
         $aInput['days']        = (int)request()->post('days');     // 活动续费天数
-        return $this->Model()->generateOrder($aInput);
+        // 检测当前活动是不是当前用户旗下的
+        $aActivity = Tw::moldelLogic(Tw::newModel("Activity"))->find($aInput['activity_id']);
+
+       if (isset($aActivity['level'])) {
+           $aInput['level'] = $aActivity['level'];
+           return $this->Model()->generateOrder($aInput);
+       } else {
+           return Tw::ajaxResponse("续费活动不存在！");
+       }
     }
 
     /**

@@ -20,8 +20,6 @@ class ModelLogic implements Renderable
      * @var
      */
     protected $model;
-
-
     /**
      * @var
      */
@@ -119,10 +117,24 @@ class ModelLogic implements Renderable
             $aOrder = ['id','desc'];
         }
 //        DB::enableQueryLog();
-        $aData = $this->model->where($where)->where($orWhere)->orderBy($aOrder[0],$aOrder[1])->paginate(15);
+        $aData = $this->model->where($where)->where($orWhere)->orderBy($aOrder[0],$aOrder[1])->paginate($this->getPage());
 //        dd((DB::getQueryLog()));
         return $aData;
     }
+
+    /**
+     * @return int
+     */
+    public function getPage():int
+    {
+        if (property_exists($this->model,'query_page')) {
+            $page = $this->model->query_page;
+        } else {
+            $page = 15;
+        }
+        return $page;
+    }
+
 
     /**
      * @param array $aWhereData
@@ -222,9 +234,11 @@ class ModelLogic implements Renderable
             && !empty($aInput['pay_type'])
             && !empty($aInput['activity_id'])
         ) {
-            if ($aInput['type'] == 1) {
+            if ($aInput['type'] == 1 && isset($aInput['level']) && $aInput['level'] == 1) {
                 $aData['order_info'] = "开通高级活动";
                 $aData['pay_amount'] = config('tw.pay_amount_base.senior');
+            } else if ($aInput['type'] == 1 && isset($aInput['level']) && $aInput['level'] == 2) {
+                return Tw::ajaxResponse("当前活动已经是高级活动了！");
             } else if ($aInput['type'] == 2 && !empty($aInput['days'])) {
                 $aData['order_info'] = "购买天数".$aInput['days']."天";
                 $aData['pay_amount'] = config('tw.pay_amount_base.oneday')*$aInput['days'];
