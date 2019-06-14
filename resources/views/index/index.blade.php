@@ -33,7 +33,7 @@
                         <th>状态</th>
                         <th>活动名称</th>
                         <th>金额</th>
-                        <th>支付完成时间</th>
+                        <th>支付时间</th>
                         <th>操作</th>
                     </tr>
                     @foreach($oOrder as $v)
