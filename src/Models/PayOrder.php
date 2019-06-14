@@ -96,6 +96,7 @@ class PayOrder extends Model
      */
     public function getSPayStateAttribute():string
     {
+        $sRes = '';
         if($this->pay_state == 0)
             $sRes = "未支付";
         else if ($this->pay_state == 1)
@@ -107,6 +108,7 @@ class PayOrder extends Model
 
     public function getSPayTypeAttribute():string
     {
+         $type = '';
          if ($this->pay_type == 1)
              $type = "微信支付";
          else if ($this->pay_type == 2)
