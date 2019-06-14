@@ -50,11 +50,31 @@ class ModelLogic implements Renderable
     }
 
     /**
+     * @param string $activity_id
+     * @return bool
+     * @人数限制
+     */
+    public function checkRestrict(string $activity_id):bool
+    {
+        $bFlag = true;
+        if (method_exists($this->model,'restrict') && !empty($aData['activity_id'])) {
+            $res = call_user_func([$this->model, 'restrict'],$aData['activity_id']);
+            if (false == $res)
+                $bFlag = true;
+        }
+        return $bFlag;
+    }
+
+    /**
      * @param string $id
      * @param array $data
      */
     public function update(string $id, array $aData = [],array $aWhereData = [])
     {
+        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id']) == false) {
+            return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
+        }
+
         $bSaveRes = false;
         $where   = $this->getWhere($aWhereData);
         $this->oModelResult = $this->model->where($where)->findOrFail($id);
@@ -85,10 +105,8 @@ class ModelLogic implements Renderable
      */
     public function store(array $aData = [])
     {
-        if (method_exists($this->model,'restrict') && !empty($aData['activity_id'])) {
-            $res = call_user_func([$this->model, 'restrict'],$aData['activity_id']);
-            if (false == $res)
-                return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
+        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id']) == false) {
+            return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
         }
         $bSaveRes = false;
         DB::transaction(function ()use($aData,&$bSaveRes) {

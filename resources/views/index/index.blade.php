@@ -44,7 +44,7 @@
                         <td>{{$v['s_pay_state']}}</td>
                         <td>{{$v->activity['title']}}</td>
                         <td>{{$v['pay_amount']}}</td>
-                        <td>{{$v['created_at']}}</td>
+                        <td>{{$v['updated_at']}}</td>
                         <td>{!! $v['go_pay'] !!}</td>
                     </tr>
                     @endforeach
