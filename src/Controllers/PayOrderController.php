@@ -7,6 +7,7 @@
  * Desc: 支付
  */
 namespace Tw\Server\Controllers;
+use EasyWeChat;
 use Tw\Server\Facades\Tw;
 use Illuminate\Routing\Controller;
 class PayOrderController extends Controller
@@ -47,7 +48,23 @@ class PayOrderController extends Controller
      */
     public function wechatNotify()
     {
-        dd('124');
+        $app = EasyWeChat::payment();
+        $response = $app->handlePaidNotify(function($message, $fail){
+            //$order = $message['out_trade_no'];
+            file_put_contents("wecahtinfo.log","\r\n".json_encode($fail),FILE_APPEND);
+//            if ($message['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
+//                // 用户是否支付成功
+//                if (array_get($message, 'result_code') === 'SUCCESS') {
+//
+//                } elseif (array_get($message, 'result_code') === 'FAIL') {
+//                    $order->status = 'paid_fail';
+//                }
+//            } else {
+//                return $fail('通信失败，请稍后再通知我');
+//            }
+//            return true; // 返回处理完成
+        });
+        return $response;
     }
 
 }
