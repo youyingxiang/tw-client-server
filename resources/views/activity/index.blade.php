@@ -80,8 +80,11 @@
                                                     href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i
                                                         class="img_4"></i>
                                                 <p>选手设置</p></a></div>
-                                        <div class="pt_ico"><i class="img_5"></i>
-                                            <p>屏幕控制</p></div>
+                                        <div class="pt_ico">
+                                            <a href="{{route('tw.activity.control',$vo['id'])}}">
+                                            <i class="img_5"></i>
+                                                <p>屏幕控制</p></a>
+                                        </div>
                                     </div>
                                 </li>
                             @endforeach
