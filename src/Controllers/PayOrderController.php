@@ -67,4 +67,28 @@ class PayOrderController extends Controller
         return $response;
     }
 
+    /**
+     * @param $order_no
+     * @see 检测订单支付状态
+     */
+    public function checkOrderState($order_no)
+    {
+        $aInput['order_no'] = $order_no;
+        $aData = $this->Model()->query();
+        if (isset($aData[0]['pay_state'])) {
+            $iState =  $aData[0]['pay_state'];
+            if ($iState == 1) {
+                return Tw::ajaxResponse("支付成功！",route("tw.index.index"));
+            } elseif  ($iState == 0) {
+                return Tw::ajaxResponse("支付未完成！");
+            } else {
+                return Tw::ajaxResponse("支付失败！");
+            }
+        } else {
+            return Tw::ajaxResponse("订单不存在！");
+        }
+
+    }
+
+
 }

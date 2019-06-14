@@ -137,4 +137,8 @@ return [
         's3' => "str:send_msg:code:",   // 短信验证码
         's4' => "str:send_msg:log"      // 短信异常日志
     ],
+    'pay_amount_base' => [
+        'senior' => 0.01,   // 开通高级活动的钱
+        'oneday' => 0.01,   // 续费一天的钱
+    ],
 ];

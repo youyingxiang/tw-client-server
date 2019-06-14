@@ -66,11 +66,14 @@ class PayOrder extends Model
      */
     public function getGoPayAttribute():string
     {
-
+        $sData = '';
         if (!$this->pay_state) {
             $url = $this->getIndexUrl();
-            return "<a href=".$url." >去完成支付</a>";
+            $sData = "<a href=".$url." >去完成支付</a>";
+        } else {
+            $sData = "<a href='javascript:void(0)' >已完成支付</a>";
         }
+        return $sData;
     }
 
     /**

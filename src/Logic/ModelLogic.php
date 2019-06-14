@@ -224,13 +224,14 @@ class ModelLogic implements Renderable
         ) {
             if ($aInput['type'] == 1) {
                 $aData['order_info'] = "开通高级活动";
+                $aData['pay_amount'] = config('tw.pay_amount_base.senior');
             } else if ($aInput['type'] == 2 && !empty($aInput['days'])) {
                 $aData['order_info'] = "购买天数".$aInput['days']."天";
+                $aData['pay_amount'] = config('tw.pay_amount_base.oneday')*$aInput['days'];
             }
             if ($aData['order_info']) {
                 $aData['order_no'] = get_order_no();
                 $aData['pay_type'] = $aInput['pay_type'];
-                $aData['pay_amount'] = 0.01;
                 $aData['admin_id'] = Tw::authLogic()->guard()->id();
                 $aData['activity_id'] = $aInput['activity_id'];
                 return $this->store($aData);

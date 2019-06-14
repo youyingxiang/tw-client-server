@@ -45,6 +45,8 @@ trait Tw
                 $router->get('nextPlayer/{activity_id}', 'ActivityController@nextPlayer')->name('tw.player.nextPlayer');
                 $router->post('storeorder','PayOrderController@storeOrder')->name('tw.payorder.store');
                 $router->get('qrcode/{order_no}','PayOrderController@qrCode')->name('tw.payorder.qrcode');
+                $router->get('check_order_state/{order_no}','PayOrderController@checkOrderState')->name('tw.payorder.check');
+
             });
         });
         app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
