@@ -7,6 +7,7 @@
  */
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -56,6 +57,14 @@ class PayOrder extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function activity()
+    {
+        return $this->belongsTo('Tw\Server\Models\Activity');
+    }
+
+    /**
      * @param string $url
      * @return mixed
      */
@@ -75,7 +84,7 @@ class PayOrder extends Model
         if (!$this->pay_state) {
             $url = $this->getIndexUrl();
             $sData = "<a href=".$url." >去完成支付</a>";
-        } else {
+        } else if ($this->pay_state == 1) {
             $sData = "<a href='javascript:void(0)' >已完成支付</a>";
         }
         return $sData;
@@ -87,7 +96,13 @@ class PayOrder extends Model
      */
     public function getSPayStateAttribute():string
     {
-        return $this->pay_state?"已支付":"未支付";
+        if($this->pay_state == 0)
+            $sRes = "未支付";
+        else if ($this->pay_state == 1)
+            $sRes = "已支付";
+        else if ($this->pay_state == 2)
+            $sRes = "支付失败";
+        return $sRes;
     }
 
     public function getSPayTypeAttribute():string
@@ -125,4 +140,54 @@ class PayOrder extends Model
     {
         return $this->and_fields??[];
     }
+
+    /**
+     * @param string $order
+     * @see 订单号是否存在
+     */
+    public function isExistsOrderNo(string $order_no):object
+    {
+        $awhere['order_no'] = $order_no;
+        $order = $this->where($awhere)->first();
+        return $order;
+    }
+
+    /**
+     * @param object $order
+     * 改变订单状态
+     */
+    public function changeOrderState(object $order)
+    {
+        DB::transaction(function () use ($order){
+            $order->save();
+            // 开通高级活动
+            if ($order['type'] == 1) {
+                $this->OrderStateLevel2($order);
+            } else if ($order['type'] == 2) {  //续费天数
+                $this->OrderStateLevel1($order);
+            }
+        });
+    }
+
+    /**
+     * @param object $order
+     * 升级为高级活动
+     */
+    public function OrderStateLevel2(object $order)
+    {
+        $order->activity->level = 2;
+        return $order->activity->save();
+    }
+
+    /**
+     * @param object $order
+     * @天数续费
+     */
+    public function OrderStateLevel1(object $order)
+    {
+        return $order->activity->increment('days',$order['days']);
+    }
+
+
+
 }

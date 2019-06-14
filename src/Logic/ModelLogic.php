@@ -235,11 +235,14 @@ class ModelLogic implements Renderable
             && !empty($aInput['activity_id'])
         ) {
             if ($aInput['type'] == 1 && isset($aInput['level']) && $aInput['level'] == 1) {
+                $aData['type'] = 1;
                 $aData['order_info'] = "开通高级活动";
                 $aData['pay_amount'] = config('tw.pay_amount_base.senior');
             } else if ($aInput['type'] == 1 && isset($aInput['level']) && $aInput['level'] == 2) {
                 return Tw::ajaxResponse("当前活动已经是高级活动了！");
             } else if ($aInput['type'] == 2 && !empty($aInput['days'])) {
+                $aData['type'] = 2;
+                $aData['days'] = $aInput['days'];
                 $aData['order_info'] = "购买天数".$aInput['days']."天";
                 $aData['pay_amount'] = config('tw.pay_amount_base.oneday')*$aInput['days'];
             }
@@ -270,7 +273,8 @@ class ModelLogic implements Renderable
 
         if ($orderInfo) {
             $sCodeUrl = $this->wechatPay($orderInfo);
-            $sData = $this->model->getQrCodeByUrl($sCodeUrl);
+            if ($sCodeUrl)
+                $sData = $this->model->getQrCodeByUrl($sCodeUrl);
         }
         return $sData;
     }

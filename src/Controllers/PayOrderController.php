@@ -40,7 +40,10 @@ class PayOrderController extends Controller
     {
         $aInput['order_no'] = $order_no;
         $qrcode = $this->Model()->generateQrCode($aInput);
-        return view("tw::activity.qrcode",compact('qrcode'));
+        if ($qrcode)
+            return view("tw::activity.qrcode",compact('qrcode'));
+        else
+            return tw_abort("支付异常,检测订单是否完成了支付！",401);
     }
 
     /**
@@ -58,19 +61,27 @@ class PayOrderController extends Controller
     {
         $app = EasyWeChat::payment();
         $response = $app->handlePaidNotify(function($message, $fail){
-            //$order = $message['out_trade_no'];
-            file_put_contents("wecahtinfo.log","\r\n".json_encode($fail),FILE_APPEND);
-//            if ($message['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
-//                // 用户是否支付成功
-//                if (array_get($message, 'result_code') === 'SUCCESS') {
-//
-//                } elseif (array_get($message, 'result_code') === 'FAIL') {
-//                    $order->status = 'paid_fail';
-//                }
-//            } else {
-//                return $fail('通信失败，请稍后再通知我');
-//            }
-//            return true; // 返回处理完成
+            // 根据订单号码查看订单是否存在
+            if (isset($message['out_trade_no'])) {
+                $order = Tw::newModel("PayOrder")->isExistsOrderNo($message['out_trade_no']);
+                if (!$order || $order['pay_state'] != 0) {
+                    file_put_contents("wechatlogs.log","\r\n".'告诉微信没有订单需要处理了'."\r\n".json_encode($order),FILE_APPEND);
+                    return true;
+                }
+            }
+
+            if ($message['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
+                // 用户是否支付成功
+                if (array_get($message, 'result_code') === 'SUCCESS') {
+                    $order->pay_state = 1;//支付成功
+                } elseif (array_get($message, 'result_code') === 'FAIL') {
+                    $order->pay_state = 2;       //支付失败
+                }
+            } else {
+                return $fail('通信失败，请稍后再通知我');
+            }
+            Tw::newModel("PayOrder")->changeOrderState($order);
+            return true; // 返回处理完成
         });
         return $response;
     }

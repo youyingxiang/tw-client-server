@@ -31,6 +31,7 @@
                         <th>订单信息</th>
                         <th>支付方式</th>
                         <th>状态</th>
+                        <th>活动名称</th>
                         <th>金额</th>
                         <th>时间</th>
                         <th>操作</th>
@@ -41,6 +42,7 @@
                         <td>{{$v['order_info']}}</td>
                         <td>{{$v['s_pay_type']}}</td>
                         <td>{{$v['s_pay_state']}}</td>
+                        <td>{{$v->activity['title']}}</td>
                         <td>{{$v['pay_amount']}}</td>
                         <td>{{$v['created_at']}}</td>
                         <td>{!! $v['go_pay'] !!}</td>
