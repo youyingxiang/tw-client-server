@@ -60,7 +60,7 @@ class ModelLogic implements Renderable
         if (method_exists($this->model,'restrict') && !empty($aData['activity_id'])) {
             $res = call_user_func([$this->model, 'restrict'],$aData['activity_id']);
             if (false == $res)
-                $bFlag = true;
+                $bFlag = false;
         }
         return $bFlag;
     }
