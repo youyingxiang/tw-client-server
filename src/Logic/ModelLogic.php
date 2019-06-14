@@ -57,10 +57,8 @@ class ModelLogic implements Renderable
     public function checkRestrict(string $activity_id):bool
     {
         $bFlag = true;
-        if (method_exists($this->model,'restrict') && !empty($aData['activity_id'])) {
-            $res = call_user_func([$this->model, 'restrict'],$aData['activity_id']);
-            if (false == $res)
-                $bFlag = false;
+        if (method_exists($this->model,'restrict')) {
+            $bFlag = call_user_func([$this->model, 'restrict'],$activity_id);
         }
         return $bFlag;
     }
