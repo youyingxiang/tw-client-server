@@ -223,15 +223,19 @@ class ModelLogic implements Renderable
         ) {
             if ($aInput['type'] == 1) {
                 $aData['order_info'] = "开通高级活动";
-            } else if (request()->post('type') == 2) {
-                $aData['order_info'] = "购买天数";
+            } else if ($aInput['type'] == 2 && !empty($aInput['days'])) {
+                $aData['order_info'] = "购买天数".$aInput['days']."天";
             }
-            $aData['order_no']   = get_order_no();
-            $aData['pay_type']   = $aInput['pay_type'];
-            $aData['pay_amount'] = 0.01;
-            $aData['admin_id']   = Tw::authLogic()->guard()->id();
-            $aData['activity_id']= $aInput['activity_id'];
-            return $this->store($aData);
+            if ($aData['order_info']) {
+                $aData['order_no'] = get_order_no();
+                $aData['pay_type'] = $aInput['pay_type'];
+                $aData['pay_amount'] = 0.01;
+                $aData['admin_id'] = Tw::authLogic()->guard()->id();
+                $aData['activity_id'] = $aInput['activity_id'];
+                return $this->store($aData);
+            } else {
+                return Tw::ajaxResponse("操作失败！");
+            }
         } else {
             return Tw::ajaxResponse("操作失败！");
         }

@@ -20,6 +20,7 @@ class PayOrderController extends Controller
         $aInput['type']        = (int)request()->post('type');     // 支付信息
         $aInput['pay_type']    = (int)request()->post('pay_type'); // 支付类型
         $aInput['activity_id'] = (int)request()->post('activity_id');
+        $aInput['days']        = (int)request()->post('days');     // 活动续费天数
         return $this->Model()->generateOrder($aInput);
     }
 
@@ -29,7 +30,8 @@ class PayOrderController extends Controller
     public function qrCode($order_no)
     {
         $aInput['order_no'] = $order_no;
-        return $this->Model()->generateQrCode($aInput);
+        $qrcode = $this->Model()->generateQrCode($aInput);
+        return view("tw::activity.qrcode",compact('qrcode'));
     }
 
     /**
