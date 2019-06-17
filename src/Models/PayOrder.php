@@ -158,17 +158,26 @@ class PayOrder extends Model
      * @param object $order
      * 改变订单状态
      */
-    public function changeOrderState(object $order)
+    public function changeOrderState(object $order):bool
     {
-        DB::transaction(function () use ($order){
-            $order->save();
-            // 开通高级活动
-            if ($order['type'] == 1) {
-                $this->OrderStateLevel2($order);
-            } else if ($order['type'] == 2) {  //续费天数
-                $this->OrderStateLevel1($order);
+        // 乐观锁处理
+        $awhere['order_no'] = $order['order_no'];
+        $awhere['version']  = $order['version'];
+        $aInput['pay_state'] = 1;
+        $aInput['version'] = $order['version']+1;
+        $bRes = DB::transaction(function () use ($order,$awhere,$aInput){
+            $bRes = $this->where($awhere)->update($aInput);
+            if ($bRes) {
+                // 开通高级活动
+                if ($order['type'] == 1) {
+                    $this->OrderStateLevel2($order);
+                } else if ($order['type'] == 2) {  //续费天数
+                    $this->OrderStateLevel1($order);
+                }
             }
+            return $bRes;
         });
+        return (bool)$bRes;
     }
 
     /**

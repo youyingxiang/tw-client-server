@@ -61,22 +61,8 @@ class PayOrderController extends Controller
     {
         $app = EasyWeChat::payment();
         $response = $app->handlePaidNotify(function($message, $fail){
-
             if ($message['return_code'] === 'SUCCESS' && isset($message['out_trade_no'])) { // return_code 表示通信状态，不代表支付状态
-                // 根据订单号码查看订单是否存在
-                $order = Tw::newModel("PayOrder")->isExistsOrderNo($message['out_trade_no']);
-
-                if (!$order || $order['pay_state'] != 0) {
-                    return true;
-                }
-                // 用户是否支付成功
-                if (array_get($message, 'result_code') === 'SUCCESS') {
-                    $order->pay_state = 1;//支付成功
-                } elseif (array_get($message, 'result_code') === 'FAIL') {
-                    $order->pay_state = 2;       //支付失败
-                }
-                Tw::newModel("PayOrder")->changeOrderState($order);
-                return true; // 返回处理完成
+                return $this->Model()->wecahtNotifyOrderLogic($message);
             } else {
                 return $fail('通信失败，请稍后再通知我');
             }
