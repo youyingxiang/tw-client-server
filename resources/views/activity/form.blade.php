@@ -1,9 +1,9 @@
 @if(!empty($aData['id']))
-    {{$btname = '修改用户'}}
+    {{$btname = '修改活动'}}
 @else
-    {{$btname = '增加用户'}}
+    {{$btname = '增加活动'}}
 @endif
-@extends('tw::layout.base',['header' => "活动 ".$btname,'pageTitle'=>'个人中心',"pageBtnName"=>$btname])
+@extends('tw::layout.base',['header' => "活动 ".$btname,'pageTitle'=>'活动',"pageBtnName"=>$btname])
 @section('content')
     <section class="content">
         <div class="row">

@@ -121,7 +121,7 @@ $('.editable').editable({
         success: function(response, newValue) {
             if(response.status == 1){
             }else{
-                return res.info;
+                return response.info;
             }
         }
     });

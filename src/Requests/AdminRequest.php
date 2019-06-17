@@ -47,10 +47,10 @@ class AdminRequest extends FormRequest implements TwRequestI
     public function setRules(): void
     {
         $this->rules = [
-            'name' => 'required|max:128',
-            'phone' => 'required|max:20|unique:tw_admin,phone,'.$this->getInputId(),
+            'name' => 'required|max:32',
+            'phone' => 'max:20|unique:tw_admin,phone,'.$this->getInputId(),
             'rphone' => 'required|max:20|unique:tw_admin,phone',  // 前端发送验证码
-            'password' => 'required|max:60|min:6',
+            'password' => 'max:60|min:6',
             'repassword' => 'same:password',
             'email' => 'nullable|email',
             'img' => 'max:300',
@@ -76,7 +76,7 @@ class AdminRequest extends FormRequest implements TwRequestI
     {
         return [
             'name.required' => '用户昵称不能为空！',
-            'name.max'  => "用户昵称长度不能超过128个字符！",
+            'name.max'  => "用户昵称长度不能超过32个字符！",
             'phone.required' => '手机号码不能为空！',
             'phone.unique' => '手机号码已经存在！',
             'phone.max'     => '手机号码长度不能超过20个字符！',

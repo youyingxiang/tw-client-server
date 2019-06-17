@@ -1,17 +1,5 @@
 @extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>'选手',"pageBtnName"=>'活动列表'])
 @section('content')
-    <style>
-        .screen-box .box-tools .input-group .input-group-btn .btn{height:34px;}
-        @media screen and (max-width:769px){
-            .screen-box > .box-tools{position:static;}
-            .screen-box > .pull-left{margin-bottom:10px;}
-            .screen-box .input-group{width:100% !important;}
-            .screen-box .select2-container{}
-            .screen-box .box-tools .input-group .pull-right{margin-bottom:10px;}
-            .screen-box .box-tools .input-group .pull-right,.screen-box .box-tools .input-group .pull-left,.screen-box .box-tools .input-group .pull-left .select2-container{width:100% !important;}
-            .screen-box .box-tools .input-group .input-group-btn{vertical-align:bottom;}
-        }
-    </style>
     <section class="content">
         <div class="row">
             <div class="col-md-12">
@@ -22,28 +10,7 @@
                             {!! button(route('tw.player.create'),'create') !!}
                             {!! button(route('tw.player.destroy','all'),'delete_all') !!}
                         </div>
-                        <div class="box-tools" style="top:10px;">
-                            <form action="{{search_url('search')}}" method="GET" pjax-search="">
-                                <div class="input-group input-group-sm" style="width:600px">
-                                    <div class='pull-right' style="width:40%">
-                                        <input type="text" name="search" class="form-control" value="{{request()->get('search')}}" placeholder="搜索" />
-                                    </div>
-                                    <div class='pull-left' style="width:60%">
-                                        <select name="activity_id" class="form-control select2" placeholder="搜索">
-                                            <option value="">请选择活动项目</option>
-                                            @foreach(Tw::admin()->activitys as $vo)
-                                            <option @if(request()->get('activity_id') == $vo['id'])selected='selected' @endif value="{{$vo['id']}}">
-                                            {{$vo['title']}}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default sreachs"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        @include('tw::layout.search')
                     </div>
                     <div class="box-body table-responsive">
                         <table class="table table-bordered table-hover table-sort">

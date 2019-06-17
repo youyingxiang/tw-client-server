@@ -40,7 +40,7 @@ class Tw
      */
     public static function getTitle():string
     {
-        return self::$metaTitle ? self::$metaTitle : "tw-server";
+        return self::$metaTitle ? self::$metaTitle : "天维评分系统";
     }
 
     /**

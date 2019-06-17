@@ -55,9 +55,13 @@
                                         <select class="form-control select2" name="activity_id" style="width:100%;">
                                             @foreach($oActivitys as  $v)
                                                 @if(!empty($aData['activity_id']))
-                                                    <option @if($v['id'] == $aData['activity_id'])selected="selected"@endif value="{{$v['id']}}">{{$v['title']}}</option>
+                                                    @if($v['id'] == $aData['activity_id'])
+                                                    <option selected="true" value="{{$v['id']}}">{{$v['title']}}</option>
+                                                    @endif
                                                 @elseif (!empty(request()->get('activity_id')))
-                                                    <option @if($v['id'] == request()->get('activity_id'))selected="selected"@endif value="{{$v['id']}}">{{$v['title']}}</option>
+                                                    @if(request()->get('activity_id') == $v['id'])
+                                                    <option selected="true" value="{{$v['id']}}">{{$v['title']}}</option>
+                                                    @endif
                                                 @else
                                                     <option value="{{$v['id']}}">{{$v['title']}}</option>
                                                 @endif
