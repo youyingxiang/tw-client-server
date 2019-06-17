@@ -24,7 +24,7 @@ class AuthLogic
     /**
      * @var string
      */
-    public $redirectTo = "tw-server";
+    public $redirectTo = "activity";
     /**
      * @var string
      */

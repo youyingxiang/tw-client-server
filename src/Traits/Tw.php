@@ -36,7 +36,7 @@ trait Tw
                 $router->post('register','AuthController@postRegister');
                 $router->post('sendMsg','AuthController@sendMsg')->name('tw.sendmsg');
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
-                $router->post('userinfo', 'AdminController@postUserinfo');
+                $router->post('userinfo', 'AdminController@postUserinfo')->name("tw.userinfo.update");
                 $router->resource('activity', 'ActivityController')->names('tw.activity');
                 $router->get('control/{id}', 'ActivityController@control')->name('tw.activity.control');
                 $router->resource('judges', 'JudgesController')->names('tw.judges');
