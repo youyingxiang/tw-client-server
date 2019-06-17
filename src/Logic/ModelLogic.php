@@ -425,6 +425,28 @@ class ModelLogic implements Renderable
     }
 
     /**
+     * @param string $order_no
+     * @see 微信回调订单逻辑
+     */
+    public function wecahtNotifyOrderLogic(array $message):bool
+    {
+        $oOrder = $this->model->isExistsOrderNo($message['out_trade_no']);
+        if (!$oOrder || $oOrder['pay_state'] != 0) {
+            $bRes = true;
+        } else {
+            // 用户是否支付成功
+            if (array_get($message, 'result_code') === 'SUCCESS') {
+                $oOrder->pay_state = 1;//支付成功
+            } elseif (array_get($message, 'result_code') === 'FAIL') {
+                $oOrder->pay_state = 2;       //支付失败
+            }
+            $bRes = $this->model->changeOrderState($oOrder);
+        }
+        return $bRes;
+    }
+
+
+    /**
      * @param $name
      * @param $arguments
      * @return mixed
