@@ -149,23 +149,23 @@ class Swoole extends Command
                 if ($jContent && ($jContent['page'] == "home" || $jContent['page'] =="judges" )&& $aData['type'] == "1") {
                     if ($aResult->activity_id == $jContent['activity']) { // 根据推送返回Id 查询选手信息 找到属于活动 只推送给对应活动
                         $aRes['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
-                        $aRes['player'] = $aResult;
-                        self::$server->push($fd, json_encode($aRes, JSON_UNESCAPED_UNICODE));
+                        $aRes['player'] = (array)$aResult;
+                        self::$server->push($fd, xss_json($aRes));
                     }
                 } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 2) {
                     if ($aResult->activity_id == $jContent['activity']) {
                         $hData['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
-                        self::$server->push($fd, json_encode($hData,JSON_UNESCAPED_UNICODE));
+                        self::$server->push($fd, xss_json($hData));
                     }
                 } else if ($jContent && $jContent['page'] == "rank" && $aData['type'] == 3) {
                     if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
                         $jData['url'] = route('tw.home',$aData['activity']);
-                        self::$server->push($fd,json_encode($jData,true));
+                        self::$server->push($fd,xss_json($jData));
                     }
                 } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 4) {
                     if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
                         $jData['url'] = route('tw.home.rank',$aData['activity']);
-                        self::$server->push($fd,json_encode($jData,true));
+                        self::$server->push($fd,xss_json($jData));
                     }
                 }
             } else {

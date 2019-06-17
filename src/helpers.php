@@ -366,6 +366,41 @@ if (!function_exists("get_order_no")) {
     }
 }
 
+if (!function_exists("xss_json")) {
+    /**
+     * @param array $aInput
+     * @return false|string
+     * json xss过滤
+     */
+    function xss_json(array $aInput):string
+    {
+        safe_filter($aInput);
+        return json_encode($aInput, JSON_UNESCAPED_UNICODE);
+    }
+
+}
+if (!function_exists("safe_filter")) {
+    /**
+     * @param $arr
+     * @see php防注入和XSS攻击通用过滤.
+     */
+    function safe_filter(&$arr) {
+        if (is_array($arr)) {
+            foreach ($arr as $key => $value) {
+                if (!is_array($value)) {
+                    if (!get_magic_quotes_gpc()) {
+                        $value    = addslashes($value);    //给单引号（'）、双引号（"）、反斜线（\）与 NUL（NULL 字符）加上反斜线转义
+                    }
+                    $arr[$key]         = htmlspecialchars($value,ENT_QUOTES);   //&,",',> ,< 转为html实体 &,"',>,<
+                } else {
+                    safe_filter($arr[$key]);
+                }
+            }
+        }
+    }
+
+}
+
 
 
 
