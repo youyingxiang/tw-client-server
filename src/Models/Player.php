@@ -101,7 +101,7 @@ class Player extends Model
      * @return array
      * @see 普通用户 最多添加n个选手
      */
-    public function restrict(string $activity_id):bool
+    public function restrict(string $activity_id,int $iFlag):bool
     {
         $bFlag = false;
         $limit = config('tw.restrict.player',10);
@@ -109,7 +109,7 @@ class Player extends Model
         if (isset($activityInfo['level']) && $activityInfo['level'] == 1) {
             $players = $this->where(['admin_id' => Tw::authLogic()->guard()->id(),'activity_id'=>$activity_id])->count();
             if ($players > 0)
-                $bFlag =  $limit > $players;
+                $bFlag =  ($iFlag == 1) ? $limit > $players : $limit >= $players;
             else if ($players == 0)
                 $bFlag = true;
         } else if (isset($activityInfo['level']) && $activityInfo['level'] == 2)

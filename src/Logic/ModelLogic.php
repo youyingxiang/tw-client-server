@@ -52,13 +52,14 @@ class ModelLogic implements Renderable
     /**
      * @param string $activity_id
      * @return bool
+     * @param $flag 1增加判断  2 修改判断
      * @人数限制
      */
-    public function checkRestrict(string $activity_id):bool
+    public function checkRestrict(string $activity_id,int $flag):bool
     {
         $bFlag = true;
         if (method_exists($this->model,'restrict')) {
-            $bFlag = call_user_func([$this->model, 'restrict'],$activity_id);
+            $bFlag = call_user_func_array([$this->model, 'restrict'],[$activity_id,$flag]);
         }
         return $bFlag;
     }
@@ -69,7 +70,7 @@ class ModelLogic implements Renderable
      */
     public function update(string $id, array $aData = [],array $aWhereData = [])
     {
-        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id']) == false) {
+        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id'],2) == false) {
             return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
         }
 
@@ -103,7 +104,7 @@ class ModelLogic implements Renderable
      */
     public function store(array $aData = [])
     {
-        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id']) == false) {
+        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id'],1) == false) {
             return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
         }
         $bSaveRes = false;
@@ -146,7 +147,7 @@ class ModelLogic implements Renderable
         if (property_exists($this->model,'query_page')) {
             $page = $this->model->query_page;
         } else {
-            $page = config("tw.default.page");
+            $page = config("tw.page.default");
         }
         return $page;
     }

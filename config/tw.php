@@ -100,6 +100,6 @@ return [
         'oneday' => 0.01,   // 续费一天的钱
     ],
     "page" => [
-        "default" => 5,
+        "default" => 100,
     ],
 ];

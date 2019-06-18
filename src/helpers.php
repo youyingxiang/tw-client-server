@@ -115,7 +115,7 @@ if (!function_exists('search_url' )) {
         if( isset($get[$delparam]) ){ unset($get[$delparam]); }
         if( isset($get['_pjax'])   ){ unset($get['_pjax']);   }
         if( isset($get['page'])   ){ unset($get['page']);   }
-        if( isset($get['activity_id'])   ){ unset($get['activity_id']);   }
+        //if( isset($get['activity_id'])   ){ unset($get['activity_id']);   }
         if (!empty($get)) {
             $paramStr = [];
             foreach ($get as $k => $v) {
@@ -460,7 +460,7 @@ if (!function_exists("item_no")) {
     {
         if (!empty(request()->input('page')))
         {
-            $item = (request()->input('page') - 1) * config("tw.default.page") + $item;
+            $item = (request()->input('page') - 1) * config("tw.page.default") + $item;
         }
         return $item;
     }
