@@ -11,7 +11,7 @@
                 @if(empty($aData))
                     @php $action =  route('tw.judges.store')@endphp
                 @else
-                    @php $action =  tw_route('tw.judges.update',$aData['id'])@endphp
+                    @php $action =  tw_route('tw.judges.update',(int)$aData['id'])@endphp
                 @endif
                 <form class="form-horizontal" method="POST" action="{{$action}}" onsubmit="return false" >
                     {{ csrf_field() }}

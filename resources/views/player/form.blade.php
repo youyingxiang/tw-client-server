@@ -11,7 +11,7 @@
                 @if(empty($aData))
                     @php $action = route('tw.player.store')@endphp
                 @else
-                    @php $action = route('tw.player.update',$aData['id']) @endphp
+                    @php $action = route('tw.player.update',(int)$aData['id']) @endphp
                 @endif
                 <form class="form-horizontal" method="POST" action="{{$action}}" onsubmit="return false" >
                     {{ csrf_field() }}
