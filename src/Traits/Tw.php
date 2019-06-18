@@ -41,7 +41,7 @@ trait Tw
                 $router->get('control/{id}', 'ActivityController@control')->name('tw.activity.control')->middleware('tw.hashids');
                 $router->resource('judges', 'JudgesController')->names('tw.judges')->middleware('tw.hashids');
                 $router->resource('player', 'PlayerController')->names('tw.player')->middleware('tw.hashids');
-                $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push');
+                $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push')->middleware('tw.hashids');
                 $router->get('nextPlayer/{activity_id}', 'ActivityController@nextPlayer')->name('tw.player.nextPlayer');
                 $router->post('storeorder','PayOrderController@storeOrder')->name('tw.payorder.store');
                 $router->get('qrcode/{order_no}','PayOrderController@qrCode')->name('tw.payorder.qrcode');
