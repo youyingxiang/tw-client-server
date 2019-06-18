@@ -1,4 +1,4 @@
-@if(!empty(request()->get('activity_id')) && !empty($aData[0]->activity->title))
+@if(!empty(request()->input('activity_id')) && !empty($aData[0]->activity->title))
     @php $pageTitle = $aData[0]->activity->title.'-选手' @endphp
 @endif
 @extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>$pageTitle??'选手',"pageBtnName"=>'活动列表'])
@@ -22,7 +22,7 @@
                                 <th>ID{!! table_sort('id') !!}</th>
                                 <th>选手名称</th>
                                 <th>图像</th>
-                                @if(empty(request()->get('activity_id')))
+                                @if(empty(request()->input('activity_id')))
                                 <th>所属活动</th>
                                 @endif
                                 <th>最终得分{!! table_sort('score') !!}</th>
@@ -32,11 +32,11 @@
                             </tr>
                             @foreach($aData as $vo)
                                 <tr>
-                                    <td style="vertical-align:middle"><input type="checkbox" name="id[]" value="{{$vo['id']}}" class="minimal"></td>
+                                    <td style="vertical-align:middle"><input type="checkbox" name="id[]" value="{{$vo['hid']}}" class="minimal"></td>
                                     <td style="vertical-align:middle">{{$vo['id']}}</td>
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="name" data-url="{{tw_route('tw.player.update',$vo['id'])}}" >{{$vo['name']}}</span></td>
                                     <td style="vertical-align:middle"><img src="{{$vo['img']}}" style="width:40px;border-radius:40%;" /></td>
-                                    @if(empty(request()->get('activity_id')))
+                                    @if(empty(request()->input('activity_id')))
                                     <td style="vertical-align:middle">{{$vo->activity->title}}</td>
                                     @endif
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="score" data-url="{{tw_route('tw.player.update',$vo['id'])}}" >{{$vo['score']}}</span></td>

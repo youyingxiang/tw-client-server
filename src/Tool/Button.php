@@ -34,8 +34,8 @@ class Button
     public function create():string
     {
 
-        if (!empty(request()->get('activity_id'))) {
-            $this->url .= "?activity_id=".request()->get('activity_id');
+        if (!empty(request()->input('activity_id'))) {
+            $this->url .= "?activity_id=".hash_encode(request()->input('activity_id'));
         }
         return "<a href='$this->url' class='btn btn-sm btn-primary'><i class='fa fa-save'></i> 增加</a>";
     }
@@ -53,10 +53,10 @@ class Button
      */
     public function delete():string
     {
-        if (!empty(request()->get('activity_id'))) {
-            $this->url .= "?activity_id=".request()->get('activity_id');
+        if (!empty(request()->input('activity_id'))) {
+            $this->url .= "?activity_id=".hash_encode(request()->input('activity_id'));
         }
-        return "<a class=\"btn btn-danger btn-xs delete-one\" href=\"javascript:void(0);\" data-url=\"".$this->url."\"  data-csrftoken=\"".csrf_token()."\"  data-id=\"".$this->id."\"><i class=\"fa fa-trash\"></i> 删除</a>";
+        return "<a class=\"btn btn-danger btn-xs delete-one\" href=\"javascript:void(0);\" data-url=\"".$this->url."\"  data-csrftoken=\"".csrf_token()."\"  data-id=\"".hash_encode($this->id)."\"><i class=\"fa fa-trash\"></i> 删除</a>";
     }
 
     /**
@@ -64,8 +64,8 @@ class Button
      */
     public function delete_all():string
     {
-        if (!empty(request()->get('activity_id'))) {
-            $this->url .= "?activity_id=".request()->get('activity_id');
+        if (!empty(request()->input('activity_id'))) {
+            $this->url .= "?activity_id=".hash_encode(request()->input('activity_id'));
         }
         return  "<a class=\"btn btn-sm btn-danger delete-all\" data-csrftoken=\"".csrf_token()."\"  href=\"javascript:void(0);\" data-url=\"".$this->url."\" ><i class=\"fa fa-trash\"></i> 删除选中</a>";
     }

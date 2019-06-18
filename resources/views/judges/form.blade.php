@@ -49,8 +49,8 @@
                                 </div>
                                 @if(!empty($aData['activity_id']))
                                     <input type="hidden" name="activity_id" value="{{$aData['activity_id']}}" />
-                                @elseif(!empty(request()->get('activity_id')))
-                                    <input type="hidden" name="activity_id" value="{{request()->get('activity_id')}}" />
+                                @elseif(!empty(request()->input('activity_id')))
+                                    <input type="hidden" name="activity_id" value="{{request()->input('activity_id')}}" />
                                 @else
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">所属活动</label>

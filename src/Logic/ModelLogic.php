@@ -172,6 +172,7 @@ class ModelLogic implements Renderable
         $bSaveRes = false;
         if (!empty($id)) {
             $ids = explode(',',$id);
+            $ids = array_map(function ($id){return hash_decode($id)??$id;},$ids);
         }
         $where = $this->getWhere($aWhereData);
         DB::transaction(function ()use($where,$ids,&$bSaveRes) {

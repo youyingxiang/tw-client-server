@@ -233,7 +233,7 @@ if (!function_exists('sendMsg' )) {
             'tpl_id' => config('tw.short_message')['tpl_id'],   //您申请的短信模板ID，根据实际情况修改
             'tpl_value' => '#code#=' . $rand                               //您设置的模板变量，根据实际情况修改
         );
-        $ip = request()->getClientIp();
+        $ip = request()->inputClientIp();
 
         $sToKey = config('tw.redis_key.s1') . $to;
         $sIpKey = config('tw.redis_key.s2') . $ip;
@@ -385,7 +385,8 @@ if (!function_exists("safe_filter")) {
      * @param $arr
      * @see php防注入和XSS攻击通用过滤.
      */
-    function safe_filter(&$arr) {
+    function safe_filter(&$arr)
+    {
         if (is_array($arr)) {
             foreach ($arr as $key => $value) {
                 if (!is_array($value)) {
@@ -409,7 +410,8 @@ if (!function_exists("tw_route")) {
      * @return string
      * @see hash_ids 加密
      */
-    function tw_route($name,$parameters = [],$absolute = true) {
+    function tw_route($name,$parameters = [],$absolute = true)
+    {
         if (!empty($parameters)) {
             if (is_int($parameters)) {
                 $parameters = Hashids::encodeHex($parameters);
@@ -426,6 +428,31 @@ if (!function_exists("tw_route")) {
         return route($name,$parameters,$absolute);
     }
 }
+
+if (!function_exists("hash_encode")) {
+    /**
+     * @param string $id
+     * @return string
+     */
+    function hash_encode(string $str):string
+    {
+        return Hashids::encodeHex($str);
+    }
+}
+
+if (!function_exists("hash_decode")) {
+    /**
+     * @param string $id
+     * @return string
+     */
+    function hash_decode(string $str):string
+    {
+        return Hashids::decodeHex($str);
+    }
+}
+
+
+
 
 
 

@@ -8,6 +8,7 @@
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
 use Illuminate\Support\Facades\DB;
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,9 +52,9 @@ class Player extends Model
      */
     public function getIndexUrl(): string
     {
-        $url = empty(request()->get('activity_id'))
+        $url = empty(request()->input('activity_id'))
             ? route('tw.player.index')
-            : route('tw.player.index')."?activity_id=".request()->get('activity_id');
+            : route('tw.player.index')."?activity_id=".hash_encode(request()->input('activity_id'));
         return $url;
     }
 
@@ -78,6 +79,15 @@ class Player extends Model
     public function parentFlag():array
     {
         return ['admin_id'=>Tw::authLogic()->guard()->id()];
+    }
+
+    /**
+     * @return string
+     * @see 获取hashid
+     */
+    public function getHidAttribute():string
+    {
+        return hash_encode($this->id)??$this->id;
     }
 
     /**
