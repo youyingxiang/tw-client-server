@@ -14,12 +14,12 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">姓名</label>
+                                    <label class="col-sm-2 control-label">昵称</label>
                                     <div class="col-sm-7"><input class="form-control" name="name" value="{{$user['name']}}"  placeholder="姓名"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">手机号</label>
-                                    <div class="col-sm-7"><input class="form-control" name="phone" value="{{$user['phone']}}" placeholder="手机号"></div>
+                                    <div class="col-sm-7"><input disabled="disabled" class="form-control" name="phone" value="{{$user['phone']}}" placeholder="手机号"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">邮箱</label>
@@ -36,31 +36,8 @@
                                     <div class="col-sm-7"><input class="form-control" name="qq" value="{{$user['qq']}}" placeholder="QQ"></div>
                                 </div>
 
+                                <input type="hidden" name="img" value="{{asset("/vendor/tw/global/face/default.png")}}"  placeholder="图像" >
 
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-7"><input class="form-control" name="password" value="" placeholder="密码" type="password"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">确认密码</label>
-                                    <div class="col-sm-7"><input class="form-control" name="repassword" value="" placeholder="确认密码" type="password"></div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">图像</label>
-                                    <div class="col-sm-7">
-                                        <div class="input-group">
-                                            <input class="form-control" name="img" value="{{$user['img']}}"  placeholder="图像" >
-                                            <span class="input-group-btn">
-                                        <a href="{{tw_asset($user['img'] ?: asset("/vendor/tw/global/face/default.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($user['img'] ?: asset("/vendor/tw/global/face/default.png"))}}" style="height:34px; width:68px;" />
-                                        </a>
-                                        <button class="btn btn-success btn-flat up_img" type="button">
-                                            <i class="fa fa-cloud-upload"> 上传</i>
-                                        </button></span>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>

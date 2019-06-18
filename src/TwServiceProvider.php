@@ -13,7 +13,8 @@ class TwServiceProvider extends ServiceProvider
      * @var array
      */
     protected $routeMiddleware = [
-        'tw.auth' => Middleware\Authenticate::class
+        'tw.auth' => Middleware\Authenticate::class,
+        'tw.hashids' => Middleware\HashIdsmid::class
     ];
     /**
      * @var array

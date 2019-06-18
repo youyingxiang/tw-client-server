@@ -50,10 +50,19 @@ class Judges extends Model
      */
     public function getIndexUrl(): string
     {
-        $url = empty(request()->get('activity_id'))
+        $url = empty(request()->input('activity_id'))
             ? route('tw.judges.index')
-            : route('tw.judges.index')."?activity_id=".request()->get('activity_id');
+            : route('tw.judges.index')."?activity_id=".hash_encode(request()->input('activity_id'));
         return $url;
+    }
+
+    /**
+     * @return string
+     * @see 获取hashid
+     */
+    public function getHidAttribute():string
+    {
+        return hash_encode($this->id)??$this->id;
     }
 
     /**
@@ -94,16 +103,14 @@ class Judges extends Model
      */
     public function getQrCodeAttribute():string
     {
-        return QrCode::size(100)->color(255,0,255)
-            ->backgroundColor(255,255,0)
-            ->generate(route("tw.home.judges",$this->id));
+        return QrCode::size(100)->generate(tw_route("tw.home.judges",$this->id));
     }
 
     /**
      * @return array
      * @see 普通用户 最多添加n个评委
      */
-    public function restrict(string $activity_id):bool
+    public function restrict(string $activity_id,int $iFlag):bool
     {
         $bFlag = false;
         $limit = config('tw.restrict.judges',5);
@@ -111,7 +118,7 @@ class Judges extends Model
         if (isset($activityInfo['level']) && $activityInfo['level'] == 1) {
             $players = $this->where(['admin_id' => Tw::authLogic()->guard()->id(),'activity_id'=>$activity_id])->count();
             if ($players > 0)
-                $bFlag =  $limit > $players;
+                $bFlag =  ($iFlag == 1) ? $limit > $players : $limit >= $players;
             else if ($players == 0)
                 $bFlag = true;
         } else if (isset($activityInfo['level']) && $activityInfo['level'] == 2)

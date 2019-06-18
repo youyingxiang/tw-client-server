@@ -52,6 +52,6 @@ class Admin extends Model implements AuthenticatableContract
      */
     public function getIndexUrl():string
     {
-        return route('tw.userinfo');
+        return route('tw.index.index');
     }
 }

@@ -37,7 +37,7 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="" class="btn btn-default btn-flat">个人设置</a>
+                                <a href="{{route("tw.userinfo")}}" class="btn btn-default btn-flat">个人设置</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{route("tw.logout")}}" class="btn btn-default btn-flat">退出登录</a>

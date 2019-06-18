@@ -11,10 +11,20 @@ use Tw\Server\Traits\TwRequest;
 use Tw\Server\Requests\TwRequest as TwRequestI;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
-
 class AdminRequest extends FormRequest implements TwRequestI
 {
     use TwRequest;
+
+    /**
+     * @var array
+     * @see 修改验证字段
+     */
+    protected $alone_validate  = [
+        'tw.userinfo.update'=>['name','email','qq','wechat'],
+        'tw.sendmsg' => ['rphone']
+    ];
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +34,6 @@ class AdminRequest extends FormRequest implements TwRequestI
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,15 +41,22 @@ class AdminRequest extends FormRequest implements TwRequestI
      */
     public function rules():array
     {
-        $rphone = $this->request->get('rphone');
-        if ($rphone) {
-            return $this->getRules();
-        } else {
-            $rules = $this->getRules();
-            return Arr::except($rules,'rphone');
+        $rules = $this->getRules();
+        $aRoute = request()->route()->getAction();
+        $sAs    = $aRoute['as']??'';
+        $exceptKeys = [];
+        if (!empty($sAs) && array_key_exists($sAs,$this->alone_validate)) {
+            foreach ($rules as $key => $value) {
+                if (!in_array($key,$this->alone_validate[$sAs])) {
+                    $exceptKeys[] = $key;
+                }
+            }
         }
+        if (!empty($exceptKeys))
+            return Arr::except($rules,$exceptKeys);
+        else
+            return $rules;
     }
-
     /**
      * 设置验证属性
      */
@@ -58,7 +74,6 @@ class AdminRequest extends FormRequest implements TwRequestI
             'wechat' => 'max:60'
         ];
     }
-
     /**
      * @return int
      */
@@ -66,7 +81,6 @@ class AdminRequest extends FormRequest implements TwRequestI
     {
         return (int)$this->request->get('id');
     }
-
     /**
      * 获取已定义的验证规则的错误消息。
      *
@@ -90,7 +104,6 @@ class AdminRequest extends FormRequest implements TwRequestI
             'rphone.max'     => '手机号码长度不能超过20个字符！',
         ];
     }
-
     /**
      * @param 验证后钩子
      */
@@ -99,10 +112,9 @@ class AdminRequest extends FormRequest implements TwRequestI
         $validator->after(function ($validator) {
             $this->request->remove('_token');
             $this->request->remove('repassword');
-            $this->request->set('password',Hash::make($this->request->get('password')));
+            if (!empty($this->request->get('password'))){
+                $this->request->set('password',Hash::make($this->request->get('password')));
+            }
         });
     }
-
-
-
 }

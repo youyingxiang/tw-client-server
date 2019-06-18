@@ -27,23 +27,23 @@
                                         <p style="color: #fff">期限:{!! $vo['term'] !!}</p>
                                     </div>
                                     <div class="pt_right">
-                                        <div class="pt_ico"><a href="{!!route('tw.activity.edit',$vo['id'])!!}"><i
+                                        <div class="pt_ico"><a href="{{tw_route('tw.activity.edit',$vo['id'])}}"><i
                                                         class="img_1"></i>
                                                 <p>活动设置</p></a></div>
                                         <div class="pt_ico"><a target="_blank"
-                                                               href="{!!route('tw.home',$vo['id'])!!}"><i
+                                                               href="{{tw_route('tw.home',$vo['id'])}}"><i
                                                         class="img_2"></i>
                                                 <p>大屏幕</p></a></div>
                                         <div class="pt_ico"><a
-                                                    href="{!!route('tw.judges.index')!!}?activity_id={{$vo['id']}}"><i
+                                                    href="{{tw_route('tw.judges.index',['activity_id'=>$vo['id']])}}"><i
                                                         class="img_3"></i>
                                                 <p>评委设置</p></a></div>
                                         <div class="pt_ico"><a
-                                                    href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i
+                                                    href="{{tw_route('tw.player.index',['activity_id'=>$vo['id']])}}"><i
                                                         class="img_4"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico">
-                                            <a href="{{route('tw.activity.control',$vo['id'])}}">
+                                            <a href="{{tw_route('tw.activity.control',$vo['id'])}}">
                                             <i class="img_5"></i>
                                             <p>屏幕控制</p></a></div>
                                     </div>
@@ -65,26 +65,25 @@
                                         <p style="color: #fff">期限:{!! $vo['term'] !!}</p>
                                     </div>
                                     <div class="pt_right">
-                                        <div class="pt_ico"><a href="{!!route('tw.activity.edit',$vo['id'])!!}"><i
+                                        <div class="pt_ico"><a href="{{tw_route('tw.activity.edit',$vo['id'])}}"><i
                                                         class="img_1"></i>
                                                 <p>活动设置</p></a></div>
                                         <div class="pt_ico"><a target="_blank"
-                                                               href="{!!route('tw.home',$vo['id'])!!}"><i
+                                                               href="{{tw_route('tw.home',$vo['id'])}}"><i
                                                         class="img_2"></i>
                                                 <p>大屏幕</p></a></div>
                                         <div class="pt_ico"><a
-                                                    href="{!!route('tw.judges.index')!!}?activity_id={{$vo['id']}}"><i
+                                                    href="{{tw_route('tw.judges.index',['activity_id'=>$vo['id']])}}"><i
                                                         class="img_3"></i>
                                                 <p>评委设置</p></a></div>
                                         <div class="pt_ico"><a
-                                                    href="{!!route('tw.player.index')!!}?activity_id={{$vo['id']}}"><i
+                                                    href="{{tw_route('tw.player.index',['activity_id'=>$vo['id']])}}"><i
                                                         class="img_4"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico">
-                                            <a href="{{route('tw.activity.control',$vo['id'])}}">
-                                            <i class="img_5"></i>
-                                                <p>屏幕控制</p></a>
-                                        </div>
+                                            <a href="{{tw_route('tw.activity.control',$vo['id'])}}">
+                                                <i class="img_5"></i>
+                                                <p>屏幕控制</p></a></div>
                                     </div>
                                 </li>
                             @endforeach

@@ -5,6 +5,7 @@
  * Date: 2019/5/29
  * Time: 10:44 AM
  */
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 
@@ -114,7 +115,7 @@ if (!function_exists('search_url' )) {
         if( isset($get[$delparam]) ){ unset($get[$delparam]); }
         if( isset($get['_pjax'])   ){ unset($get['_pjax']);   }
         if( isset($get['page'])   ){ unset($get['page']);   }
-        if( isset($get['activity_id'])   ){ unset($get['activity_id']);   }
+        //if( isset($get['activity_id'])   ){ unset($get['activity_id']);   }
         if (!empty($get)) {
             $paramStr = [];
             foreach ($get as $k => $v) {
@@ -384,7 +385,8 @@ if (!function_exists("safe_filter")) {
      * @param $arr
      * @see php防注入和XSS攻击通用过滤.
      */
-    function safe_filter(&$arr) {
+    function safe_filter(&$arr)
+    {
         if (is_array($arr)) {
             foreach ($arr as $key => $value) {
                 if (!is_array($value)) {
@@ -400,6 +402,72 @@ if (!function_exists("safe_filter")) {
     }
 
 }
+if (!function_exists("tw_route")) {
+    /**
+     * @param $name
+     * @param array $parameters
+     * @param bool $absolute
+     * @return string
+     * @see hash_ids 加密
+     */
+    function tw_route($name,$parameters = [],$absolute = true)
+    {
+        if (!empty($parameters)) {
+            if (is_int($parameters)) {
+                $parameters = Hashids::encodeHex($parameters);
+            } elseif (is_array($parameters)) {
+
+                foreach ($parameters as $key => $value) {
+                    if (is_int($value)) {
+                        $parameters[$key] = Hashids::encodeHex($value);
+                    }
+
+                }
+            }
+        }
+        return route($name,$parameters,$absolute);
+    }
+}
+
+if (!function_exists("hash_encode")) {
+    /**
+     * @param string $id
+     * @return string
+     */
+    function hash_encode(string $str):string
+    {
+        return Hashids::encodeHex($str);
+    }
+}
+
+if (!function_exists("hash_decode")) {
+    /**
+     * @param string $id
+     * @return string
+     */
+    function hash_decode(string $str):string
+    {
+        return Hashids::decodeHex($str);
+    }
+}
+
+if (!function_exists("item_no")) {
+    /**
+     * @param int $item
+     * @return int
+     */
+    function item_no(int $item):int
+    {
+        if (!empty(request()->input('page')))
+        {
+            $item = (request()->input('page') - 1) * config("tw.page.default") + $item;
+        }
+        return $item;
+    }
+}
+
+
+
 
 
 

@@ -1,17 +1,16 @@
 @if(!empty($aData['id']))
-    {{$btname = '修改用户'}}
+    {{$btname = '修改活动'}}
 @else
-    {{$btname = '增加用户'}}
+    {{$btname = '增加活动'}}
 @endif
-@extends('tw::layout.base',['header' => "活动 ".$btname,'pageTitle'=>'个人中心',"pageBtnName"=>$btname])
+@extends('tw::layout.base',['header' => "活动 ".$btname,'pageTitle'=>'活动',"pageBtnName"=>$btname])
 @section('content')
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" method="POST" action="@if(empty($aData)){{route('tw.activity.store')}}@else{{route('tw.activity.update',$aData['id'])}}@endif" onsubmit="return false" >
+                <form class="form-horizontal" method="POST" action="@if(empty($aData)){{route('tw.activity.store')}}@else{{tw_route('tw.activity.update',$aData['id'])}}@endif" onsubmit="return false" >
                     {{ csrf_field() }}
                     @if(!empty($aData['id']))
-                    <input type="hidden" name="id" value="{{$aData['id']}}" />
                         {{ method_field('PUT') }}
                     @endif
                     <div class="nav-tabs-custom">
