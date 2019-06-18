@@ -233,7 +233,7 @@ if (!function_exists('sendMsg' )) {
             'tpl_id' => config('tw.short_message')['tpl_id'],   //您申请的短信模板ID，根据实际情况修改
             'tpl_value' => '#code#=' . $rand                               //您设置的模板变量，根据实际情况修改
         );
-        $ip = request()->inputClientIp();
+        $ip = request()->getClientIp();
 
         $sToKey = config('tw.redis_key.s1') . $to;
         $sIpKey = config('tw.redis_key.s2') . $ip;
