@@ -146,7 +146,7 @@ class ModelLogic implements Renderable
         if (property_exists($this->model,'query_page')) {
             $page = $this->model->query_page;
         } else {
-            $page = 100;
+            $page = config("tw.default.page");
         }
         return $page;
     }

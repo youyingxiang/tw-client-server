@@ -17,7 +17,7 @@
                 <a id="next_player" href="javascript:void(0)">
                     <li>推送下一个选手</li>
                 </a>
-                <a href="{{route('tw.player.index')}}?activity_id={{request('id')}}">
+                <a href="{{tw_route('tw.player.index',['activity_id'=>(int)request('id')])}}">
                     <li>选手列表</li>
                 </a>
             </ul>

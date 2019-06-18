@@ -451,6 +451,21 @@ if (!function_exists("hash_decode")) {
     }
 }
 
+if (!function_exists("item_no")) {
+    /**
+     * @param int $item
+     * @return int
+     */
+    function item_no(int $item):int
+    {
+        if (!empty(request()->input('page')))
+        {
+            $item = (request()->input('page') - 1) * config("tw.default.page") + $item;
+        }
+        return $item;
+    }
+}
+
 
 
 
