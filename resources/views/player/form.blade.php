@@ -16,7 +16,6 @@
                 <form class="form-horizontal" method="POST" action="{{$action}}" onsubmit="return false" >
                     {{ csrf_field() }}
                     @if(!empty($aData['id']))
-                        <input type="hidden" name="id" value="{{$aData['id']}}" />
                         {{ method_field('PUT') }}
                     @endif
                     <div class="nav-tabs-custom">

@@ -33,7 +33,7 @@
                                 <tr>
                                     <td style="vertical-align:middle"><input type="checkbox" name="id[]" value="{{$vo['id']}}" class="minimal"></td>
                                     <td style="vertical-align:middle">{{$vo['id']}}</td>
-                                    <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="name" data-url="{{route('tw.judges.update',$vo['id'])}}" >{{$vo['name']}}</span></td>
+                                    <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="name" data-url="{{tw_route('tw.judges.update',$vo['id'])}}" >{{$vo['name']}}</span></td>
                                     <td style="vertical-align:middle"><img src="{{$vo['img']}}" style="width:40px;border-radius:40%;" /></td>
                                     @if(empty(request()->get('activity_id')))
                                         <td style="vertical-align:middle">{{$vo->activity->title}}</td>
