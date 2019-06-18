@@ -159,12 +159,12 @@ class Swoole extends Command
                     }
                 } else if ($jContent && $jContent['page'] == "rank" && $aData['type'] == 3) {
                     if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
-                        $jData['url'] = tw_route('tw.home',$aData['activity']);
+                        $jData['url'] = tw_route('tw.home',(int)$aData['activity']);
                         self::$server->push($fd,xss_json($jData));
                     }
                 } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 4) {
                     if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
-                        $jData['url'] = tw_route('tw.home.rank',$aData['activity']);
+                        $jData['url'] = tw_route('tw.home.rank',(int)$aData['activity']);
                         self::$server->push($fd,xss_json($jData));
                     }
                 }
