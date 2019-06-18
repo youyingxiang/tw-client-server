@@ -37,10 +37,10 @@ trait Tw
                 $router->post('sendMsg','AuthController@sendMsg')->name('tw.sendmsg');
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo')->name("tw.userinfo.update");
-                $router->resource('activity', 'ActivityController')->names('tw.activity');
-                $router->get('control/{id}', 'ActivityController@control')->name('tw.activity.control');
-                $router->resource('judges', 'JudgesController')->names('tw.judges');
-                $router->resource('player', 'PlayerController')->names('tw.player');
+                $router->resource('activity', 'ActivityController')->names('tw.activity')->middleware('tw.hashids');
+                $router->get('control/{id}', 'ActivityController@control')->name('tw.activity.control')->middleware('tw.hashids');
+                $router->resource('judges', 'JudgesController')->names('tw.judges')->middleware('tw.hashids');
+                $router->resource('player', 'PlayerController')->names('tw.player')->middleware('tw.hashids');
                 $router->get('playerpush/{id}', 'PlayerController@push')->name('tw.player.push');
                 $router->get('nextPlayer/{activity_id}', 'ActivityController@nextPlayer')->name('tw.player.nextPlayer');
                 $router->post('storeorder','PayOrderController@storeOrder')->name('tw.payorder.store');
@@ -50,10 +50,10 @@ trait Tw
             });
         });
         app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
-            $router->get('activity/{activityId}', "HomeController@index")->name('tw.home');
-            $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges');
+            $router->get('activity/{activityId}', "HomeController@index")->name('tw.home')->middleware('tw.hashids');
+            $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges')->middleware('tw.hashids');
             $router->post('postScoring',"HomeController@postScoring")->name('tw.home.postScoring');
-            $router->get('rank/{activityId}',"HomeController@rank")->name("tw.home.rank");
+            $router->get('rank/{activityId}',"HomeController@rank")->name("tw.home.rank")->middleware('tw.hashids');
             $router->any('wechat_notify',"PayOrderController@wechatNotify")->name("tw.payorder.notify");
         });
     }

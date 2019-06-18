@@ -46,9 +46,9 @@
                                     </td>
                                     <td style="vertical-align:middle">{{$vo['updated_at']}}</td>
                                     <td style="vertical-align:middle">
-                                        {!! button(route('tw.player.push',$vo['id']),'push',$vo['id']) !!}
-                                        {!! button(route('tw.player.edit',$vo['id']),'edit') !!}
-                                        {!! button(route('tw.player.destroy',$vo['id']),'delete',$vo['id']) !!}
+                                        {!! button(tw_route('tw.player.push',$vo['id']),'push',$vo['id']) !!}
+                                        {!! button(tw_route('tw.player.edit',$vo['id']),'edit') !!}
+                                        {!! button(tw_route('tw.player.destroy',$vo['id']),'delete',$vo['id']) !!}
                                     </td>
                                 </tr>
                             @endforeach

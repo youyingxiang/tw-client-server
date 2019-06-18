@@ -5,6 +5,7 @@
  * Date: 2019/5/29
  * Time: 10:44 AM
  */
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 
@@ -399,6 +400,31 @@ if (!function_exists("safe_filter")) {
         }
     }
 
+}
+if (!function_exists("tw_route")) {
+    /**
+     * @param $name
+     * @param array $parameters
+     * @param bool $absolute
+     * @return string
+     * @see hash_ids 加密
+     */
+    function tw_route($name,$parameters = [],$absolute = true) {
+        if (!empty($parameters)) {
+            if (is_int($parameters)) {
+                $parameters = Hashids::encodeHex($parameters);
+            } elseif (is_array($parameters)) {
+
+                foreach ($parameters as $key => $value) {
+                    if (is_int($value)) {
+                        $parameters[$key] = Hashids::encodeHex($value);
+                    }
+
+                }
+            }
+        }
+        return route($name,$parameters,$absolute);
+    }
 }
 
 

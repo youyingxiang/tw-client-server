@@ -94,7 +94,7 @@ class Judges extends Model
      */
     public function getQrCodeAttribute():string
     {
-        return QrCode::size(100)->generate(route("tw.home.judges",$this->id));
+        return QrCode::size(100)->generate(tw_route("tw.home.judges",$this->id));
     }
 
     /**

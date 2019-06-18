@@ -41,8 +41,8 @@
                                     <td style="vertical-align:middle">{!! $vo['qr_code'] !!}</td>
                                     <td style="vertical-align:middle">{{$vo['created_at']}}</td>
                                     <td style="vertical-align:middle">
-                                        {!! button(route('tw.judges.edit',$vo['id']),'edit') !!}
-                                        {!! button(route('tw.judges.destroy',$vo['id']),'delete',$vo['id']) !!}
+                                        {!! button(tw_route('tw.judges.edit',$vo['id']),'edit') !!}
+                                        {!! button(tw_route('tw.judges.destroy',$vo['id']),'delete',$vo['id']) !!}
                                     </td>
                                 </tr>
                             @endforeach
