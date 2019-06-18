@@ -1,4 +1,7 @@
-@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>'评委',"pageBtnName"=>'活动列表'])
+@if(!empty(request()->get('activity_id')) && !empty($aData[0]->activity->title))
+    @php $pageTitle = $aData[0]->activity->title.'-评委' @endphp
+@endif
+@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>$pageTitle??'评委',"pageBtnName"=>'活动列表'])
 @section('content')
     <section class="content">
         <div class="row">
@@ -19,7 +22,9 @@
                                 <th>ID{!! table_sort('id') !!}</th>
                                 <th>评委名称</th>
                                 <th>图像</th>
+                                @if(empty(request()->get('activity_id')))
                                 <th>所属活动</th>
+                                @endif
                                 <th>评委二维码</th>
                                 <th>添加日期</th>
                                 <th>操作</th>
@@ -30,7 +35,9 @@
                                     <td style="vertical-align:middle">{{$vo['id']}}</td>
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="name" data-url="{{route('tw.judges.update',$vo['id'])}}" >{{$vo['name']}}</span></td>
                                     <td style="vertical-align:middle"><img src="{{$vo['img']}}" style="width:40px;border-radius:40%;" /></td>
-                                    <td style="vertical-align:middle">{{$vo->activity->title}}</td>
+                                    @if(empty(request()->get('activity_id')))
+                                        <td style="vertical-align:middle">{{$vo->activity->title}}</td>
+                                    @endif
                                     <td style="vertical-align:middle">{!! $vo['qr_code'] !!}</td>
                                     <td style="vertical-align:middle">{{$vo['created_at']}}</td>
                                     <td style="vertical-align:middle">

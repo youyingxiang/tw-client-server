@@ -48,27 +48,22 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">所属活动</label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control select2" name="activity_id" style="width:100%;">
-                                            @foreach($oActivitys as  $v)
-                                                @if(!empty($aData['activity_id']))
-                                                    @if($v['id'] == $aData['activity_id'])
-                                                    <option selected="true" value="{{$v['id']}}">{{$v['title']}}</option>
-                                                    @endif
-                                                @elseif (!empty(request()->get('activity_id')))
-                                                    @if($v['id'] == request()->get('activity_id'))
-                                                    <option selected="true" value="{{$v['id']}}">{{$v['title']}}</option>
-                                                    @endif
-                                                @else
-                                                    <option value="{{$v['id']}}">{{$v['title']}}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
+                                @if(!empty($aData['activity_id']))
+                                    <input type="hidden" name="activity_id" value="{{$aData['activity_id']}}" />
+                                @elseif(!empty(request()->get('activity_id')))
+                                    <input type="hidden" name="activity_id" value="{{request()->get('activity_id')}}" />
+                                @else
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">所属活动</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control select2" name="activity_id" style="width:100%;">
+                                                @foreach($oActivitys as  $v)
+                                                <option value="{{$v['id']}}">{{$v['title']}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
 
                                 @if(!empty($aData['activity_id']))
                                 <div class="form-group">

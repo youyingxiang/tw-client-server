@@ -1,4 +1,7 @@
-@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>'选手',"pageBtnName"=>'活动列表'])
+@if(!empty(request()->get('activity_id')) && !empty($aData[0]->activity->title))
+    @php $pageTitle = $aData[0]->activity->title.'-选手' @endphp
+@endif
+@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>$pageTitle??'选手',"pageBtnName"=>'活动列表'])
 @section('content')
     <section class="content">
         <div class="row">
@@ -19,7 +22,9 @@
                                 <th>ID{!! table_sort('id') !!}</th>
                                 <th>选手名称</th>
                                 <th>图像</th>
+                                @if(empty(request()->get('activity_id')))
                                 <th>所属活动</th>
+                                @endif
                                 <th>最终得分{!! table_sort('score') !!}</th>
                                 <th>推送状态</th>
                                 <th>修改日期</th>
@@ -31,7 +36,9 @@
                                     <td style="vertical-align:middle">{{$vo['id']}}</td>
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="name" data-url="{{route('tw.player.update',$vo['id'])}}" >{{$vo['name']}}</span></td>
                                     <td style="vertical-align:middle"><img src="{{$vo['img']}}" style="width:40px;border-radius:40%;" /></td>
+                                    @if(empty(request()->get('activity_id')))
                                     <td style="vertical-align:middle">{{$vo->activity->title}}</td>
+                                    @endif
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="score" data-url="{{route('tw.player.update',$vo['id'])}}" >{{$vo['score']}}</span></td>
                                     <td style="vertical-align:middle">
                                         <a href="javascript:void(0);" class='editimg fa @if($vo['push_state'] == 1)fa-check-circle text-green @else fa-times-circle text-red @endif'>

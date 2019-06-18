@@ -106,6 +106,7 @@
 <script src="{{ tw_asset("/vendor/tw/global/bootstrap/js/bootstrap.min.js")}}"></script>
 <!-- iCheck -->
 <script src="{{ tw_asset("/vendor/tw/global/iCheck/icheck.min.js")}}"></script>
+<script src="{{ tw_asset("/vendor/tw/home/js/public.js")}}"></script>
 <script>
     $(function () {
 
@@ -120,7 +121,11 @@
         $(".code").on('click',function(){
             var phone = $('input[name="phone"]').val().trim();
             if (phone) {
-                ajaxGetCode(phone)
+                if (isPhoneNo(phone)) {
+                    ajaxGetCode(phone);
+                } else {
+                    alert("手机号码格式不正确！");
+                }
             } else {
                 alert("手机号码不能为空");
             }

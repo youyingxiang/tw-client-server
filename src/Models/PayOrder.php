@@ -70,9 +70,7 @@ class PayOrder extends Model
      */
     public function getQrCodeByUrl(string $url)
     {
-        return QrCode::size(400)->color(255,0,255)
-            ->backgroundColor(255,255,0)
-            ->generate($url);
+        return QrCode::size(400)->generate($url);
     }
 
     /**
