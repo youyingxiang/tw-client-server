@@ -175,7 +175,28 @@ class PayOrder extends Model
             }
             return $bRes;
         });
+        $this->pushUserOrderStatus();
         return (bool)$bRes;
+    }
+
+    /**
+     * 推送订单状态
+     */
+    public function pushUserOrderStatus()
+    {
+        $url = $this->getPushUrl();
+        curl_get($url);
+    }
+
+    /**
+     * @return string
+     * @获取推送url
+     */
+    public function getPushUrl():string
+    {
+        $adminId = Tw::authLogic()->guard()->id();
+        $token   = hash_make(['order',$adminId]);
+        return $_SERVER['HTTP_HOST'].":9502?page=order&admin_id=$adminId&token=".$token;
     }
 
     /**

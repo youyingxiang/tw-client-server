@@ -466,6 +466,26 @@ if (!function_exists("item_no")) {
     }
 }
 
+if (!function_exists('curl_get')) {
+    /**
+     * @param string $url
+     * @return string
+     */
+    function curl_get(string $url):string
+    {
+        $ch_curl = curl_init();
+        curl_setopt ($ch_curl, CURLOPT_TIMEOUT_MS, 3000);
+        curl_setopt($ch_curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt ($ch_curl, CURLOPT_HEADER,false);
+        curl_setopt($ch_curl, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch_curl, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt ($ch_curl, CURLOPT_URL,$url);
+        $str  = curl_exec($ch_curl);
+        curl_close($ch_curl);
+        return $str;
+    }
+}
+
 
 
 

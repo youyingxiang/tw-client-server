@@ -121,7 +121,9 @@ class Swoole extends Command
      */
     public function onRequest($request,$response)
     {
-        $this->pushMessage();
+        if ($this->checkAccess("", $request)) {
+
+        }
     }
 
     /**
