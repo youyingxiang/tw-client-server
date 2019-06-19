@@ -413,12 +413,12 @@ if (!function_exists("tw_route")) {
     function tw_route($name,$parameters = [],$absolute = true)
     {
         if (!empty($parameters)) {
-            if (is_int($parameters)) {
+            if (is_int($parameters) || is_string($parameters)) {
                 $parameters = Hashids::encodeHex($parameters);
             } elseif (is_array($parameters)) {
 
                 foreach ($parameters as $key => $value) {
-                    if (is_int($value)) {
+                    if (is_int($value) || is_string($value)) {
                         $parameters[$key] = Hashids::encodeHex($value);
                     }
 

@@ -17,7 +17,6 @@
                 <ul>
                     <li><b>{{$user['name']}}</b></li>
                     <li class="sever_a1">手机号：{{$user['phone']}} </li>
-                    <li class="sever_a1">密码：****** </li>
                 </ul>
             </div>
         </div>

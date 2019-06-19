@@ -77,6 +77,7 @@ return [
     'restrict' => [
         'player'    => 10,      //普通用户限制选手个数
         'judges'    => 5,       //普通用户限制评委个数
+        'activity'  => 5,       //普通项目限制添加数量
     ],
     // 短信配置
     'short_message' => [
