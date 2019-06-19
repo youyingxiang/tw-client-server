@@ -71,7 +71,7 @@ class ModelLogic implements Renderable
     public function update(string $id, array $aData = [],array $aWhereData = [])
     {
         if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id'],2) == false) {
-            return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
+            return Tw::ajaxResponse("添加超过限制！请升级为高级活动");
         }
 
         $bSaveRes = false;
@@ -105,7 +105,7 @@ class ModelLogic implements Renderable
     public function store(array $aData = [])
     {
         if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id'],1) == false) {
-            return Tw::ajaxResponse("添加人数超过限制！,请把活动升级为高级活动");
+            return Tw::ajaxResponse("添加超过限制！请升级为高级活动");
         }
         $bSaveRes = false;
         DB::transaction(function ()use($aData,&$bSaveRes) {
