@@ -213,30 +213,32 @@
             }
             $(".level2").on('click',function(){
                 var id = $(this).attr('data-id');
-                dialog("活动升级","确认升级高级活动？",function () {
-                    var url = '{{route("tw.payorder.store")}}';
-                    $.ajax({
-                        url: url,
-                        type:'post',
-                        data:{
-                            type:1,
-                            _token:"{{csrf_token()}}",
-                            pay_type:1,
-                            activity_id:id
-                        },
-                        dataType: "json",
-                        error:function(data){
-                            $.amaran({'message':"服务器繁忙, 请联系管理员！"});
-                            return;
-                        },
-                        success:function(result){
-                            if(result.status == 1){
-                                $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})
-                            } else {
-                                $.amaran({'message':result.info});
-                            }
-                        },
-                    })
+                dialog("活动升级","确认升级高级活动？",function (resultDel) {
+                    if(resultDel === true) {
+                        var url = '{{route("tw.payorder.store")}}';
+                        $.ajax({
+                            url: url,
+                            type: 'post',
+                            data: {
+                                type: 1,
+                                _token: "{{csrf_token()}}",
+                                pay_type: 1,
+                                activity_id: id
+                            },
+                            dataType: "json",
+                            error: function (data) {
+                                $.amaran({'message': "服务器繁忙, 请联系管理员！"});
+                                return;
+                            },
+                            success: function (result) {
+                                if (result.status == 1) {
+                                    $.pjax({url: result.url, container: '#pjax-container', fragment: '#pjax-container'})
+                                } else {
+                                    $.amaran({'message': result.info});
+                                }
+                            },
+                        })
+                    }
                 });
             })
 
@@ -246,36 +248,38 @@
             $(".adddays").on('click',function(){
                 var message = '<input class="form-control"  id="add_days" />'
                 var id = $(this).attr('data-id');
-                dialog("续费天数",message,function () {
-                    var add_days = $("#add_days").val().trim();
-                    var url = '{{route("tw.payorder.store")}}';
-                    if (/^\d+$/.test(add_days) == false) {
-                        $.amaran({'message':"请输入有效天数"});
-                        return;
-                    }
-                    $.ajax({
-                        url: url,
-                        type:'post',
-                        data:{
-                            type:2,
-                            _token:"{{csrf_token()}}",
-                            pay_type:1,
-                            activity_id:id,
-                            days:add_days
-                        },
-                        dataType: "json",
-                        error:function(data){
-                            $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                dialog("续费天数",message,function (resultDel) {
+                    if(resultDel === true) {
+                        var add_days = $("#add_days").val().trim();
+                        var url = '{{route("tw.payorder.store")}}';
+                        if (/^\d+$/.test(add_days) == false) {
+                            $.amaran({'message': "请输入有效天数"});
                             return;
-                        },
-                        success:function(result){
-                            if(result.status == 1){
-                                $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})
-                            } else {
-                                $.amaran({'message':result.info});
-                            }
-                        },
-                    })
+                        }
+                        $.ajax({
+                            url: url,
+                            type: 'post',
+                            data: {
+                                type: 2,
+                                _token: "{{csrf_token()}}",
+                                pay_type: 1,
+                                activity_id: id,
+                                days: add_days
+                            },
+                            dataType: "json",
+                            error: function (data) {
+                                $.amaran({'message': "服务器繁忙, 请联系管理员！"});
+                                return;
+                            },
+                            success: function (result) {
+                                if (result.status == 1) {
+                                    $.pjax({url: result.url, container: '#pjax-container', fragment: '#pjax-container'})
+                                } else {
+                                    $.amaran({'message': result.info});
+                                }
+                            },
+                        })
+                    }
 
                 })
             })
