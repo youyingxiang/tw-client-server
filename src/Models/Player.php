@@ -8,7 +8,6 @@
 namespace Tw\Server\Models;
 use Tw\Server\Facades\Tw;
 use Illuminate\Support\Facades\DB;
-use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -137,7 +136,7 @@ class Player extends Model
         }
 
         if ($player->push_state == 1)
-            return Tw::ajaxResponse("操作成功",$this->getIndexUrl()."?activity_id=".$player['activity_id']);
+            return Tw::ajaxResponse("操作成功",$this->getIndexUrl()."?activity_id=".hash_encode($player['activity_id']));
         else
             return Tw::ajaxResponse("操作失败");
 
