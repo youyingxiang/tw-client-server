@@ -176,16 +176,16 @@ class PayOrder extends Model
             return $bRes;
         });
         if ($bRes)
-            $this->pushUserOrderStatus($order['admin_id']);
+            $this->pushUserOrderStatus($order['admin_id'],$order['order_no']);
         return (bool)$bRes;
     }
 
     /**
      * 推送订单状态
      */
-    public function pushUserOrderStatus($adminId)
+    public function pushUserOrderStatus($adminId,$orderNo)
     {
-        $url = $this->getPushUrl($adminId);
+        $url = $this->getPushUrl($adminId,$orderNo);
         curl_get($url);
     }
 
@@ -193,10 +193,10 @@ class PayOrder extends Model
      * @return string
      * @获取推送url
      */
-    public function getPushUrl($adminId):string
+    public function getPushUrl($adminId,$orderNo):string
     {
-        $token   = hash_make(['order',$adminId]);
-        return $_SERVER['HTTP_HOST'].":9502?page=order&admin_id=$adminId&token=".$token;
+        $token   = hash_make(['order',$adminId,$orderNo]);
+        return $_SERVER['HTTP_HOST'].":9502?page=order&admin_id=$adminId&order=$orderNo&token=".$token;
     }
 
     /**

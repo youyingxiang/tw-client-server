@@ -39,7 +39,7 @@
             })
             var ws;//websocket实例
             var lockReconnect = false;//避免重复连接
-            var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=qrcode&admin_id={{adminId()}}&token={{hash_make(['qrcode',adminId()])}}';
+            var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=qrcode&admin_id={{adminId()}}&order={{request('order_no')}}&token={{hash_make(['qrcode',adminId(),request('order_no')])}}';
 
             function initEventHandle() {
                 ws.onclose = function () {

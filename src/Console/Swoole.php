@@ -138,7 +138,10 @@ class Swoole extends Command
         foreach (self::$server->connections as $fd) {
             if (self::$server->isEstablished($fd)) {
                 $jContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
-                if ($jContent['page'] == "qrcode" && $jContent['admin'] == $request->get['admin_id'])
+                if ($jContent['page'] == "qrcode"
+                    && $jContent['admin'] == $request->get['admin_id']
+                    && $jContent['order'] == $request->get['order']
+                )
                 {
                     $aData =[
                         'state' => 1,
@@ -147,6 +150,8 @@ class Swoole extends Command
                     ];
                     self::$server->push($fd,xss_json($aData));
                 }
+            } else {
+                $this->redis->hdel(config('tw.redis_key.h2'),$fd);
             }
         }
     }
@@ -229,6 +234,7 @@ class Swoole extends Command
                     'fd'  => $request->fd,
                     'activity'=> $request->get['activity'] ?? '',
                     'admin' => $request->get['admin_id'] ?? '',
+                    'order' => $request->get['order'] ?? '',
                 ],true);
             $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
             return true;
