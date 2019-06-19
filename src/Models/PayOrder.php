@@ -205,8 +205,19 @@ class PayOrder extends Model
      */
     public function OrderStateLevel2(object $order)
     {
-        $order->activity->level = 2;
-        return $order->activity->save();
+        $result = 0;
+        if (!$order->activity) {
+            $oAcitity = Tw::newModel("Activity")::onlyTrashed()->find($order['activity_id']);
+            if ($oAcitity) {
+                $oAcitity->deleted_at = null;
+                $oAcitity->level = 2;
+                $result = $oAcitity->save();
+            }
+        } else {
+            $order->activity->level = 2;
+            $result = $order->activity->save();
+        }
+        return $result;
     }
 
     /**

@@ -70,16 +70,13 @@ class ModelLogic implements Renderable
      */
     public function update(string $id, array $aData = [],array $aWhereData = [])
     {
-        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id'],2) == false) {
-            return Tw::ajaxResponse("添加超过限制！请升级为高级活动");
-        }
-
         $bSaveRes = false;
         $where   = $this->getWhere($aWhereData);
         $this->oModelResult = $this->model->where($where)->findOrFail($id);
-        DB::transaction(function () use ($aData,&$bSaveRes,$id) {
+        $message = DB::transaction(function () use ($aData,&$bSaveRes,$id) {
             if (method_exists($this->model,'beforeUpdate')) {
-                call_user_func([$this->model,'beforeUpdate'],$id);
+                $message = call_user_func([$this->model,'beforeUpdate'],$this->oModelResult);
+                if ($message) return $message;
             }
             $aUpdates = $this->prepare($aData);
             foreach ($aUpdates as $column => $value) {
@@ -95,7 +92,7 @@ class ModelLogic implements Renderable
         if ($bSaveRes)
             return Tw::ajaxResponse("操作成功",$this->oModelResult->getIndexUrl());
         else
-            return Tw::ajaxResponse("操作失败");
+            return Tw::ajaxResponse($message?:"操作失败");
 
     }
 
@@ -104,21 +101,38 @@ class ModelLogic implements Renderable
      */
     public function store(array $aData = [])
     {
-        if (!empty($aData['activity_id']) && $this->checkRestrict($aData['activity_id'],1) == false) {
-            return Tw::ajaxResponse("添加超过限制！请升级为高级活动");
-        }
         $bSaveRes = false;
-        DB::transaction(function ()use($aData,&$bSaveRes) {
+        $message = DB::transaction(function ()use($aData,&$bSaveRes) {
+            if (method_exists($this->model,'beforeInsert')) {
+                $message = call_user_func([$this->model,'beforeInsert'],$aData);
+                if ($message) return $message;
+            }
             foreach ($aData as $column => $value) {
                 /* @var Model $this->model */
                 $this->model->setAttribute($column, is_null($value)?'':$value);
             }
             $bSaveRes =  $this->model->save();
+            if (method_exists($this->model,'afterInsert')) {
+                call_user_func([$this->model,'afterInsert']);
+            }
         });
         if ($bSaveRes)
             return Tw::ajaxResponse("操作成功",$this->model->getIndexUrl());
         else
-            return Tw::ajaxResponse("操作失败");
+            return Tw::ajaxResponse($message?:"操作失败");
+    }
+
+    /**
+     * @param array $aData
+     * @see
+     */
+    public function highLevelStore(array $aData = [])
+    {
+        $this->store($aData);
+        if (isset($this->model->jumpUrl))
+            return Tw::ajaxResponse("操作成功",$this->model->jumpUrl);
+        else
+            return Tw::ajaxResponse($message?:"操作失败");
     }
 
     /**

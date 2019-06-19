@@ -125,6 +125,24 @@ class Judges extends Model
             $bFlag = true;
         return $bFlag;
     }
+    /**
+     * @param array $aData
+     * @return string
+     * @see 插入之前的钩子
+     */
+    public function beforeInsert(array $aData):string
+    {
+        return $this->restrict($aData['activity_id'],1) ? '' : "评委超过限制！请升级高级活动";
+    }
+
+    /**
+     * @param int $id
+     * @see 修改之前钩子
+     */
+    public function beforeUpdate(object $oData):string
+    {
+        return $this->restrict($oData->activity_id,2) ? '' : "评委超过限制！请升级高级活动";
+    }
 
     /**
      * @param $id 评委id

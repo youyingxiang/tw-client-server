@@ -89,7 +89,19 @@ if (!function_exists('get_score_type')) {
         return $key ? $aData[$key] : $aData;
     }
 }
-
+if (!function_exists('get_activity_level')) {
+    /**
+     * @return array
+     */
+    function get_activity_level(int $key = null)
+    {
+        $aData = [
+            1 => "普通活动",
+            2 => "高级活动"
+        ];
+        return $key ? $aData[$key] : $aData;
+    }
+}
 if (!function_exists('button')) {
     /**
      * @param string $url
@@ -491,6 +503,42 @@ if (!function_exists('adminId')) {
     function adminId()
     {
         return \Tw::authLogic()->guard()->id();
+    }
+}
+
+if (!function_exists('redis_set')) {
+    /**
+     * @param $sKey
+     * @param $content
+     * @param int $time
+     */
+    function redis_set($sKey,$content,$time = 7200)
+    {
+        if (is_array($content) || is_object($content)) {
+            Redis::set($sKey,json_encode($content,true));
+        } else {
+            Redis::set($sKey,$content);
+        }
+        Redis::expire($sKey,$time);
+    }
+}
+
+if (!function_exists('redis_get')) {
+    /**
+     * @param $sKey
+     * @param $content
+     * @param int $time
+     */
+    function redis_get($sKey)
+    {
+        $sData = Redis::get($sKey);
+        $content = json_decode($sData,true);
+        if ($content && (is_object($content)) || (is_array($content) && !empty($content))) {
+            $result = $content;
+        } else {
+            $result = $sData;
+        }
+        return $result;
     }
 }
 

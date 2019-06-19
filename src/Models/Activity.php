@@ -197,6 +197,77 @@ class Activity extends Model
         return (int)$nextplayerId ;
     }
 
+    /**
+     * @return array
+     * @see 普通用户 最多添加n个评委
+     */
+    public function beforeUpdate(object $oData):string
+    {
+        $message = '';
+        return $this->restrict(2) ? $message : "普通项目个数不能超过5个！";
+    }
+
+    /**
+     * @param array $aData
+     * @return string
+     * @see 插入之前钩子
+     */
+    public function beforeInsert(array $aData):string
+    {
+        $message = '';
+        if ($aData['level'] == 1)
+            $message = $this->restrict(1) ? '' : "普通项目个数不能超过5个！";
+
+        return $message;
+    }
+
+    /**
+     * @see 插入之后钩子处理
+     */
+    public function afterInsert():void
+    {
+        if ($this->level == 2) {
+            $this->storeHighLevel();
+        }
+    }
+
+    /**
+     * @see 创建高级活动处理
+     */
+    public function storeHighLevel():void
+    {
+        // 软删除自己
+        $aData = $this->toArray();
+        $this->delete();
+        $aInput['type'] = 1;
+        $aInput['level'] = 1;
+        $aInput['activity_id'] = $aData['id'];
+        $aInput['pay_type'] = 1;
+        $mPayOrder = Tw::newModel("PayOrder");
+        Tw::moldelLogic($mPayOrder)->generateOrder($aInput);
+        $this->jumpUrl = $mPayOrder->getIndexUrl();
+    }
+
+
+    // 项目限制
+    public function restrict(int $iFlag):bool
+    {
+        $bFlag = true;
+        $limit = config('tw.restrict.activity',5);
+        $aWhere['admin_id'] = Tw::authLogic()->guard()->id();
+        $aWhere['level'] = 1;
+        $activitys = Tw::newModel('Activity')->where($aWhere)->count();
+        if ($activitys > 0) {
+            if ($iFlag == 1) {
+                $bFlag = $limit > $activitys;
+            } elseif ($iFlag == 2) {
+                $bFlag = $limit >= $activitys;
+            }
+        }
+        return $bFlag;
+    }
+
+
 
 
 }

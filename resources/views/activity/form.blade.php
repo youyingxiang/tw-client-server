@@ -25,21 +25,14 @@
                                     <div class="col-sm-7"><input class="form-control" name="title" value="{{$aData['title']??''}}"  placeholder="活动名称"></div>
                                 </div>
 
-
-
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">活动LOGO</label>
+                                    <label class="col-sm-2 control-label">活动等级</label>
                                     <div class="col-sm-7">
-                                        <div class="input-group">
-                                            <input class="form-control" name="logo" value="{{$aData['logo']??''}}"  placeholder="活动LOGO" >
-                                            <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['logo'] ?? asset("/vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['logo'] ?? asset("/vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
-                                        </a>
-                                        <button class="btn btn-success btn-flat up_img" type="button">
-                                            <i class="fa fa-cloud-upload"> 上传</i>
-                                        </button></span>
-                                        </div>
+                                        <select class="form-control select2" name="level" style="width:100%;">
+                                            @foreach(get_activity_level() as $k => $v)
+                                                <option @if(!empty($aData['level']) && $k == $aData['level'])selected="selected"@endif value="{{$k}}">{{$v}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

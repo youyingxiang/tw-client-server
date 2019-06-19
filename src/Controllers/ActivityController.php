@@ -8,6 +8,7 @@
 namespace Tw\Server\Controllers;
 use Illuminate\Routing\Controller;
 use Tw\Server\Facades\Tw;
+use Illuminate\Support\Facades\Redis;
 use Tw\Server\Requests\ActivityRequest;
 use Tw\Server\Traits\Common;
 class ActivityController extends Controller
@@ -63,7 +64,11 @@ class ActivityController extends Controller
     {
         $aData = $request->post();
         $aData['admin_id'] = Tw::authLogic()->guard()->id();
-        return $this->Model()->store($aData);
+        // 添加高级活动要收费
+        if (isset($aData['level']) && $aData['level'] == 2) {
+            return $this->Model()->highLevelStore($aData);
+        } else
+            return $this->Model()->store($aData);
     }
 
     /**

@@ -94,7 +94,8 @@ return [
         's1' => "str:send_msg:phone:",  // 电话 短信发送次数
         's2' => "str:send_msg:ip:",     // 短信发送ip记录次数
         's3' => "str:send_msg:code:",   // 短信验证码
-        's4' => "str:send_msg:log"      // 短信异常日志
+        's4' => "str:send_msg:log",      // 短信异常日志
+        's5' => "str:flashdata:admin_id:" // 闪存数据
     ],
     'pay_amount_base' => [
         'senior' => 0.01,   // 开通高级活动的钱
