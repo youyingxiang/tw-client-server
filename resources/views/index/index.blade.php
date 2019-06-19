@@ -54,4 +54,11 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(function() {
+            $(".gopay").on('click',function () {
+                window.location.href = $(this).attr('data-url');
+            })
+        })
+    </script>
 @endsection

@@ -27,6 +27,14 @@
                                         <p style="color: #fff">期限:{!! $vo['term'] !!}</p>
                                     </div>
                                     <div class="pt_right">
+                                        <div class="pt_ico">
+                                            <a class="level2" data-id="{{$vo['id']}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>升级高级会员</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="adddays" data-id="{{$vo['id']}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>续费天数</p></a></div>
                                         <div class="pt_ico"><a href="{{tw_route('tw.activity.edit',$vo['id'])}}"><i
                                                         class="img_1"></i>
                                                 <p>活动设置</p></a></div>
@@ -43,9 +51,17 @@
                                                         class="img_4"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico">
-                                            <a href="{{tw_route('tw.activity.control',$vo['id'])}}">
+                                            <a class="jump_screen"  data-id="{{$vo['id']}}" href="javascript:void(0)">
                                             <i class="img_5"></i>
-                                            <p>屏幕控制</p></a></div>
+                                            <p>跳转大屏幕</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="jump_rank" data-id="{{$vo['id']}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>跳转排名</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="next_player" data-url="{{route('tw.player.nextPlayer',$vo['id'])}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>下一个选手</p></a></div>
                                     </div>
                                 </li>
                             @endforeach
@@ -81,9 +97,17 @@
                                                         class="img_4"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico">
-                                            <a href="{{tw_route('tw.activity.control',$vo['id'])}}">
+                                            <a class="jump_screen"  data-id="{{$vo['id']}}" href="javascript:void(0)">
                                                 <i class="img_5"></i>
-                                                <p>屏幕控制</p></a></div>
+                                                <p>跳转大屏幕</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="jump_rank" data-id="{{$vo['id']}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>跳转排名</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="next_player" data-url="{{route('tw.player.nextPlayer',$vo['id'])}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>下一个选手</p></a></div>
                                     </div>
                                 </li>
                             @endforeach
@@ -101,20 +125,152 @@
 
     {{--TAB切换--}}
     <script>
-        function act_pt() {
-            document.getElementById("act_pt").style.cssText = 'background:#3c8dbc;color:#fff;';
-            document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
-            document.getElementById("gaoji").style.cssText = 'display:none';
-            document.getElementById("putong").style.cssText = 'display:block';
-            $("#create_activity").show();
-        }
+        $(function() {
+            function act_pt() {
+                document.getElementById("act_pt").style.cssText = 'background:#3c8dbc;color:#fff;';
+                document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
+                document.getElementById("gaoji").style.cssText = 'display:none';
+                document.getElementById("putong").style.cssText = 'display:block';
+                $("#create_activity").show();
+            }
 
-        function act_gj() {
-            document.getElementById("act_gj").style.cssText = 'background:#3c8dbc;color:#fff;';
-            document.getElementById("act_pt").style.cssText = 'background:none;color:#000;';
-            document.getElementById("gaoji").style.cssText = 'display:block';
-            document.getElementById("putong").style.cssText = 'display:none';
-            $("#create_activity").hide();
-        }
+            function act_gj() {
+                document.getElementById("act_gj").style.cssText = 'background:#3c8dbc;color:#fff;';
+                document.getElementById("act_pt").style.cssText = 'background:none;color:#000;';
+                document.getElementById("gaoji").style.cssText = 'display:block';
+                document.getElementById("putong").style.cssText = 'display:none';
+                $("#create_activity").hide();
+            }
+
+            // 跳转大屏幕
+            $(".jump_screen").on('click', function () {
+                var id = $(this).attr('data-id');
+                var json = '{"type":"3","activity":' + id + '}';
+                pushSwoole(json);
+                $.amaran({'message': '跳转成功'});
+            })
+            // 跳转选手排行
+            $(".jump_rank").on('click', function () {
+                var id = $(this).attr('data-id');
+                var json = '{"type":"4","activity":' + id + '}';
+                pushSwoole(json);
+                $.amaran({'message': '跳转成功'});
+            })
+
+            // 点击下一位选手
+            $(".next_player").on('click', function () {
+                var url = $(this).attr('data-url');
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: "json",
+                    error: function (data) {
+                        $.amaran({'message': "服务器繁忙, 请联系管理员！"});
+                        return;
+                    },
+                    success: function (result) {
+                        if (result.status == 1) {
+                            var json = '{"type":"1","player":"' + result.info + '"}';
+                            pushSwoole(json);
+                            $.amaran({'message': "推送成功"});
+                        } else {
+                            $.amaran({'message': result.info});
+                        }
+                    },
+                })
+            })
+
+            function pushSwoole(json) {
+                var wsUrl = "ws://{{$_SERVER['HTTP_HOST']}}:9502?page=jump&token={{hash_make(['jump'])}}";
+                var ws = new WebSocket(wsUrl);
+                ws.onopen = function (event) {
+                    ws.send(json);
+                }
+            }
+            function dialog(title,message,func) {
+                BootstrapDialog.confirm({
+                    onshow: function (obj) {
+                        var cssConf = {};
+                        cssConf['width'] = 300;
+                        if (cssConf) {
+                            obj.getModal().find('div.modal-dialog').css(cssConf);
+                        }
+                    },
+                    title: title,
+                    message: message,
+                    btnCancelLabel: '取消',
+                    btnOKLabel: '确定',
+                    callback: func
+                });
+            }
+            $(".level2").on('click',function(){
+                var id = $(this).attr('data-id');
+                dialog("活动升级","确认升级高级活动？",function () {
+                    var url = '{{route("tw.payorder.store")}}';
+                    $.ajax({
+                        url: url,
+                        type:'post',
+                        data:{
+                            type:1,
+                            _token:"{{csrf_token()}}",
+                            pay_type:1,
+                            activity_id:id
+                        },
+                        dataType: "json",
+                        error:function(data){
+                            $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                            return;
+                        },
+                        success:function(result){
+                            if(result.status == 1){
+                                $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})
+                            } else {
+                                $.amaran({'message':result.info});
+                            }
+                        },
+                    })
+                });
+            })
+
+
+
+
+            $(".adddays").on('click',function(){
+                var message = '<input class="form-control"  id="add_days" />'
+                var id = $(this).attr('data-id');
+                dialog("续费天数",message,function () {
+                    var add_days = $("#add_days").val().trim();
+                    var url = '{{route("tw.payorder.store")}}';
+                    if (/^\d+$/.test(add_days) == false) {
+                        $.amaran({'message':"请输入有效天数"});
+                        return;
+                    }
+                    $.ajax({
+                        url: url,
+                        type:'post',
+                        data:{
+                            type:2,
+                            _token:"{{csrf_token()}}",
+                            pay_type:1,
+                            activity_id:id,
+                            days:add_days
+                        },
+                        dataType: "json",
+                        error:function(data){
+                            $.amaran({'message':"服务器繁忙, 请联系管理员！"});
+                            return;
+                        },
+                        success:function(result){
+                            if(result.status == 1){
+                                $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})
+                            } else {
+                                $.amaran({'message':result.info});
+                            }
+                        },
+                    })
+
+                })
+            })
+        })
     </script>
 @endsection

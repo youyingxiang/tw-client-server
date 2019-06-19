@@ -81,7 +81,7 @@ class PayOrder extends Model
         $sData = '';
         if (!$this->pay_state) {
             $url = $this->getIndexUrl();
-            $sData = "<a href=".$url." >去完成支付</a>";
+            $sData = "<a class='gopay' href='javascript:void(0)' data-url=".$url." >去完成支付</a>";
         } else if ($this->pay_state == 1) {
             $sData = "<a href='javascript:void(0)' >已完成支付</a>";
         }
