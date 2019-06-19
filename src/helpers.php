@@ -486,6 +486,14 @@ if (!function_exists('curl_get')) {
     }
 }
 
+if (!function_exists('adminId')) {
+
+    function adminId()
+    {
+        return \Tw::authLogic()->guard()->id();
+    }
+}
+
 
 
 

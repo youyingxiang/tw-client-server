@@ -175,7 +175,8 @@ class PayOrder extends Model
             }
             return $bRes;
         });
-        $this->pushUserOrderStatus();
+        if ($bRes)
+            $this->pushUserOrderStatus();
         return (bool)$bRes;
     }
 

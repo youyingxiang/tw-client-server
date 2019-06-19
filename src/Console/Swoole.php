@@ -122,7 +122,32 @@ class Swoole extends Command
     public function onRequest($request,$response)
     {
         if ($this->checkAccess("", $request)) {
+            $param = $request->get;
+            if (isset($param['page']) && $param['page'] == "order") {
+                $this->orderLogic($request);
+            }
+        }
+    }
 
+    /**
+     * @param $request
+     * 订单逻辑
+     */
+    public function orderLogic($request)
+    {
+        foreach (self::$server->connections as $fd) {
+            if (self::$server->isEstablished($fd)) {
+                $jContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
+                if ($jContent['page'] == "qrcode" && $jContent['admin'] == $request->get['admin_id'])
+                {
+                    $aData =[
+                        'state' => 1,
+                        'info' => '操作成功!',
+                        'url' => route("tw.index.index"),
+                    ];
+                    self::$server->push($fd,xss_json($aData));
+                }
+            }
         }
     }
 
@@ -202,7 +227,8 @@ class Swoole extends Command
                 [
                     'page'=> $request->get['page'],
                     'fd'  => $request->fd,
-                    'activity'=> $request->get['activity'] ?? ''
+                    'activity'=> $request->get['activity'] ?? '',
+                    'admin' => $request->get['admin_id'] ?? '',
                 ],true);
             $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
             return true;
