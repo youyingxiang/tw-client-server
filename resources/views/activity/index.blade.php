@@ -1,7 +1,7 @@
 @extends('tw::layout.base',['header' => "活动",'pageTitle'=>'活动',"pageBtnName"=>'活动列表'])
 @section('content')
     {{--MY STYLE--}}
-    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}?version=1.0.1">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}?version=1.0.2">
     {{--样式--}}
 
 
@@ -125,7 +125,7 @@
 
     {{--TAB切换--}}
     <script>
-        $(function() {
+
             function act_pt() {
                 document.getElementById("act_pt").style.cssText = 'background:#3c8dbc;color:#fff;';
                 document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
@@ -141,7 +141,7 @@
                 document.getElementById("putong").style.cssText = 'display:none';
                 $("#create_activity").hide();
             }
-
+        $(function() {
             // 跳转大屏幕
             $(".jump_screen").on('click', function () {
                 var id = $(this).attr('data-id');
