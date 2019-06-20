@@ -195,8 +195,8 @@ class PayOrder extends Model
      */
     public function getPushUrl($adminId,$orderNo):string
     {
-        $token   = hash_make(['order',$adminId,$orderNo]);
-        return $_SERVER['HTTP_HOST'].":9502?page=order&admin_id=$adminId&order=$orderNo&token=".$token;
+        $token   = hash_make(['orderLogic',$adminId,$orderNo]);
+        return $_SERVER['HTTP_HOST'].":9502?page=orderLogic&admin_id=$adminId&order=$orderNo&token=".$token;
     }
 
     /**

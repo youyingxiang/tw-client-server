@@ -102,6 +102,8 @@
                 })
             } else if(data.url){
                 window.location.href=data.url;
+            } else if(data.state == 1 && data.score > 0) {
+                alert(data.info+" 最后得分 "+data.score);
             }
             heartCheck.reset().start();
         }

@@ -416,6 +416,7 @@ class ModelLogic implements Renderable
             $score = $this->removeMinAndMaxScore();
         }
         Tw::newModel("Player")->where('id',$this->aDataScore['player_id'])->update(['score'=>$score]);
+        Tw::newModel("Player")->pushFinishScore($score,$this->aDataScore['activity_id']);
     }
 
     /**
@@ -434,9 +435,11 @@ class ModelLogic implements Renderable
     public function removeMinAndMaxScore():float
     {
         $aScores = Redis::hvals($this->playerKey);
-        sort($aScores);
-        array_pop($aScores);
-        array_shift($aScores);
+        if (count($aScores) > 2) {
+            sort($aScores);
+            array_pop($aScores);
+            array_shift($aScores);
+        }
         return round(array_sum($aScores)/count($aScores),2);
     }
 

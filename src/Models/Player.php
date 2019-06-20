@@ -246,4 +246,25 @@ class Player extends Model
         return Tw::ajaxResponse("清除失败！");
     }
 
+    /**
+     * @param string $score
+     * @param string $activity_id
+     * @return string
+     * @see 给首页推送评分完成的一个分数的url
+     */
+    public function getPushUrl(string $score,string $activity_id):string
+    {
+        $token   = hash_make(['finishScore',$activity_id,$score]);
+        return $_SERVER['HTTP_HOST'].":9502?page=finishScore&activity_id=$activity_id&score=$score&token=".$token;
+    }
+
+    /**
+     * @param string $score
+     * @param string $activity_id
+     */
+    public function pushFinishScore(string $score,string $activity_id):void
+    {
+        curl_get($this->getPushUrl($score,$activity_id));
+    }
+
 }

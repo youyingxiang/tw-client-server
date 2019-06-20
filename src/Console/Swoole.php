@@ -6,6 +6,7 @@
  * Time: 4:13 PM
  */
 namespace Tw\Server\Console;
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -29,16 +30,14 @@ class Swoole extends Command
      * @var string
      */
     protected $description = "this is websocket push client";
-
+    /**
+     * @var
+     */
     protected $redis;
-
-    // websocket服务
+    /**
+     * @var null
+     */
     private static $server = null;
-
-
-
-
-
     /**
      * Create a new command instance.
      *
@@ -106,12 +105,24 @@ class Swoole extends Command
     public function onMessage($server, $frame)
     {
         $aData = json_decode($frame->data,true);
-        /**
-         * @see
-         * type = 1 推送选手到大屏幕
-         */
-        if ( isset($aData['type']) ) {
-            $this->pushMessage($aData);
+
+        if (isset($aData['type'])) {
+            switch ((int)$aData['type']) {
+                case 1:
+                    $this->pushPlayer($aData);
+                    break;
+                case 2:
+                    $this->judgesScore($aData);
+                    break;
+                case 3:
+                    $this->jumpRank($aData);
+                    break;
+                case 4:
+                    $this->jumpHome($aData);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -123,33 +134,147 @@ class Swoole extends Command
     {
         if ($this->checkAccess("", $request)) {
             $param = $request->get;
-            if (isset($param['page']) && $param['page'] == "order") {
-                $this->orderLogic($request);
+            if (isset($param['page'])) {
+                if (method_exists($this,$param['page'])) {
+                    call_user_func([$this,$param['page']],$request);
+                }
             }
         }
     }
 
     /**
+     * @param array $aData
+     * @see 根据推送返回Id 查询选手信息 找到属于活动 只推送给对应活动
+     */
+    public function pushPlayer(array $aData)
+    {
+        $aResult = DB::table('tw_player')->find($aData['player']);
+        if ($aResult) {
+            $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData,$aResult) {
+                // 推送首页和评委页面
+                if ($aContent && ($aContent['page'] == "home" || $aContent['page'] =="judges") ) {
+                    if ($aResult->activity_id == $aContent['activity']) {
+                        $aRes['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+                        $aRes['player'] = (array)$aResult;
+                        $oSwoole::$server->push($fd, xss_json($aRes));
+                    }
+                }
+            };
+            $this->eachFdLogic($callback);
+        }
+    }
+
+    /**
+     * @param array $aData
+     * @see 评委打分逻辑
+     */
+    public function judgesScore(array $aData)
+    {
+        $aResult = DB::table('tw_player')->find($aData['player']);
+        if ($aResult) {
+            $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData,$aResult) {
+                if ($aContent && $aContent['page'] == "home") {
+                    if ($aResult->activity_id == $aContent['activity']) {
+                        $hData['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+                        $oSwoole::$server->push($fd, xss_json($hData));
+                    }
+                }
+            };
+            $this->eachFdLogic($callback);
+        }
+    }
+
+    /**
+     * @param array $aData
+     * @see 跳转排名
+     */
+    public function jumpRank(array $aData)
+    {
+        $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData) {
+            if ($aContent && $aContent['page'] == "rank") {
+                if (isset($aData['activity']) && $aData['activity'] == $aContent['activity']) {
+                    $aRes['url'] = tw_route('tw.home',(int)$aData['activity']);
+                    $oSwoole::$server->push($fd,xss_json($aRes));
+                }
+            }
+        };
+        $this->eachFdLogic($callback);
+    }
+
+    /**
+     * @param array $aData
+     * @see 跳转首页
+     */
+    public function jumpHome(array $aData)
+    {
+        $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData) {
+            if ($aContent && $aContent['page'] == "home") {
+                if (isset($aData['activity']) && $aData['activity'] == $aContent['activity']) {
+                    $aRes['url'] = tw_route('tw.home.rank',(int)$aData['activity']);
+                    $oSwoole::$server->push($fd,xss_json($aRes));
+                }
+            }
+        };
+        $this->eachFdLogic($callback);
+    }
+
+
+
+    /**
      * @param $request
-     * 订单逻辑
+     * @see 微信回调成功触发订单逻辑
      */
     public function orderLogic($request)
     {
+        $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($request) {
+            if ($aContent['page'] == "qrcode"
+                && $aContent['admin'] == $request->get['admin_id']
+                && $aContent['order'] == $request->get['order']
+            ){
+                $aData = [
+                    'state' => 1,
+                    'info' => '操作成功!',
+                    'url' => route("tw.index.index"),
+                ];
+                $oSwoole::$server->push($fd,xss_json($aData));
+            }
+        };
+        $this->eachFdLogic($callback);
+    }
+
+    /**
+     * @param $request
+     * @see 完成评分
+     */
+    public function finishScore($request)
+    {
+        $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($request) {
+            if ($aContent['page'] == "home"
+            && isset($aContent['activity'])
+            && isset($request->get['activity_id'])
+            && $aContent['activity'] == $request->get['activity_id']
+            ) {
+                $aData = [
+                    'state' => 1,
+                    'info' => '评分完成',
+                    'score' => $request->get['score']??'',
+                ];
+                $oSwoole::$server->push($fd,xss_json($aData));
+            }
+        };
+        $this->eachFdLogic($callback);
+    }
+
+    /**
+     * @param $request
+     * @see 循环逻辑处理
+     */
+    public function eachFdLogic(Closure $callback = null)
+    {
         foreach (self::$server->connections as $fd) {
             if (self::$server->isEstablished($fd)) {
-                $jContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
-                if ($jContent['page'] == "qrcode"
-                    && $jContent['admin'] == $request->get['admin_id']
-                    && $jContent['order'] == $request->get['order']
-                )
-                {
-                    $aData =[
-                        'state' => 1,
-                        'info' => '操作成功!',
-                        'url' => route("tw.index.index"),
-                    ];
-                    self::$server->push($fd,xss_json($aData));
-                }
+                $aContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
+                $callback($aContent,$fd,$this);
             } else {
                 $this->redis->hdel(config('tw.redis_key.h2'),$fd);
             }
@@ -166,45 +291,6 @@ class Swoole extends Command
         $this->line("客户端 {$fd} 关闭");
     }
 
-    /**
-     * 推送请求消息处理
-     */
-    public function pushMessage(array $aData)
-    {
-        if (isset($aData['player'])) {
-            $aResult = DB::table('tw_player')->find($aData['player']);
-        }
-
-        foreach (self::$server->connections as $fd) {
-            if (self::$server->isEstablished($fd)) {
-                $jContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
-                if ($jContent && ($jContent['page'] == "home" || $jContent['page'] =="judges" )&& $aData['type'] == "1") {
-                    if ($aResult->activity_id == $jContent['activity']) { // 根据推送返回Id 查询选手信息 找到属于活动 只推送给对应活动
-                        $aRes['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
-                        $aRes['player'] = (array)$aResult;
-                        self::$server->push($fd, xss_json($aRes));
-                    }
-                } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 2) {
-                    if ($aResult->activity_id == $jContent['activity']) {
-                        $hData['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
-                        self::$server->push($fd, xss_json($hData));
-                    }
-                } else if ($jContent && $jContent['page'] == "rank" && $aData['type'] == 3) {
-                    if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
-                        $jData['url'] = tw_route('tw.home',(int)$aData['activity']);
-                        self::$server->push($fd,xss_json($jData));
-                    }
-                } else if ($jContent && $jContent['page'] == "home" && $aData['type'] == 4) {
-                    if (isset($aData['activity']) && $aData['activity'] == $jContent['activity']) {
-                        $jData['url'] = tw_route('tw.home.rank',(int)$aData['activity']);
-                        self::$server->push($fd,xss_json($jData));
-                    }
-                }
-            } else {
-                $this->redis->hdel(config('tw.redis_key.h2'),$fd);
-            }
-        }
-    }
 
     /**
      * 校验客户端连接的合法性,无效的连接不允许连接
