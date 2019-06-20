@@ -38,6 +38,7 @@ trait Tw
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo')->name("tw.userinfo.update");
                 $router->resource('activity', 'ActivityController')->names('tw.activity')->middleware('tw.hashids');
+                $router->get('release/{id}', 'ActivityController@release')->name('tw.activity.release')->middleware('tw.hashids');
                 $router->get('control/{id}', 'ActivityController@control')->name('tw.activity.control')->middleware('tw.hashids');
                 $router->resource('judges', 'JudgesController')->names('tw.judges')->middleware('tw.hashids');
                 $router->resource('player', 'PlayerController')->names('tw.player')->middleware('tw.hashids');

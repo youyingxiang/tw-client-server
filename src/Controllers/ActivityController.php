@@ -128,4 +128,17 @@ class ActivityController extends Controller
 
     }
 
+    /**
+     * @param int $id
+     * @see 发布活动
+     */
+    public function release(int $id)
+    {
+        if ($this->Model()->release($id))
+            return Tw::ajaxResponse("发布成功",route('tw.activity.index'));
+        else
+            return Tw::ajaxResponse("发布失败");
+
+    }
+
 }

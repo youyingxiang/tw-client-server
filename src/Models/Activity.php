@@ -105,10 +105,14 @@ class Activity extends Model
      */
     public function getTermAttribute():string
     {
-        if ($this->is_term)
-            $sData = '<span>'.$this->created_at." 至 ".$this->term_date.'</span>';
-        else
-            $sData = '<span>已过期</span>';
+        if ($this->release_state) {
+            if ($this->is_term)
+                $sData = '<span>'.$this->released_at." 至 ".$this->term_date.'</span>';
+            else
+                $sData = '<span>已过期</span>';
+        } else
+            $sData = '<span>暂未发布</span>';
+
         return $sData;
     }
 
@@ -137,7 +141,7 @@ class Activity extends Model
      */
     public function getTermDate(int $days = null ,string $time = null):string
     {
-        return date('Y-m-d H:i:s',strtotime("+".($days ?? $this->days)."day",strtotime(($time ?? $this->created_at))));
+        return date('Y-m-d H:i:s',strtotime("+".($days ?? $this->days)."day",strtotime(($time ?? $this->released_at))));
     }
 
 
@@ -169,7 +173,7 @@ class Activity extends Model
         $object =  (object)null;
         $oData = $this->find($activityIds);
         if ($oData) {
-            $dResult = $this->getTermDate($oData['days'],$oData['created_at']);
+            $dResult = $this->getTermDate($oData['days'],$oData['released_at']);
             if ($this->IsTerm($dResult)) {
                 $object = $oData;
             }
@@ -249,7 +253,9 @@ class Activity extends Model
     }
 
 
-    // 项目限制
+    /**
+     * @see 项目限制
+     */
     public function restrict(int $iFlag):bool
     {
         $bFlag = true;
@@ -266,6 +272,20 @@ class Activity extends Model
         }
         return $bFlag;
     }
+
+    /**
+     * @param array $id
+     */
+    public function release(array $aId):bool
+    {
+        $aWhere['admin_id'] = Tw::authLogic()->guard()->id();
+        $aWhere['id'] = $aId[0];
+        $aInput['release_state'] = 1;
+        $aInput['released_at'] = date("Y-m-d H:i:s");
+        return $this->where($aWhere)->where('release_state','<>',1)->update($aInput);
+    }
+
+
 
 
 

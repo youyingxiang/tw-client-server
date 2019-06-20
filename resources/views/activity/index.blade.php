@@ -38,7 +38,7 @@
                                         <div class="pt_ico"><a href="{{tw_route('tw.activity.edit',$vo['id'])}}"><i
                                                         class="img_1"></i>
                                                 <p>活动设置</p></a></div>
-                                        <div class="pt_ico"><a target="_blank"
+                                        <div class="pt_ico"><a class="large_screen" data-state="{{$vo['release_state']}}" target="_blank"
                                                                href="{{tw_route('tw.home',$vo['id'])}}"><i
                                                         class="img_2"></i>
                                                 <p>大屏幕</p></a></div>
@@ -62,6 +62,10 @@
                                             <a class="next_player" data-url="{{route('tw.player.nextPlayer',$vo['id'])}}" href="javascript:void(0)">
                                                 <i class="img_5"></i>
                                                 <p>下一个选手</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="release" data-state="{{$vo['release_state']}}" data-url="{{tw_route('tw.activity.release',$vo['id'])}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>活动发布</p></a></div>
                                     </div>
                                 </li>
                             @endforeach
@@ -92,7 +96,7 @@
                                         <div class="pt_ico"><a href="{{tw_route('tw.activity.edit',$vo['id'])}}"><i
                                                         class="img_1"></i>
                                                 <p>活动设置</p></a></div>
-                                        <div class="pt_ico"><a target="_blank"
+                                        <div class="pt_ico"><a class="large_screen" data-state="{{$vo['release_state']}}" target="_blank"
                                                                href="{{tw_route('tw.home',$vo['id'])}}"><i
                                                         class="img_2"></i>
                                                 <p>大屏幕</p></a></div>
@@ -116,6 +120,10 @@
                                             <a class="next_player" data-url="{{route('tw.player.nextPlayer',$vo['id'])}}" href="javascript:void(0)">
                                                 <i class="img_5"></i>
                                                 <p>下一个选手</p></a></div>
+                                        <div class="pt_ico">
+                                            <a class="release" data-state="{{$vo['release_state']}}" data-url="{{tw_route('tw.activity.release',$vo['id'])}}" href="javascript:void(0)">
+                                                <i class="img_5"></i>
+                                                <p>活动发布</p></a></div>
                                     </div>
                                 </li>
                             @endforeach
@@ -149,7 +157,17 @@
                 document.getElementById("putong").style.cssText = 'display:none';
                 $("#create_activity").hide();
             }
+
         $(function() {
+            $(".large_screen").on('click',function() {
+                var state = $(this).attr('data-state');
+                if (state == 1) {
+                    return true;
+                } else {
+                    $.amaran({'message': '发布以后才能查看大屏幕！'});
+                    return false;
+                }
+            })
             // 跳转大屏幕
             $(".jump_screen").on('click', function () {
                 var id = $(this).attr('data-id');
@@ -164,6 +182,7 @@
                 pushSwoole(json);
                 $.amaran({'message': '跳转成功'});
             })
+
 
             // 点击下一位选手
             $(".next_player").on('click', function () {
@@ -282,6 +301,32 @@
                     }
 
                 })
+            })
+            //发布活动
+            $('.release').on('click',function() {
+                var url = $(this).attr('data-url');
+                var state = $(this).attr('data-state');
+                if (state) {
+                    $.amaran({'message':"活动已发布，请勿重复发布！"});
+                } else {
+                    $.ajax({
+                        url: url,
+                        type: 'get',
+                        dataType: "json",
+                        error: function (data) {
+                            $.amaran({'message': "服务器繁忙, 请联系管理员！"});
+                            return;
+                        },
+                        success: function (result) {
+                            if (result.status == 1) {
+                                $.amaran({'message': result.info});
+                                $.pjax({url: result.url, container: '#pjax-container', fragment: '#pjax-container'})
+                            } else {
+                                $.amaran({'message': result.info});
+                            }
+                        },
+                    })
+                }
             })
         })
     </script>
