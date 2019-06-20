@@ -56,7 +56,7 @@ trait Tw
         });
         app('router')->namespace(config('tw.route.namespace'))->group(function ($router) {
             $router->get('activity/{activityId}', "HomeController@index")->name('tw.home')->middleware('tw.hashids');
-            $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges')->middleware('tw.hashids');
+            $router->get('judges/{judgesId}',"HomeController@judges")->name('tw.home.judges')->middleware('tw.hashids','web');
             $router->post('postScoring',"HomeController@postScoring")->name('tw.home.postScoring');
             $router->get('rank/{activityId}',"HomeController@rank")->name("tw.home.rank")->middleware('tw.hashids');
             $router->any('wechat_notify',"PayOrderController@wechatNotify")->name("tw.payorder.notify");

@@ -154,4 +154,47 @@ class Judges extends Model
         return get_push_player($oJudges['activity_id']);
     }
 
+    /**
+     * @param int $id
+     * @检测评委连接状态
+     */
+    public function checkLinkState():bool
+    {
+       $bRes =  false;
+       if ($this->link_state == 0) {  //还没有用户进入界面
+           $this->unlinked();
+           $bRes = true;
+       } elseif ($this->checkLinkedIsOneSelf()) { //是当前用户登陆过在登陆
+           $bRes = true;
+       }
+       return $bRes;
+    }
+
+    /**
+     * @param object $oJudges
+     * @see 未链接
+     */
+    public function unlinked():void
+    {
+        $this->link_state = 1;
+        $this->session_id = session()->getId();
+        $this->save();
+        session(["link_state"=>1]);
+    }
+
+    /**
+     * @see 检测链接是当前用户链接的
+     */
+    public function checkLinkedIsOneSelf():bool
+    {
+        $bRes = false;
+        if ($this->link_state == 1
+            && session("link_state") == 1
+            && session()->getId() == $this->session_id) {
+            $bRes = true;
+        }
+        return $bRes;
+    }
+
+
 }

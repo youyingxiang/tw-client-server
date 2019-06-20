@@ -26,6 +26,7 @@
                                 <th>所属活动</th>
                                 @endif
                                 <th>评委二维码</th>
+                                <th>连接状态</th>
                                 <th>添加日期</th>
                                 <th>操作</th>
                             </tr>
@@ -39,6 +40,10 @@
                                         <td style="vertical-align:middle">{{$vo->activity->title}}</td>
                                     @endif
                                     <td style="vertical-align:middle">{!! $vo['qr_code'] !!}</td>
+                                    <td style="vertical-align:middle">
+                                        <a href="javascript:void(0);" class='linkstate editimg fa @if($vo['link_state'] == 1)fa-check-circle text-green @else fa-times-circle text-red @endif'>
+                                        </a>
+                                    </td>
                                     <td style="vertical-align:middle">{{$vo['created_at']}}</td>
                                     <td style="vertical-align:middle">
                                         {!! button(tw_route('tw.judges.edit',$vo['id']),'edit') !!}
@@ -55,4 +60,11 @@
             </div>
         </div>
     </section>
+    <script>
+        $(function () {
+            $(".linkstate").on('click',function () {
+                return false;
+            })
+        })
+    </script>
 @endsection

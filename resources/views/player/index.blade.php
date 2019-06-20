@@ -41,7 +41,7 @@
                                     @endif
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="score" data-url="{{tw_route('tw.player.update',$vo['id'])}}" >{{$vo['score']}}</span></td>
                                     <td style="vertical-align:middle">
-                                        <a href="javascript:void(0);" class='editimg fa @if($vo['push_state'] == 1)fa-check-circle text-green @else fa-times-circle text-red @endif'>
+                                        <a href="javascript:void(0);" class='pushstate editimg fa @if($vo['push_state'] == 1)fa-check-circle text-green @else fa-times-circle text-red @endif'>
                                         </a>
                                     </td>
                                     <td style="vertical-align:middle">{{$vo['updated_at']}}</td>
@@ -61,4 +61,11 @@
             </div>
         </div>
     </section>
+    <script>
+        $(function () {
+            $(".pushstate").on('click',function () {
+                return false;
+            })
+        })
+    </script>
 @endsection

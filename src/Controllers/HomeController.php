@@ -33,15 +33,20 @@ class HomeController extends Controller
     public function judges(int $judgesId)
     {
         // 获取当前打分选手
-        $oJudges = Tw::newModel("Judges")->find($judgesId);
-        $sActivityId = $oJudges->activity_id;
-        if ($sActivityId) {
-            $aPlayer = get_push_player($sActivityId);
-            return view('tw::home.judges', compact('aPlayer', 'sActivityId','oJudges'));
+        $oJudges     = Tw::newModel("Judges")->find($judgesId);
+        if ($oJudges->checkLinkState() == false) {
+            return tw_abort("姓名：$oJudges->name 评委已经处于连接状态！",401);
         } else {
-            return tw_abort("没有找到当前评委所在活动！",404);
+            $sActivityId = $oJudges->activity_id;
+            if ($sActivityId) {
+                $aPlayer = get_push_player($sActivityId);
+                return view('tw::home.judges', compact('aPlayer', 'sActivityId', 'oJudges'));
+            } else {
+                return tw_abort("没有找到当前评委所在活动！", 404);
+            }
         }
     }
+
 
     /**
      * 进行打分操作
