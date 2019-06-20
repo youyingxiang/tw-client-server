@@ -233,10 +233,12 @@ class Player extends Model
             $bUpdateRes = $this->where($aWhere)->whereIn('id',$ids)->update(['score'=>0]);
             if ($bUpdateRes) {
                 // 清除redis 选手积分
-                array_map(function ($id){
-                    $this->playerKey = config('tw.redis_key.h1').$id;
-                    Redis::del($this->playerKey);
+                $aKeys = [];
+                array_map(function ($id) use(&$aKeys){
+                    $playerKey = config('tw.redis_key.h1').$id;
+                    $aKeys[] = $playerKey;
                 },$ids);
+                Redis::del($aKeys);
             }
             return Tw::ajaxResponse("清除成功",$this->getIndexUrl());
 
