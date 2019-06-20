@@ -59,6 +59,14 @@ class Button
         return "<a class=\"btn btn-danger btn-xs delete-one\" href=\"javascript:void(0);\" data-url=\"".$this->url."\"  data-csrftoken=\"".csrf_token()."\"  data-id=\"".hash_encode($this->id)."\"><i class=\"fa fa-trash\"></i> 删除</a>";
     }
 
+    public function clearLink():string
+    {
+        if (!empty(request()->input('activity_id'))) {
+            $this->url .= "?activity_id=".hash_encode(request()->input('activity_id'));
+        }
+        return "<a class=\"btn btn-danger btn-xs delete-one\" href=\"javascript:void(0);\" data-url=\"".$this->url."\"  data-csrftoken=\"".csrf_token()."\"  data-id=\"".hash_encode($this->id)."\"><i class=\"fa fa-trash\"></i> 清除评委连接</a>";
+    }
+
     /**
      * @return string
      */

@@ -48,6 +48,7 @@
                                     <td style="vertical-align:middle">
                                         {!! button(tw_route('tw.judges.edit',$vo['id']),'edit') !!}
                                         {!! button(tw_route('tw.judges.destroy',$vo['id']),'delete',$vo['id']) !!}
+                                        {!! button(tw_route('tw.judges.clearlink',$vo['id']),'clearLink',$vo['id']) !!}
                                     </td>
                                 </tr>
                             @endforeach

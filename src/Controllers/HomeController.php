@@ -34,7 +34,9 @@ class HomeController extends Controller
     {
         // 获取当前打分选手
         $oJudges     = Tw::newModel("Judges")->find($judgesId);
-        if ($oJudges->checkLinkState() == false) {
+        if (!$oJudges) {
+            return tw_abort("评委不存在！",404);
+        } elseif ($oJudges->checkLinkState() == false) {
             return tw_abort("姓名：$oJudges->name 评委已经处于连接状态！",401);
         } else {
             $sActivityId = $oJudges->activity_id;

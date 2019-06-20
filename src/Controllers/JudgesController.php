@@ -92,4 +92,13 @@ class JudgesController extends Controller
     {
         return Tw::moldelLogic(Tw::newModel("Judges"));
     }
+
+    /**
+     * @see 清除评委连接
+     */
+    public function clearLink($id)
+    {
+        $aInput['link_state'] = 0;
+        return $this->Model()->update($id,$aInput);
+    }
 }
