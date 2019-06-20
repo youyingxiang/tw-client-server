@@ -92,6 +92,7 @@ class Activity extends Model
     {
         return $this->and_fields??[];
     }
+
     /**
      * 标示 当前活动属于哪个项目
      */
@@ -115,6 +116,7 @@ class Activity extends Model
 
         return $sData;
     }
+
 
     public function getJumpAttribute():string
     {
@@ -208,7 +210,9 @@ class Activity extends Model
     public function beforeUpdate(object $oData):string
     {
         $message = '';
-        return $this->restrict(2) ? $message : "普通项目个数不能超过5个！";
+        if ($oData->level == 1)
+            $message = $this->restrict(2) ? '' : "普通项目个数不能超过5个！";
+        return $message;
     }
 
     /**

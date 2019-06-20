@@ -86,10 +86,6 @@
                                     </div>
                                     <div class="pt_right">
                                         <div class="pt_ico">
-                                            <a class="level2" data-id="{{$vo['id']}}" href="javascript:void(0)">
-                                                <i class="img_5"></i>
-                                                <p>升级高级活动</p></a></div>
-                                        <div class="pt_ico">
                                             <a class="adddays" data-id="{{$vo['id']}}" href="javascript:void(0)">
                                                 <i class="img_5"></i>
                                                 <p>续费天数</p></a></div>

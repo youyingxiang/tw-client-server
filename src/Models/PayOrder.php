@@ -221,6 +221,21 @@ class PayOrder extends Model
     }
 
     /**
+     * @return string
+     * @活动名称
+     */
+    public function getActivityTitleAttribute():string
+    {
+        $sRes = $this->activity->title ?? '';
+        if (!$sRes) {
+            $sRes =  Tw::newModel("Activity")::onlyTrashed()->where('id',$this->activity_id)->value('title');
+        }
+        return $sRes;
+    }
+
+
+
+    /**
      * @param object $order
      * @天数续费
      */

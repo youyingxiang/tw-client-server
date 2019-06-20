@@ -68,7 +68,9 @@
                                 @if(!empty($aData))
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">活动续费</label>
-                                    <div class="col-sm-7"><a class="btn btn-default" id="level2"> 升级为高级活动</a><a style="margin-left:20px" class="btn btn-default" id="adddays"> 增加活动天数</a></div>
+                                    @if($aData['level'] == 1)
+                                        <div class="col-sm-7"><a class="btn btn-default" id="level2"> 升级为高级活动</a><a style="margin-left:20px" class="btn btn-default" id="adddays"> 增加活动天数</a></div>
+                                    @endif
                                 </div>
                                 @endif
 
