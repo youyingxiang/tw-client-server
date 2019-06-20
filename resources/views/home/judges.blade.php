@@ -20,6 +20,7 @@
     <div class="judge_fg"></div>
     <div class="judge_conter">
         <div class="judge_from">
+            <h3>姓名：{{$oJudges['name']}}</h3>
             <p>请输入分数</p>
             <input type="text" id="score" placeholder="最多保留两位小数" >
             <input type="submit" value="提交" id="input_sub">
@@ -65,7 +66,6 @@
                     } else {
                         alert(result.info);
                     }
-                    $("#score").val("");
                 },
             })
         }
@@ -112,6 +112,7 @@
                 $('#screen_player_img').attr('src', data.player.img);
                 $('#screen_player_name').html(data.player.name);
                 $("#screen_player_img").attr('data-id', data.player.id);
+                $("#score").val("");
             }
 
             heartCheck.reset().start();

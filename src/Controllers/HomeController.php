@@ -33,10 +33,11 @@ class HomeController extends Controller
     public function judges(int $judgesId)
     {
         // 获取当前打分选手
-        $sActivityId = Tw::newModel("Judges")->where('id',$judgesId)->value('activity_id');
+        $oJudges = Tw::newModel("Judges")->find($judgesId);
+        $sActivityId = $oJudges->activity_id;
         if ($sActivityId) {
             $aPlayer = get_push_player($sActivityId);
-            return view('tw::home.judges', compact('aPlayer', 'sActivityId'));
+            return view('tw::home.judges', compact('aPlayer', 'sActivityId','oJudges'));
         } else {
             return tw_abort("没有找到当前评委所在活动！",404);
         }
