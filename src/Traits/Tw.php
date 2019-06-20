@@ -31,10 +31,13 @@ trait Tw
                 $router->resource('tw-server', 'TwServerController')->names('tw.index');
                 $router->get('login', 'AuthController@getLogin')->name('tw.login');
                 $router->post('login', 'AuthController@postLogin');
+                $router->get('rest', 'AuthController@getRestPassWord')->name('tw.resetpassword');
+                $router->post('rest', 'AuthController@postRestPassWord');
                 $router->get('logout', 'AuthController@getLogout')->name('tw.logout');
                 $router->get('register','AuthController@getRegister')->name('tw.register');
                 $router->post('register','AuthController@postRegister');
                 $router->post('sendMsg','AuthController@sendMsg')->name('tw.sendmsg');
+                $router->post('resetSendMsg','AuthController@resetSendMsg')->name('tw.resetSendMsg');
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo')->name("tw.userinfo.update");
                 $router->resource('activity', 'ActivityController')->names('tw.activity')->middleware('tw.hashids');

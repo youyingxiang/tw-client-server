@@ -8,11 +8,15 @@
 namespace Tw\Server\Logic;
 use Illuminate\Http\Request;
 use Tw\Server\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class AuthLogic
 {
@@ -136,6 +140,13 @@ class AuthLogic
         ]);
     }
 
+    public function phoneErrResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'phone' => ["手机格式不正确！"],
+        ]);
+    }
+
     /**
      * @return string
      */
@@ -170,8 +181,8 @@ class AuthLogic
     public function register(Request $request)
     {
         $this->validateRegister($request);
-        $code = $request->post('code');
         $phone = $request->post('phone');
+        $code = $request->post('code');
         if (false == comparisonCode( $code,$phone)) {
             return $this->sendCodeErrResponse($request);
         }
@@ -182,6 +193,27 @@ class AuthLogic
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
+    }
+
+    /**
+     * @param string $phone
+     * @return boole
+     * @see 手机格式验证
+     */
+    public function phoneVerif(string $phone):bool
+    {
+        preg_match("/^1[349578]\d{9}$/", $phone, $mobile);
+        return empty($mobile) ? false : true;
+    }
+
+    /**
+     * @param string $phone
+     * @return int
+     * @see 查看手机号首府存在
+     */
+    public function isExistsPhone(string $phone):int
+    {
+        return \Tw::newModel("Admin")->where('phone',$phone)->count();
     }
 
 
@@ -205,6 +237,91 @@ class AuthLogic
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @see 密码重制
+     */
+    public function reset(Request $request)
+    {
+        $request->validate($this->resetRules(), $this->validationRestErrorMessages());
+
+        $code = $request->post('code');
+        $phone = $request->post('phone');
+
+        if (false == comparisonCode( $code,$phone)) {
+            return $this->sendCodeErrResponse($request);
+        }
+        $oAdmin = \Tw::newModel("Admin")->where('phone',$phone)->first();
+        $this->resetPassword($oAdmin,$request->post('password'));
+        return redirect($this->redirectPath());
+    }
+
+
+    /**
+     * @param $user
+     * @param $password
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+        event(new PasswordReset($user));
+        $this->guard()->login($user);
+    }
+
+    /**
+     * @param Request $request
+     * @param $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+
+    /**
+     * @param Request $request
+     * @param $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return redirect()->back()
+            ->withInput($request->only('phone'))
+            ->withErrors(['phone' => trans($response)]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function resetRules()
+    {
+        return [
+            'phone' => 'required',
+            'password' => 'required|confirmed|min:6',
+            'code'  => 'required',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function validationRestErrorMessages()
+    {
+        return [
+            'phone.required' => '手机号不能输入为空！',
+            'password.required' => '密码输入不能为空！',
+            'password.confirmed' => '两次密码输入不一致！',
+            'password.min' => '密码最小6个字符！',
+            'code.required' => '验证码不能为空！',
+        ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function broker()
+    {
+        return Password::broker();
     }
 
 

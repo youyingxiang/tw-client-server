@@ -67,6 +67,8 @@ return [
             'logout',
             'register',
             'sendMsg',
+            'rest',
+            'resetSendMsg',
         ],
     ],
 
