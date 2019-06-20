@@ -22,7 +22,7 @@
         <div class="judge_from">
             <h3>姓名：{{$oJudges['name']}}</h3>
             <p>请输入分数</p>
-            <input type="text" id="score" placeholder="最多保留两位小数" >
+            <input type="text" id="score" oninput="inputnum(this)" placeholder="最多保留两位小数" >
             <input type="submit" value="提交" id="input_sub">
             <h3>温馨提示</h3>
             <p id="input_sub_p">如出现问题请及时联系售后客服 ：0736-8888888</p>
@@ -70,6 +70,13 @@
             })
         }
     });
+    function inputnum(obj,val){
+        obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+        obj.value = obj.value.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+    }
 
 
 
