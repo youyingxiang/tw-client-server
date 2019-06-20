@@ -105,25 +105,28 @@ class Swoole extends Command
     public function onMessage($server, $frame)
     {
         $aData = json_decode($frame->data,true);
-
         if (isset($aData['type'])) {
-            switch ((int)$aData['type']) {
-                case 1:
-                    $this->pushPlayer($aData);
-                    break;
-                case 2:
-                    $this->judgesScore($aData);
-                    break;
-                case 3:
-                    $this->jumpRank($aData);
-                    break;
-                case 4:
-                    $this->jumpHome($aData);
-                    break;
-                default:
-                    break;
+            $sFuncName = $this->enum((int)$aData['type']);
+            if ($sFuncName && method_exists($this,$sFuncName)) {
+                call_user_func([$this,$sFuncName],$aData);
             }
         }
+    }
+
+    /**
+     * @param int $type
+     * @return string
+     * @see 枚举映射
+     */
+    public function enum(int $type):string
+    {
+        $aFunc = [
+            1 => "pushPlayer",
+            2 => "judgesScore",
+            3 => "jumpRank",
+            4 => "jumpHome"
+        ];
+        return $aFunc[$type] ?? '';
     }
 
     /**
