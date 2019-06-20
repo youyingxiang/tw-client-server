@@ -37,7 +37,7 @@
             {{--用户名--}}
 
             {{--END--}}
-            <div class="form-group has-feedback {!! !$errors->has('phone') ?: 'has-error' !!}">
+            <div class="phonecode form-group has-feedback {!! !$errors->has('phone') ?: 'has-error' !!}">
 
                 @if($errors->has('phone'))
                     @foreach($errors->get('phone') as $message)
@@ -48,7 +48,7 @@
                 <input type="text" class="form-control" placeholder="请输入手机号" name="phone" value="{{ old('phone') }}">
                 <span id="login-ico-input" class="glyphicon glyphicon-phone form-control-feedback"></span>
             </div>
-            <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
+            <div class="pwd form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
 
                 @if($errors->has('password'))
                     @foreach($errors->get('password') as $message)
@@ -59,7 +59,7 @@
                 <input type="password" class="form-control"  placeholder="请输入新的密码" name="password">
                 <span id="login-ico-input" class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
-            <div class="form-group has-feedback {!! !$errors->has('password_confirmation') ?: 'has-error' !!}">
+            <div class="pwd form-group has-feedback {!! !$errors->has('password_confirmation') ?: 'has-error' !!}">
 
                 @if($errors->has('password_confirmation'))
                     @foreach($errors->get('password_confirmation') as $message)
@@ -71,7 +71,7 @@
                 <span id="login-ico-input" class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             {{--验证码--}}
-            <div style="overflow: hidden;" class="form-group has-feedback {!! !$errors->has('code') ?: 'has-error' !!}">
+            <div style="overflow: hidden;" class="phonecode form-group has-feedback {!! !$errors->has('code') ?: 'has-error' !!}">
 
                 @if($errors->has('code'))
                     @foreach($errors->get('code') as $message)
@@ -87,7 +87,7 @@
             <div class="row">
                 <div class="col-xs-4" style="width: 100%">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button style="width: 100%" type="submit" class="btn btn-primary btn-block btn-flat">确认找回密码</button>
+                    <button style="width: 100%" type="submit" id="reset_pwd" class="btn btn-primary btn-block btn-flat">确认找回密码</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -110,6 +110,42 @@
 <script src="{{ tw_asset("/vendor/tw/home/js/public.js")}}"></script>
 <script>
     $(function () {
+        @if($errors->has('password'))
+            $(".pwd").show();
+            $(".phonecode").hide();
+        @else
+        var is_code = false;
+        if (is_code == false) {
+            $(".pwd").hide();
+            $("#reset_pwd").on("click",function(){
+                if (is_code == true) {
+                    return true;
+                }
+                var phone = $('input[name="phone"]').val().trim();
+                var code = $('input[name="code"]').val().trim();
+                $.ajax({
+                    url: "{{route('tw.checkCode')}}",
+                    type:'post',
+                    dataType: "json",
+                    data:{code:code,phone:phone,_token:"{{csrf_token()}}"},
+                    error:function(data){
+                        alert("服务器繁忙, 请联系管理员！");
+                        return;
+                    },
+                    success:function(result){
+                        if(result.status == 1){
+                            $(".pwd").show();
+                            $(".phonecode").hide();
+                            is_code = true;
+                        } else {
+                            alert(result.info)
+                        }
+                    },
+                })
+                return false;
+            })
+        }
+        @endif
 
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',

@@ -69,6 +69,7 @@ return [
             'sendMsg',
             'rest',
             'resetSendMsg',
+            'checkCode',
         ],
     ],
 

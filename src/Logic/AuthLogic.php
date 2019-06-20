@@ -245,17 +245,21 @@ class AuthLogic
      */
     public function reset(Request $request)
     {
+        $bFlag = false;
         $request->validate($this->resetRules(), $this->validationRestErrorMessages());
-
-        $code = $request->post('code');
-        $phone = $request->post('phone');
-
-        if (false == comparisonCode( $code,$phone)) {
-            return $this->sendCodeErrResponse($request);
+        $phone = session('resetpwd');
+        $pwd = $request->post('password');
+        if ($pwd && $phone && $phone == $request->post('phone')) {
+            $oAdmin = \Tw::newModel("Admin")->where('phone',$phone)->first();
+            if ($oAdmin) {
+                $this->resetPassword($oAdmin,$pwd);
+                $bFlag = true;
+            }
         }
-        $oAdmin = \Tw::newModel("Admin")->where('phone',$phone)->first();
-        $this->resetPassword($oAdmin,$request->post('password'));
-        return redirect($this->redirectPath());
+        if ($bFlag)
+            return redirect($this->redirectPath());
+        else
+            return $this->phoneErrResponse($request);
     }
 
 
@@ -296,9 +300,7 @@ class AuthLogic
     protected function resetRules()
     {
         return [
-            'phone' => 'required',
             'password' => 'required|confirmed|min:6',
-            'code'  => 'required',
         ];
     }
 
@@ -308,11 +310,9 @@ class AuthLogic
     protected function validationRestErrorMessages()
     {
         return [
-            'phone.required' => '手机号不能输入为空！',
             'password.required' => '密码输入不能为空！',
             'password.confirmed' => '两次密码输入不一致！',
             'password.min' => '密码最小6个字符！',
-            'code.required' => '验证码不能为空！',
         ];
     }
 

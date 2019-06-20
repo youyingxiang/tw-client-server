@@ -38,6 +38,7 @@ trait Tw
                 $router->post('register','AuthController@postRegister');
                 $router->post('sendMsg','AuthController@sendMsg')->name('tw.sendmsg');
                 $router->post('resetSendMsg','AuthController@resetSendMsg')->name('tw.resetSendMsg');
+                $router->post('checkCode','AuthController@checkCode')->name('tw.checkCode');
                 $router->get('userinfo', 'AdminController@getUserinfo')->name('tw.userinfo');
                 $router->post('userinfo', 'AdminController@postUserinfo')->name("tw.userinfo.update");
                 $router->resource('activity', 'ActivityController')->names('tw.activity')->middleware('tw.hashids');

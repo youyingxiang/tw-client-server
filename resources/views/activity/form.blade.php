@@ -54,10 +54,10 @@
                                     <label class="col-sm-2 control-label">活动背景</label>
                                     <div class="col-sm-7">
                                         <div class="input-group">
-                                            <input class="form-control" name="banner" value="{{$aData['banner']??''}}"  placeholder="活动背景" >
+                                            <input class="form-control" name="banner" value="{{$aData['banner']??asset("/vendor/tw/home/img/screen_bg.jpg")}}"  placeholder="活动背景" >
                                             <span class="input-group-btn">
-                                        <a href="{{tw_asset($aData['banner'] ?? asset("/vendor/tw/global/face/no-image.png") )}}" target="_blank" >
-                                            <img src="{{tw_asset($aData['banner'] ?? asset("/vendor/tw/global/face/no-image.png"))}}" style="height:34px; width:68px;" />
+                                        <a href="{{tw_asset($aData['banner'] ?? asset("/vendor/tw/home/img/screen_bg.jpg") )}}" target="_blank" >
+                                            <img src="{{tw_asset($aData['banner'] ?? asset("/vendor/tw/home/img/screen_bg.jpg"))}}" style="height:34px; width:68px;" />
                                         </a>
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>
@@ -68,9 +68,14 @@
                                 @if(!empty($aData))
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">活动续费</label>
-                                    @if($aData['level'] == 1)
-                                        <div class="col-sm-7"><a class="btn btn-default" id="level2"> 升级为高级活动</a><a style="margin-left:20px" class="btn btn-default" id="adddays"> 增加活动天数</a></div>
-                                    @endif
+
+                                        <div class="col-sm-7">
+                                            @if($aData['level'] == 1)
+                                            <a class="btn btn-default" id="level2"> 升级为高级活动</a>
+                                            @endif
+                                            <a @if($aData['level'] == 1) style="margin-left:20px" @endif class="btn btn-default" id="adddays"> 增加活动天数</a>
+                                        </div>
+
                                 </div>
                                 @endif
 

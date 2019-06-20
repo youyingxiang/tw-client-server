@@ -125,6 +125,25 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @see 检测验证码
+     */
+    public function checkCode()
+    {
+        $phone = request()->post('phone');
+        $code = request()->post('code');
+        if ($phone && $code) {
+            if (comparisonCode($code,$phone)) {
+                session(["resetpwd"=>$phone]);
+                return Tw::ajaxResponse("验证正确！",1);
+            } else {
+                return Tw::ajaxResponse("验证码不正确！");
+            }
+        } else {
+            return Tw::ajaxResponse("请输入正确验证码和手机号！");
+        }
+    }
+
 
 
 
