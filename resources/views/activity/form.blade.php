@@ -25,6 +25,7 @@
                                     <div class="col-sm-7"><input class="form-control" name="title" value="{{$aData['title']??''}}"  placeholder="活动名称"></div>
                                 </div>
 
+                                @if(empty($aData))
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">活动等级</label>
                                     <div class="col-sm-7">
@@ -35,6 +36,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                @endif
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">评分方式</label>

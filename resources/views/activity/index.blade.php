@@ -306,7 +306,7 @@
             $('.release').on('click',function() {
                 var url = $(this).attr('data-url');
                 var state = $(this).attr('data-state');
-                if (state) {
+                if (state == 1) {
                     $.amaran({'message':"活动已发布，请勿重复发布！"});
                 } else {
                     $.ajax({
