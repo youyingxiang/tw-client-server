@@ -12,6 +12,7 @@
                         <div class="pull-left">
                             {!! button(route('tw.player.create'),'create') !!}
                             {!! button(route('tw.player.destroy','all'),'delete_all') !!}
+                            {!! button(route('tw.player.clearall','all'),'clearScoreAll') !!}
                         </div>
                         @include('tw::layout.search')
                     </div>

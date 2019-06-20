@@ -100,4 +100,12 @@ class PlayerController extends Controller
     {
         return $this->Model()->pushPlayer($id);
     }
+
+    /**
+     * @see 清除选手得分
+     */
+    public function clearScoreAll()
+    {
+        return $this->Model()->clearScoreAll();
+    }
 }

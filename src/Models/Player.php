@@ -216,4 +216,32 @@ class Player extends Model
             $this->storePushPlayer($aData);
     }
 
+    /**
+     * @return bool
+     * @see 清除选手得分
+     */
+    public function clearScoreAll()
+    {
+        $id = request()->post('id');
+        if (!empty($id)) {
+            $ids = explode(',',$id);
+            $ids = array_map(function ($id){return hash_decode($id)??$id;},$ids);
+        }
+        if ($ids) {
+            $aWhere['admin_id'] = adminId();
+            $aWhere['activity_id'] = request()->input('activity_id') ?? '';
+            $bUpdateRes = $this->where($aWhere)->whereIn('id',$ids)->update(['score'=>0]);
+            if ($bUpdateRes) {
+                // 清除redis 选手积分
+                array_map(function ($id){
+                    $this->playerKey = config('tw.redis_key.h1').$id;
+                    Redis::del($this->playerKey);
+                },$ids);
+            }
+            return Tw::ajaxResponse("清除成功",$this->getIndexUrl());
+
+        }
+        return Tw::ajaxResponse("清除失败！");
+    }
+
 }
