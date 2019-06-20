@@ -5,8 +5,6 @@
   "keywords": ["laravel", "swoole", "server"],
   "require": {
     "php": ">=7.0.0",
-    "laravel/framework": "5.5.*",
-    "yxx/kindeditor":"1.0.1",
     "simplesoftwareio/simple-qrcode": "^2.0"
   },
   "license": "MIT",
