@@ -174,11 +174,13 @@ class Activity extends Model
     {
         $object =  (object)null;
         $oData = $this->find($activityIds);
-        if ($oData) {
+        if ($oData && $oData->release_state) {
             $dResult = $this->getTermDate($oData['days'],$oData['released_at']);
             if ($this->IsTerm($dResult)) {
                 $object = $oData;
             }
+        } elseif ($oData) {
+            $object = $oData;
         }
        return $object;
     }

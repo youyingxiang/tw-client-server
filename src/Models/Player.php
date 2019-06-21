@@ -103,8 +103,11 @@ class Player extends Model
     public function restrict(string $activity_id,int $iFlag):bool
     {
         $bFlag = false;
-        $limit = config('tw.restrict.player',10);
+
         $activityInfo = Tw::newModel('Activity')->where('admin_id',Tw::authLogic()->guard()->id())->find($activity_id);
+        $limit = $activityInfo->release_state
+            ? config('tw.restrict.player',10)
+            : config('tw.restrict.norelease_player',2);
         if (isset($activityInfo['level']) && $activityInfo['level'] == 1) {
             $players = $this->where(['admin_id' => Tw::authLogic()->guard()->id(),'activity_id'=>$activity_id])->count();
             if ($players > 0)

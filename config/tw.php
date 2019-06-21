@@ -81,6 +81,8 @@ return [
         'player'    => 10,      //普通用户限制选手个数
         'judges'    => 5,       //普通用户限制评委个数
         'activity'  => 5,       //普通项目限制添加数量
+        'norelease_player' => 2, //未发布活动限制选手个数
+        'norelease_judges' => 2, //未发布评委个数
     ],
     // 短信配置
     'short_message' => [

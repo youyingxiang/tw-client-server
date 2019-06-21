@@ -155,15 +155,6 @@
             }
 
         $(function() {
-            $(".large_screen").on('click',function() {
-                var state = $(this).attr('data-state');
-                if (state == 1) {
-                    return true;
-                } else {
-                    $.amaran({'message': '发布以后才能查看大屏幕！'});
-                    return false;
-                }
-            })
             // 跳转大屏幕
             $(".jump_screen").on('click', function () {
                 var id = $(this).attr('data-id');
