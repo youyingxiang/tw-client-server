@@ -147,7 +147,33 @@ class Judges extends Model
      */
     public function beforeUpdate(object $oData):string
     {
+        if ($oData->link_state == 1) {
+            $this->setPushClearJudgesLinkUrl($oData);
+        }
         return $this->restrict($oData->activity_id,2) ? '' : "评委超过限制！请升级高级活动";
+    }
+
+    /**
+     * @see 设置清除评委后把评委页面 返回首页的websocket连接
+     * 请求这个url 将进行推送
+     */
+    public function setPushClearJudgesLinkUrl(object $oData):void
+    {
+        $token   = hash_make(['clearJudgesLink',$oData->id,$oData->activity_id]);
+        $this->PushClearJudgesLinkUrl = $_SERVER['HTTP_HOST'].":9502?page=clearJudgesLink&judges_id=$oData->id&activity_id=$oData->activity_id&token=".$token;
+    }
+
+
+    /**
+     * @param object $oData
+     * @修改之后的钩子
+     */
+    public function afterUpdate(object $oData)
+    {
+        if ($oData->link_state == 0 && isset($this->PushClearJudgesLinkUrl)) {
+            curl_get($this->PushClearJudgesLinkUrl);
+        }
+
     }
 
     /**

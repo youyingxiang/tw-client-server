@@ -270,6 +270,29 @@ class Swoole extends Command
 
     /**
      * @param $request
+     * @see 清除评委连接 在线评委跳转首页
+     */
+    public function clearJudgesLink($request)
+    {
+        $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($request) {
+            if ($aContent && $aContent['page'] == "judges") {
+                if (
+                    isset($request->get['activity_id'])
+                    && $request->get['activity_id'] == $aContent['activity']
+                    && isset($request->get['judges_id'])
+                    && $request->get['judges_id'] = $aContent['judges']
+                ) {
+                    $aRes['url'] = tw_route('tw.home',(int)$aContent['activity']);
+                    $oSwoole::$server->push($fd,xss_json($aRes));
+                }
+            }
+        };
+        $this->eachFdLogic($callback);
+    }
+
+
+    /**
+     * @param $request
      * @see 循环逻辑处理
      */
     public function eachFdLogic(Closure $callback = null)
@@ -324,6 +347,7 @@ class Swoole extends Command
                     'activity'=> $request->get['activity'] ?? '',
                     'admin' => $request->get['admin_id'] ?? '',
                     'order' => $request->get['order'] ?? '',
+                    'judges' => $request->get['judges_id'] ?? '',
                 ],true);
             $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
             return true;

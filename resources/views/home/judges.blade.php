@@ -21,7 +21,7 @@
     <div class="judge_fg"></div>
     <div class="judge_conter">
         <div class="judge_from">
-            <h3>姓名：{{$oJudges['name']}}</h3>
+            <h3>评委姓名：{{$oJudges['name']}}</h3>
             <p>请输入分数</p>
             <input type="text" id="score" oninput="inputnum(this)" placeholder="最多保留两位小数" >
             <input type="submit" value="提交" id="input_sub">
@@ -89,7 +89,7 @@
      */
     var ws;//websocket实例
     var lockReconnect = false;//避免重复连接
-    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$sActivityId ??''}}&token={{hash_make(['judges',$sActivityId ??''])}}';
+    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$sActivityId ??''}}&judges_id={{$oJudges["id"]}}&token={{hash_make(['judges',$sActivityId ??'',$oJudges["id"]])}}';
 
 
 
@@ -123,7 +123,10 @@
                 $('#screen_player_name').html(data.player.name);
                 $("#screen_player_img").attr('data-id', data.player.id);
                 $("#score").val("");
+            } else if (data.url) {
+                window.location.href=data.url;
             }
+
 
             heartCheck.reset().start();
         }
