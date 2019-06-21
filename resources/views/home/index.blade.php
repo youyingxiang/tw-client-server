@@ -5,6 +5,7 @@
     <title>评分大屏幕</title>
     <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}?version=1.0.1">
+    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/system/layer/skin/default/layer.css")}}?version=1.0.1">
 </head>
 <body id="screen_body" style="background-image: url({{$oData['banner']}})">
 <div class="screen">
@@ -44,8 +45,10 @@
         <p>99.99</p>
     </div>
 </div>
-<script src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
-<script src="{{tw_asset('/vendor/tw/home/js/wbsocket.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/public.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layui.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layer.js')}}"></script>
 <script>
 
     function popup() {
@@ -103,7 +106,7 @@
             } else if(data.url){
                 window.location.href=data.url;
             } else if(data.state == 1 && data.score > 0) {
-                alert(data.info+" 最后得分 "+data.score);
+                showOkTime(data.info+" 最后得分 "+data.score,3);
             }
             heartCheck.reset().start();
         }

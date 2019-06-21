@@ -83,7 +83,7 @@ class Button
         if (!empty(request()->input('activity_id'))) {
             $this->url .= "?activity_id=".hash_encode(request()->input('activity_id'));
         }
-        return  "<a class=\"btn btn-sm btn-danger delete-all\" data-csrftoken=\"".csrf_token()."\"  href=\"javascript:void(0);\" data-url=\"".$this->url."\" ><i class=\"fa fa-trash\"></i> 清除选手得分</a>";
+        return  "<a class=\"btn btn-sm btn-danger delete-all\" data-csrftoken=\"".csrf_token()."\"  href=\"javascript:void(0);\" data-url=\"".$this->url."\" ><i class=\"fa fa-trash\"></i> 清除选中选手得分</a>";
 
     }
     /**

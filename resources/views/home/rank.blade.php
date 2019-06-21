@@ -46,7 +46,7 @@
 
 </div>
 </body>
-<script src="{{tw_asset('/vendor/tw/home/js/wbsocket.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/public.js')}}"></script>
 <script>
     /**
      * ws推送

@@ -5,6 +5,7 @@
     <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>评委评分</title>
     <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}?version=1.0.1">
+    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/system/layer/skin/default/layer.css")}}?version=1.0.1">
 </head>
 <body>
 <div class="judge_main">
@@ -33,21 +34,23 @@
     </div>
 </div>
 </body>
-<script src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
-<script src="{{tw_asset('/vendor/tw/home/js/wbsocket.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/public.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layui.js')}}"></script>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layer.js')}}"></script>
 <script>
 
     $("#input_sub").on('click',function() {
         var score = $("#score").val();
         var playerid = $("#screen_player_img").attr('data-id').trim();
         if (/^\d+$/.test(score) == false && /^\d+\.\d{0,2}$/.test(score) == false) {
-            alert('请输入0-100有效分数！');
+            showErrMsgTime('请输入0-100有效分数！',2);
             $("#score").val("");
         } else if (score > 100) {
-            alert('请输入0-100有效分数！');
+            showErrMsgTime('请输入0-100有效分数！',2);
             $("#score").val("");
         } else if (!playerid) {
-            alert('当前没有推送的选手！');
+            showErrMsgTime('当前没有推送的选手！',2);
             $("#score").val("");
         } else {
             $.ajax({
@@ -56,15 +59,15 @@
                 dataType: "json",
                 data:{activity_id:"{{$sActivityId ??''}}",player_id:playerid,score:score,'judges_id':"{{request('judgesId')}}"},
                 error:function(data){
-                    alert("服务器繁忙, 请联系管理员！");
+                    showErrMsgTime("服务器繁忙, 请联系管理员！",3);
                     return;
                 },
                 success:function(result){
                     if(result.status == 1){
                         pushSwoole(playerid);
-                        alert("评分成功！")
+                        showOkTime("评分成功！",3)
                     } else {
-                        alert(result.info);
+                        showErrMsgTime(result.info,3);
                     }
                 },
             })
