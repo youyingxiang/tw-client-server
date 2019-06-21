@@ -39,9 +39,9 @@ class PayOrderController extends Controller
     public function qrCode($order_no)
     {
         $aInput['order_no'] = $order_no;
-        $qrcode = $this->Model()->generateQrCode($aInput);
-        if ($qrcode)
-            return view("tw::activity.qrcode",compact('qrcode'));
+        $oData = $this->Model()->generateQrCode($aInput);
+        if (isset($oData['qrcode']))
+            return view("tw::activity.qrcode",compact('oData'));
         else
             return tw_abort("支付异常,检测订单是否完成了支付！",401);
     }

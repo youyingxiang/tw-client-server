@@ -297,18 +297,16 @@ class ModelLogic implements Renderable
      * @return string
      * @根据订单生成二维码
      */
-    public function generateQrCode(array $aInput):string
+    public function generateQrCode(array $aInput):object
     {
-        $sData = "";
         $aData     = $this->query($aInput);
-        $orderInfo = $aData['0']??'';
-
+        $orderInfo = $aData['0']??(object)null;
         if ($orderInfo) {
             $sCodeUrl = $this->wechatPay($orderInfo);
             if ($sCodeUrl)
-                $sData = $this->model->getQrCodeByUrl($sCodeUrl);
+                $orderInfo->qrcode = $this->model->getQrCodeByUrl($sCodeUrl);
         }
-        return $sData;
+        return $orderInfo;
     }
 
     /**

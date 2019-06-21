@@ -3,10 +3,17 @@
     <section class="content">
         <div class="row">
 
+            <div class="col-md-12">
+                <h3 class="text-center">付款金额：{{$oData['pay_amount']}}</h3>
+            </div>
+
+        </div>
+        <div class="row">
+
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-             {!! $qrcode !!}
+             {!! $oData['qrcode'] !!}
             </div>
             <div class="col-md-3">
             </div>
