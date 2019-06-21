@@ -266,5 +266,12 @@ class Player extends Model
     {
         curl_get($this->getPushUrl($score,$activity_id));
     }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function admin()
+    {
+        return $this->belongsTo('Tw\Server\Models\Admin');
+    }
 
 }

@@ -55,7 +55,13 @@ class Judges extends Model
             : route('tw.judges.index')."?activity_id=".hash_encode(request()->input('activity_id'));
         return $url;
     }
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function admin()
+    {
+        return $this->belongsTo('Tw\Server\Models\Admin');
+    }
     /**
      * @return string
      * @see 获取hashid
