@@ -1,10 +1,32 @@
 @extends('tw::layout.base',['header' => "活动",'pageTitle'=>'活动续费',"pageBtnName"=>'扫码支付'])
 @section('content')
+    <style>
+        svg{
+            display: block;
+            margin: 0 auto;
+        }
+        .content-wrapper{
+            background: #fff !important;
+        }
+        .col-md-6{
+            background: #1dab39 !important;
+            text-align: center;
+            width: 450px;
+            margin: 0 auto;
+            float: none;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        .col-md-6 h3{
+            line-height: 45px !important;
+            color: #fff !important;
+        }
+    </style>
     <section class="content">
         <div class="row">
 
             <div class="col-md-12">
-                <h3 class="text-center">付款金额：{{$oData['pay_amount']}}</h3>
+
             </div>
 
         </div>
@@ -13,11 +35,13 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
+                <h3>使用微信扫码支付</h3>
              {!! $oData['qrcode'] !!}
+                <h3 class="text-center">付款金额：{{$oData['pay_amount']}}</h3>
             </div>
             <div class="col-md-3">
             </div>
-            <div class="col-md-3"><a id="pay_res" class="btn btn-default"> 查看支付结果</a></div>
+            {{--<div class="col-md-3"><a id="pay_res" class="btn btn-default"> 查看支付结果</a></div>--}}
         </div>
     </section>
     @if(request('order_no'))
