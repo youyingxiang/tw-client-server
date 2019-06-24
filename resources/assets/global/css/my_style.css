@@ -51,7 +51,7 @@ a {
     padding-top: 15% !important;
 
 }
-@media screen and (min-width:660px) and (max-width:1200px){
+@media screen and (min-width:660px) and (max-width:1440px){
     .login-box{
         width: 40% !important;
     }
