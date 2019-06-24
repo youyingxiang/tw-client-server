@@ -214,6 +214,7 @@ class Judges extends Model
         $this->session_id = session()->getId();
         $this->save();
         session(["link_state"=>1]);
+        $this->pushJudgesLoginDynamic();
     }
 
     /**
@@ -226,9 +227,29 @@ class Judges extends Model
             && session("link_state") == 1
             && session()->getId() == $this->session_id) {
             $bRes = true;
+           $this->pushJudgesLoginDynamic();
         }
         return $bRes;
     }
+
+    /**
+     * @see 通知后台 更改评委扫码哦登陆状态
+     */
+    public function pushJudgesLoginDynamic()
+    {
+        curl_get($this->getPushJudgesLoginDynamicUrl());
+    }
+
+    /**
+     * @see 获取扫码登陆状态推送url
+     */
+    public function getPushJudgesLoginDynamicUrl():string
+    {
+        $token   = hash_make(['judgesLoginDynamic',$this->link_state,$this->id,$this->activity_id]);
+        $sUrl    = $_SERVER['HTTP_HOST'].":9502?page=judgesLoginDynamic&linkstate=$this->link_state&judges_id=$this->id&activity_id=$this->activity_id&token=".$token;
+        return $sUrl;
+    }
+
 
 
 }

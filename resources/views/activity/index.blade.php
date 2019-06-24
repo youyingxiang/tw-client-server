@@ -6,6 +6,12 @@
 
 
     <section class="content">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <p>当活动未发布时:评委和选手最多添加2人。当普通活动发布后，评委最多添加5人，选手最多添加10人。如要添加更多评委和选手请升级高级活动。
+                </br>默认有限时间为：从发布之日起延后三天。如需更长有限时间，请进行天数续费。
+            </p>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">

@@ -105,6 +105,7 @@ class Swoole extends Command
     public function onMessage($server, $frame)
     {
         $aData = json_decode($frame->data,true);
+        $aData['fd'] = $frame->fd ?? '';
         if (isset($aData['type'])) {
             $sFuncName = $this->enum((int)$aData['type']);
             if ($sFuncName && method_exists($this,$sFuncName)) {
@@ -124,7 +125,8 @@ class Swoole extends Command
             1 => "pushPlayer",
             2 => "judgesScore",
             3 => "jumpRank",
-            4 => "jumpHome"
+            4 => "jumpHome",
+            5 => "heartBeatLoginDynamic"
         ];
         return $aFunc[$type] ?? '';
     }
@@ -165,6 +167,31 @@ class Swoole extends Command
             };
             $this->eachFdLogic($callback);
         }
+    }
+
+    /**
+     * @param array $aData
+     * @see 心跳检测检测评委登陆状态
+     */
+    public function heartBeatLoginDynamic(array $aData)
+    {
+        $aRes['onlinkcode'] = 200;
+        foreach (self::$server->connections as $fd) {
+            if (self::$server->isEstablished($fd)) {
+                $aContent = json_decode($this->redis->hget(config('tw.redis_key.h2'),$fd),true);
+                if ($aContent && ($aContent['page'] == "judges") ) {
+                    if ($aData['activity_id'] == $aContent['activity']) {
+                        $aRes['online_judges'][] = $aContent['judges'];
+                    }
+                }
+            } else {
+                $this->redis->hdel(config('tw.redis_key.h2'),$fd);
+            }
+        }
+        $aRes['online_judges'] = $aRes['online_judges']??[];
+        if ($aRes['online_judges'])
+            DB::table('tw_judges')->whereNotIn('id',$aRes['online_judges'])->update(["link_state"=>0]);
+        self::$server->push($aData['fd'],xss_json($aRes));
     }
 
     /**
@@ -290,6 +317,27 @@ class Swoole extends Command
         $this->eachFdLogic($callback);
     }
 
+    /**
+     * @param $request
+     * @see 评委扫码登陆状态
+     */
+    public function judgesLoginDynamic($request)
+    {
+        $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($request) {
+            if ($aContent && $aContent['page'] == "adminjudges") {
+                if (
+                    isset($request->get['activity_id'])
+                    && $request->get['activity_id'] == $aContent['activity']
+                ) {
+                    $aRes['linkstate'] = $request->get['linkstate'] ?? 0;
+                    $aRes['judges_id'] = $request->get['judges_id'] ?? 0;
+                    $oSwoole::$server->push($fd,xss_json($aRes));
+                }
+            }
+        };
+        $this->eachFdLogic($callback);
+    }
+
 
     /**
      * @param $request
@@ -347,7 +395,7 @@ class Swoole extends Command
                     'activity'=> $request->get['activity'] ?? '',
                     'admin' => $request->get['admin_id'] ?? '',
                     'order' => $request->get['order'] ?? '',
-                    'judges' => $request->get['judges_id'] ?? '',
+                    'judges' => $request->get['judges_id'] ?? ''
                 ],true);
             $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
             return true;
