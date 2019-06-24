@@ -191,6 +191,8 @@ class Swoole extends Command
         $aRes['online_judges'] = $aRes['online_judges']??[];
         if ($aRes['online_judges'])
             DB::table('tw_judges')->whereNotIn('id',$aRes['online_judges'])->update(["link_state"=>0]);
+        else
+            DB::table('tw_judges')->where('activity_id',$aData['activity_id'])->update(["link_state"=>0]);
         self::$server->push($aData['fd'],xss_json($aRes));
     }
 

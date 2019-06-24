@@ -10,7 +10,7 @@
 <body>
 <div class="judge_main">
     <div class="judge_top">
-        <img src="{{tw_asset("/vendor/tw/home/img/screen_bg.jpg")}}" alt="">
+        <img src="{{tw_asset($oJudges->activity['banner'])}}" alt="">
     </div>
     <div class="judge_player">
         <div class="judge_tx">

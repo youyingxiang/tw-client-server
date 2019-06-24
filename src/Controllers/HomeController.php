@@ -34,8 +34,10 @@ class HomeController extends Controller
     {
         // 获取当前打分选手
         $oJudges     = Tw::newModel("Judges")->find($judgesId);
-        if (!$oJudges) {
+        if(!$oJudges) {
             return tw_abort("评委不存在！",404);
+        }else if (!(array)Tw::newModel('Activity')->getHomeActivity($oJudges->activity_id)) {
+            return tw_abort("活动不存在或者已经过期！",404);
         } elseif ($oJudges->checkLinkState() == false) {
             return tw_abort("姓名：$oJudges->name 评委已经处于连接状态！",401);
         } else {
@@ -77,8 +79,14 @@ class HomeController extends Controller
      */
     public function rank(int $activityId)
     {
-        // 获取选手排名
-        $aRank = Tw::newModel('Player')->getRank($activityId);
-        return view('tw::home.rank',compact('aRank'));
+        $oData = Tw::newModel('Activity')->getHomeActivity($activityId);
+        if ((array)$oData) {
+            // 获取选手排名
+            $aRank = Tw::newModel('Player')->getRank($activityId);
+            // 活动背景
+            return view('tw::home.rank', compact('aRank','oData'));
+        } else {
+            return tw_abort("活动不存在或者已经过期！",404);
+        }
     }
 }

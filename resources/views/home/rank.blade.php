@@ -6,7 +6,7 @@
     <title>选手排名</title>
     <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}?version=1.0.1">
 </head>
-<body id="screen_body">
+<body id="screen_body" style="background-image: url({{$oData['banner']}})">
 <div class="screen">
     <!--标题-->
     <div class="screen_title">

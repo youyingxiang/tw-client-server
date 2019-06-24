@@ -14,9 +14,11 @@
         <img id="screen_title_img" src="{{tw_asset("/vendor/tw/home/img/screen_title_all.png")}}" alt="">
     </div>
     <!--LOGO-->
+    @if($oData['level'] == 1)
     <div class="screen_logo">
-        <p><b>新天维</b>评分系统</p>
+        <p><b>新天维</b>评分系统@if($oData['release_state'] == 0)（暂未发布）@endif</p>
     </div>
+    @endif
     <!--选手-->
     <div class="screen_player">
         <h1>{{$oData['title'] ?? ''}}</h1>
