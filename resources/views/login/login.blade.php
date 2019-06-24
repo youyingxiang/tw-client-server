@@ -45,7 +45,7 @@
                 <input type="text" class="form-control" placeholder="请输入手机号" name="phone" value="{{ old('phone') }}">
                 <span id="login-ico-input" class="glyphicon glyphicon-phone form-control-feedback"></span>
             </div>
-            <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
+            <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}" style="margin-bottom: 0">
 
                 @if($errors->has('password'))
                     @foreach($errors->get('password') as $message)
@@ -55,6 +55,7 @@
 
                 <input type="password" class="form-control" placeholder="请输入登陆密码" name="password">
                 <span id="login-ico-input" class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <p style="line-height: 35px;margin: 0;">忘记密码？<a href="{{route('tw.resetpassword')}}">找回密码</a></p>
             </div>
             <div class="row">
                 <div class="col-xs-8">
@@ -70,12 +71,11 @@
                 <!-- /.col -->
                 <div class="col-xs-4">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat" style="margin-top: 3px">登陆</button>
                 </div>
                 <!-- /.col -->
             </div>
             <div class="col-xs-zc">
-                <p>忘记密码？<a href="{{route('tw.resetpassword')}}">找回密码</a></p>
                 <p>还没有账号？<a href="{{route('tw.register')}}">立即注册</a></p>
             </div>
         </form>

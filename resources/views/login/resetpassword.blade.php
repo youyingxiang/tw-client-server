@@ -80,7 +80,7 @@
                 @endif
 
                 <input type="text" class="form-control" placeholder="请输入验证码" name="code" style="width: 60%;float: left" >
-                <a style="background: #FF9800;border: none; margin-top:5pt;width: 30%;float: right" type="submit" class="btn code btn-primary btn-block btn-flat">获取验证码</a>
+                <a style="background: #FF9800;border: none; padding:12px;width: 30%;float: right" type="submit" class="btn code btn-primary btn-block btn-flat">获取验证码</a>
                 <span id="login-ico-input" class="glyphicon glyphicon-comment form-control-feedback"></span>
             </div>
             {{--END--}}

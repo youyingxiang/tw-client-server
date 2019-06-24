@@ -14,13 +14,17 @@ a {
     color: #333333 !important;
 }
 
+
+
 .login-box-msg b {
     color: #3aa2ff;
 }
 
 .col-xs-zc {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
 }
 
 #login_input input {
@@ -47,7 +51,11 @@ a {
     padding-top: 15% !important;
 
 }
-
+@media screen and (min-width:660px) and (max-width:1200px){
+    .login-box{
+        width: 40% !important;
+    }
+}
 .login-box-body {
     border-radius: 15px;
 }
