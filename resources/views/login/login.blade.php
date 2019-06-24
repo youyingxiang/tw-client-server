@@ -16,7 +16,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/iCheck/square/blue.css") }}">
     {{--MY STYLE--}}
-    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}">
+    <link rel="stylesheet" href="{{ tw_asset("/vendor/tw/global/css/my_style.css") }}?version=1.0.2">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -26,9 +26,7 @@
 </head>
 <body id="login_bg" class="hold-transition login-page" @if(config('tw.login_background_image'))style="background: url({{config('tw.login_background_image')}}) no-repeat;background-size: cover;"@endif>
 <div class="login-box">
-{{--<div class="login-logo">--}}
-{{--<a href="{{ tw_base_path('tw-server') }}"><b>{{config('tw.name',"后台管理系统")}}</b></a>--}}
-{{--</div>--}}
+
 <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg"><b>天维</b>评分系统</p>
