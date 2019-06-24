@@ -54,6 +54,7 @@ a {
 @media screen and (min-width:660px) and (max-width:1440px){
     .login-box{
         width: 30% !important;
+        padding-top: 8% !important;
     }
 }
 .login-box-body {
@@ -198,6 +199,7 @@ a {
     padding: 5px;
     border: 1px solid #fff;
     margin-right: 10px;
+    font-size: 1rem;
 }
 
 .pt_left span {
@@ -310,4 +312,5 @@ a {
 
 .pt_last_b a {
     color: #fff !important;
+    font-size: 1rem;
 }
