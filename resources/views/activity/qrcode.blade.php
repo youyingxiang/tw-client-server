@@ -15,7 +15,7 @@
             margin: 0 auto;
             float: none;
             padding: 30px 0;
-            margin-top: 50px;
+            margin-top:20px;
         }
         .col-md-6 h3{
             line-height: 45px !important;
