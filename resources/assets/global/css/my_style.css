@@ -193,7 +193,10 @@ a {
     float: left;
     height: 124px;
 }
-
+.pt_left h4{
+    height: 1rem;
+    overflow: hidden;
+}
 .pt_left a {
     color: #fff;
     padding: 5px;
