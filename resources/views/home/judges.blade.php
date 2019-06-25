@@ -1,57 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <title>评委评分</title>
-    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/server.css")}}?version=1.0.1">
-    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/system/layer/skin/default/layer.css")}}?version=1.0.1">
+    <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/style.css")}}?version=1.0.1">
 </head>
 <body>
-<div class="judge_main">
-    <div class="judge_top">
-        <img src="{{tw_asset($oJudges->activity['banner'])}}" alt="">
-    </div>
-    <div class="judge_player">
-        <div class="judge_tx">
-            <img id="screen_player_img" data-id="{{$aPlayer['id'] ?? ''}}" src="{{$aPlayer['img'] ?? ''}}" alt="">
-        </div>
-        <p>当前选手：<b id="screen_player_name" >{{$aPlayer['name'] ?? ''}}</b></p>
-    </div>
-    <div class="judge_fg"></div>
-    <div class="judge_conter">
-        <div class="judge_from">
-            <h3>评委姓名：{{$oJudges['name']}}</h3>
-            <p>请输入分数</p>
-            <input type="text" id="score" oninput="inputnum(this)" placeholder="最多保留两位小数" >
-            <input type="submit" value="提交" id="input_sub">
-            <h3>温馨提示</h3>
-            <p id="input_sub_p">如出现问题请及时联系售后客服 ：0736-8888888</p>
-        </div>
-    </div>
-    <div class="judge_footer">
-        <img src="{{tw_asset("/vendor/tw/home/img/footer.png")}}" alt="">
-    </div>
+<h1 style="margin: 0; margin-top: 1rem;">请为选手<br><b data-id="{{$aPlayer['id'] ?? ''}}"  id="screen_player_name">{{$aPlayer['name'] ?? ''}}</b> 评分</h1>
+<div id="calculator" class="calculator">
+    <p style="font-size: 1rem;text-align: center">当前评委：<b style="font-size: 1.5em">{{$oJudges['name']}}</b></p>
+    <div id="viewer" class="viewer">0</div>
+    <button class="num" data-num="1">1</button>
+    <button class="num" data-num="2">2</button>
+    <button class="num" data-num="3">3</button>
+    <button class="num" data-num="4">4</button>
+    <button class="num" data-num="5">5</button>
+    <button class="num" data-num="6">6</button>
+    <button class="num" data-num="7">7</button>
+    <button class="num" data-num="8">8</button>
+    <button class="num" data-num="9">9</button>
+    <button class="num" data-num="0">0</button>
+    <button class="num" data-num=".">.</button>
+    <button id="clear" class="clear">&larr;</button>
+    <button style="width: 13.5em" id="equals" class="equals"  data-result="">提交</button>
 </div>
-</body>
+<p class="warning">最高分为100分，保留小数点2位</p>
+<script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/calculator.js')}}" type="text/javascript"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/public.js')}}"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layui.js')}}"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layer.js')}}"></script>
 <script>
 
-    $("#input_sub").on('click',function() {
-        var score = $("#score").val();
-        var playerid = $("#screen_player_img").attr('data-id').trim();
+    $("#equals").on('click',function() {
+        var score = $("#viewer").html().trim();
+        var playerid = $("#screen_player_name").attr('data-id').trim();
         if (/^\d+$/.test(score) == false && /^\d+\.\d{0,2}$/.test(score) == false) {
             showErrMsgTime('请输入0-100有效分数！',2);
-            $("#score").val("");
+            $("#viewer").html(0);
         } else if (score > 100) {
             showErrMsgTime('请输入0-100有效分数！',2);
-            $("#score").val("");
+            $("#viewer").html(0);
         } else if (!playerid) {
             showErrMsgTime('当前没有推送的选手！',2);
-            $("#score").val("");
+            $("#viewer").html(0);
         } else {
             $.ajax({
                 url: "{{route('tw.home.postScoring')}}",
@@ -73,12 +67,17 @@
             })
         }
     });
+
+    $(".num").on("click",function () {
+        var obj = $("#viewer");
+        inputnum(obj,$("#viewer").html().trim());
+    })
     function inputnum(obj,val){
-        obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
-        obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
-        obj.value = obj.value.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
-        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+        obj.empty().html(val.replace(/[^\d.]/g,"")); //清除"数字"和"."以外的字符
+        obj.empty().html(val.replace(/^\./g,"")); //验证第一个字符是数字
+        obj.empty().html(val.replace(/\.{2,}/g,"")); //只保留第一个, 清除多余的
+        obj.empty().html(val.replace(".","$#$").replace(/\./g,"").replace("$#$","."));
+        obj.empty().html(val.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')); //只能输入两个小数
     }
 
 
@@ -119,10 +118,10 @@
             //拿到任何消息都说明当前连接是正常的
             var data = JSON.parse(event.data);
             if (data.player) {
-                $('#screen_player_img').attr('src', data.player.img);
+               // $('#screen_player_img').attr('src', data.player.img);
                 $('#screen_player_name').html(data.player.name);
-                $("#screen_player_img").attr('data-id', data.player.id);
-                $("#score").val("");
+                $("#screen_player_name").attr('data-id', data.player.id);
+                $("#viewer").html(0);
             } else if (data.url) {
                 window.location.href=data.url;
             }
@@ -133,4 +132,5 @@
     }
     createWebSocket(wsUrl);
 </script>
+</body>
 </html>
