@@ -23,6 +23,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">活动名称</label>
                                     <div class="col-sm-7"><input class="form-control" name="title" value="{{$aData['title']??''}}"  placeholder="活动名称"></div>
+                                    <label style="font-size: 12px" class="col-sm-2 control-label">限制18字以内</label>
                                 </div>
 
                                 @if(empty($aData))
@@ -62,8 +63,10 @@
                                         <button class="btn btn-success btn-flat up_img" type="button">
                                             <i class="fa fa-cloud-upload"> 上传</i>
                                         </button></span>
+
                                         </div>
                                     </div>
+                                    <label style="font-size: 12px" class="col-sm-2 control-label">建议尺寸：1920*1068</label>
                                 </div>
                                 @if(!empty($aData))
                                 <div class="form-group">

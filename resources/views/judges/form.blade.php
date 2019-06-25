@@ -46,6 +46,7 @@
                                         </button></span>
                                         </div>
                                     </div>
+                                    <label style="font-size: 12px" class="col-sm-2 control-label">建议尺寸：720*1080</label>
                                 </div>
                                 @if(!empty($aData['activity_id']))
                                     <input type="hidden" name="activity_id" value="{{$aData['activity_id']}}" />
