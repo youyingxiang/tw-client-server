@@ -100,7 +100,7 @@ class JudgesController extends Controller
     {
         $iRes = redis_srem(config('tw.redis_key.hset1'),$id,'websocket');
         if ($iRes) {
-            redis_hdel(config('tw.redis_key.h4'),$id);
+            redis_hdel(config('tw.redis_key.h4'),$id,"websocket");
             $oModel = Tw::newModel("Judges");
             $url = $oModel->setPushClearJudgesLinkUrl($id,request()->input('activity_id')??'');
             curl_get($url);
