@@ -89,7 +89,7 @@
      */
     var ws;//websocket实例
     var lockReconnect = false;//避免重复连接
-    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=judges&activity={{$sActivityId ??''}}&judges_id={{$oJudges["id"]}}&token={{hash_make(['judges',$sActivityId ??'',$oJudges["id"]])}}';
+    var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?stoken={{session()->getId()}}&page=judges&activity={{$sActivityId ??''}}&judges_id={{$oJudges["id"]}}&token={{hash_make([session()->getId(),'judges',$sActivityId ??'',$oJudges["id"]])}}';
 
 
 

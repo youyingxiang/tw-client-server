@@ -98,7 +98,14 @@ class JudgesController extends Controller
      */
     public function clearLink($id)
     {
-        $aInput['link_state'] = 0;
-        return $this->Model()->update($id,$aInput);
+        $iRes = redis_srem(config('tw.redis_key.hset1'),$id,'websocket');
+        if ($iRes) {
+            redis_hdel(config('tw.redis_key.h4'),$id);
+            $oModel = Tw::newModel("Judges");
+            $url = $oModel->setPushClearJudgesLinkUrl($id,request()->input('activity_id')??'');
+            curl_get($url);
+            return Tw::ajaxResponse("操作成功！",$oModel->getIndexUrl());
+        } else
+            return Tw::ajaxResponse("操作失败！");
     }
 }

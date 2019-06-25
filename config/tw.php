@@ -96,11 +96,13 @@ return [
         'h1' => 'hash:score:player:',   // hash 选手得分
         'h2' => 'hash:tw:swoole',       // hash websocket 链接信息
         'h3' => 'hash:push_player',     // hash 活动被推送的选手
+        'h4' => 'hash:login_judges_sessionid', // 登陆评委的sessionid 检测是不是同一个人登陆
         's1' => "str:send_msg:phone:",  // 电话 短信发送次数
         's2' => "str:send_msg:ip:",     // 短信发送ip记录次数
         's3' => "str:send_msg:code:",   // 短信验证码
         's4' => "str:send_msg:log",      // 短信异常日志
-        's5' => "str:flashdata:admin_id:" // 闪存数据
+        's5' => "str:flashdata:admin_id:", // 闪存数据
+        "hset1" => "set:login_judges_id"     // 扫码登陆过的评委id
     ],
     'pay_amount_base' => [
         'senior' => 0.01,   // 开通高级活动的钱

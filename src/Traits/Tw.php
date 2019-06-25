@@ -62,6 +62,12 @@ trait Tw
             $router->post('postScoring',"HomeController@postScoring")->name('tw.home.postScoring');
             $router->get('rank/{activityId}',"HomeController@rank")->name("tw.home.rank")->middleware('tw.hashids');
             $router->any('wechat_notify',"PayOrderController@wechatNotify")->name("tw.payorder.notify");
+            $router->get("judgeslinkerr/{type}",function ($type){
+                if ($type == 1)
+                    return  tw_abort("请重新进行扫码登陆！",403);
+                if ($type == 2)
+                    return  tw_abort("评委已经处于连接状态！",403);
+            })->name('tw.home.judgeslinkerr');
         });
     }
 
