@@ -7,6 +7,7 @@
  */
 namespace Tw\Server\Console;
 use Closure;
+use Tw\Server\Facades\Tw;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -66,6 +67,9 @@ class Swoole extends Command
     public function handle()
     {
         $this->redis = Redis::connection('websocket');
+        $this->redis->del(config('tw.redis_key.h2'));
+        $this->redis->del(config('tw.redis_key.hset1'));
+        $this->redis->del(config('tw.redis_key.hset1'));
         $server = self::getWebSocketServer();
         $server->on('open',[$this,'onOpen']);
         $server->on('message', [$this, 'onMessage']);
@@ -95,8 +99,7 @@ class Swoole extends Command
      */
     public function onOpen($server, $request)
     {
-        if ($this->checkAccess($server, $request))
-            self::$server->push($request->fd, json_encode(["message"=>"swoole已经打开.."]));
+        $this->checkAccess($server, $request);
     }
     /**
      * @param $serv
@@ -113,6 +116,28 @@ class Swoole extends Command
             }
         }
     }
+
+    /**
+     * @param $request
+     * @see 客户端评委扫码进入的时候 检测是否登陆过
+     */
+    public function openCheckJudgesLogin($request)
+    {
+        if (
+            isset($request->get['page'])
+            && $request->get['page'] == "judges"
+            && isset($request->get['judges_id'])
+        ) {
+           $oJudges =  Tw::newModel("Judges")->find($request->get['judges_id']);
+            if ($oJudges->link_state == 1 && $request->get['stoken'] != $oJudges->session_id)
+            {
+                $aRes['url'] = tw_route('tw.home',(int)$request->get['activity']);
+                self::$server->push($request->fd,xss_json($aRes));
+            }
+        }
+
+    }
+
 
     /**
      * @param int $type
@@ -309,9 +334,9 @@ class Swoole extends Command
                     isset($request->get['activity_id'])
                     && $request->get['activity_id'] == $aContent['activity']
                     && isset($request->get['judges_id'])
-                    && $request->get['judges_id'] = $aContent['judges']
+                    && $request->get['judges_id'] == $aContent['judges']
                 ) {
-                    $aRes['url'] = tw_route('tw.home',(int)$aContent['activity']);
+                    $aRes['url'] = route("tw.home.judgeslinkerr",1);
                     $oSwoole::$server->push($fd,xss_json($aRes));
                 }
             }
@@ -361,10 +386,37 @@ class Swoole extends Command
      * @param $serv
      * @param $fd
      */
-    public function onClose($serv, $fd)
+    public function onClose($serv,$fd)
     {
-        $this->redis->hdel(config('tw.redis_key.h2'),$fd);
+
+        $this->beforeClose($fd);
         $this->line("客户端 {$fd} 关闭");
+    }
+
+    /**
+     * @param $fd
+     */
+    public function beforeClose($fd)
+    {
+        if ($this->redis->exists(config('tw.redis_key.h2'))) {
+            $aData = $this->redis->hget(config('tw.redis_key.h2'),$fd);
+            $aData = !empty($aData) ? json_decode($aData,true) : [];
+            if (
+                isset($aData['page'])
+                && $aData['page'] == "judges"
+                && isset($aData['judges'])
+            ) {
+                // 清除评委登陆信息
+                $this->redis->srem(config('tw.redis_key.hset1'),$aData['judges']);
+                $request = (object)null;
+                $request->get['linkstate'] = 0;
+                $request->get['judges_id'] = $aData['judges'];
+                $request->get['activity_id'] = $aData['activity'];
+                $this->judgesLoginDynamic($request);
+            }
+            // 删除链接
+            $this->redis->hdel(config('tw.redis_key.h2'), $fd);
+        }
     }
 
 
@@ -374,7 +426,7 @@ class Swoole extends Command
      * @param $request
      * @return mixed
      */
-    public function checkAccess($server, $request)
+    public function checkAccess($server, $request):bool
     {
         // get不存在或者uid和token有一项不存在，关闭当前连接
         if (!isset($request->get) || !isset($request->get['token'])) {
@@ -389,20 +441,89 @@ class Swoole extends Command
             self::$server->close($request->fd);
             return false;
         } else {
-            // 存储请求url带的信息
-            $jContent = json_encode(
-                [
-                    'page'=> $request->get['page'],
-                    'fd'  => $request->fd,
-                    'activity'=> $request->get['activity'] ?? '',
-                    'admin' => $request->get['admin_id'] ?? '',
-                    'order' => $request->get['order'] ?? '',
-                    'judges' => $request->get['judges_id'] ?? ''
-                ],true);
-            $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
-            return true;
+            $bRes = $this->storeUrlParamToReis($request);
+            return $bRes;
         }
     }
+
+
+
+
+    /**
+     * @param $request
+     * @see 存储请求参数url信息
+     */
+    public function storeUrlParamToReis($request):bool
+    {
+        $bRes = true;
+        // 存储请求url带的信息
+        $jContent = json_encode(
+            [
+                'page'=> $request->get['page'],
+                'fd'  => $request->fd,
+                'activity'=> $request->get['activity'] ?? '',
+                'admin' => $request->get['admin_id'] ?? '',
+                'order' => $request->get['order'] ?? '',
+                'judges' => $request->get['judges_id'] ?? ''
+            ],true);
+        $this->redis->hset(config('tw.redis_key.h2'),$request->fd,$jContent);
+        if (
+            isset($request->get['page'])
+            && $request->get['page'] == "judges"
+            && isset($request->get['judges_id'])
+            && isset($request->get['stoken'])
+        ) {
+            $bRes = $this->setJudgesRedisByJudgesUnique($request->get['judges_id'],$request->get['stoken']);
+            if (!$bRes)
+                $this->judgesLoginFail($request);
+            else
+                $this->judgesLoginSuccess($request);
+        }
+        return $bRes;
+    }
+
+
+
+    /**
+     * @see 评分界面 只能登陆一次
+     * 通过redis集合维护评委登陆信息
+     */
+    public function setJudgesRedisByJudgesUnique(string $sJudgesId,string $sSessionId):bool
+    {
+        $bRes = $this->redis->sadd(config('tw.redis_key.hset1'),$sJudgesId);
+        $sJudgesSessionId = $this->redis->hget(config('tw.redis_key.h4'),$sJudgesId,'websocket');
+        if (!$bRes) {
+            if ($sSessionId == $sJudgesSessionId)
+                $bRes = true;
+        }
+        return $bRes;
+    }
+
+    /**
+     * @param $request
+     * @see 扫码登陆失败
+     */
+    public function judgesLoginFail($request)
+    {
+        $this->line("此评委已在登陆状态！");
+        $aRes['url'] = route("tw.home.judgeslinkerr",2);
+        self::$server->push($request->fd,xss_json($aRes));
+        self::$server->close($request->fd);
+    }
+
+    /**
+     * @param $request
+     * @see 扫码登陆成功
+     */
+    public function judgesLoginSuccess($request)
+    {
+        $request->get['linkstate'] = 1;
+        $request->get['activity_id'] = $request->get['activity'];
+        $this->judgesLoginDynamic($request);
+    }
+
+
+
 
     public function start()
     {

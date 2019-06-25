@@ -41,7 +41,7 @@
                                     @endif
                                     <td style="vertical-align:middle">{!! $vo['qr_code'] !!}</td>
                                     <td style="vertical-align:middle">
-                                        <a href="javascript:void(0);" data-id="{{$vo['id']}}" class='judges_{{$vo['id']}} linkstate editimg fa @if($vo['link_state'] == 1)fa-check-circle text-green @else fa-times-circle text-red @endif'>
+                                        <a href="javascript:void(0);" data-id="{{$vo['id']}}" class='judges_{{$vo['id']}} linkstate editimg fa @if($vo['link'])fa-check-circle text-green @else fa-times-circle text-red @endif'>
                                         </a>
                                     </td>
                                     <td style="vertical-align:middle">{{$vo['created_at']}}</td>
@@ -89,6 +89,8 @@
                     var data = JSON.parse(event.data);
                     if (data.linkstate == 1) {
                         $(".judges_"+data.judges_id+"").removeClass('fa-times-circle text-red').addClass('fa-check-circle text-green');
+                    } else if (data.linkstate == 0) {
+                        $(".judges_"+data.judges_id+"").removeClass('fa-check-circle text-green').addClass('fa-times-circle text-red');
                     } else if (data.onlinkcode == 200) {
                         $(".linkstate").each(function () {
                             if ($.inArray($(this).attr('data-id'),data.online_judges) >= 0) {
@@ -139,7 +141,7 @@
                     this.timeoutObj = setTimeout(function(){
                         //这里发送一个心跳，后端收到后，返回一个心跳消息，
                         //onmessage拿到返回的心跳就说明连接正常
-                        ws.send('{"type":"5","activity_id":"'+activity_id+'"}');
+                        ws.send('head');
                         self.serverTimeoutObj = setTimeout(function(){//如果超过一定时间还没重置，说明后端主动断开了
                             ws.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
                         }, self.timeout);

@@ -542,6 +542,112 @@ if (!function_exists('redis_get')) {
     }
 }
 
+if (!function_exists('redis_sadd')) {
+    /**
+     * @param $key
+     * @param $content
+     * @return bool
+     * @see redis 集合操作
+     */
+    function redis_sadd($sKey,$content,$db = null):bool
+    {
+        if ($db)
+            $redis = Redis::connection($db);
+        if (is_array($content) || is_object($content)) {
+            $bRes = $redis->sadd($sKey,json_encode($content,true));
+        } else {
+            $bRes = $redis->sadd($sKey,$content);
+        }
+        return $bRes;
+    }
+}
+
+
+if (!function_exists('redis_hset')) {
+    /**
+     * @param $sKey
+     * @param $field
+     * @param $content
+     * @return bool
+     */
+    function redis_hset($sKey,$field,$content,$db = null):bool
+    {
+        if ($db)
+            $redis = Redis::connection($db);
+        if (is_array($content) || is_object($content)) {
+            $bRes = $redis->hset($sKey,$field,json_encode($content,true));
+        } else {
+            $bRes = $redis->hset($sKey,$field,$content);
+        }
+        return $bRes;
+    }
+}
+if (!function_exists('redis_hget')) {
+    /**
+     * @param $sKey
+     * @param $field
+     * @param null $db
+     */
+    function redis_hget($sKey,$field,$db = null)
+    {
+        if ($db)
+            $redis = Redis::connection($db);
+        $sData = $redis->hget($sKey,$field);
+        $aData = json_decode($sData,true);
+        if ($aData && (is_object($aData)) || (is_array($aData) && !empty($aData))) {
+            $result = $aData;
+        } else {
+            $result = $sData;
+        }
+        return $result;
+    }
+}
+if (!function_exists('redis_hdel')) {
+    /**
+     * @param $sKey
+     * @param $field
+     * @param null $db
+     */
+    function redis_hdel($sKey,$field,$db = null)
+    {
+        if ($db)
+            $redis = Redis::connection($db);
+        return $redis->hdel($sKey,$field);
+    }
+}
+
+if (!function_exists('redis_sismember')) {
+    /**
+     * @param $sKey
+     * @param $member
+     * @param $db
+     * @return bool
+     */
+    function redis_sismember($sKey,$member,$db = null):bool
+    {
+        if ($db)
+            $redis = Redis::connection($db);
+        return $redis->sismember($sKey,$member);
+    }
+
+}
+
+if (!function_exists('redis_srem')) {
+    /**
+     * @param $sKey
+     * @param $member
+     * @param $db
+     * @return int
+     */
+    function redis_srem($sKey,$member,$db = null):int
+    {
+        if ($db)
+            $redis = Redis::connection($db);
+        return $redis->srem($sKey,$member);
+    }
+}
+
+
 
 
 

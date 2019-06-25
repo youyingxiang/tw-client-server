@@ -149,9 +149,6 @@ class Judges extends Model
      */
     public function beforeUpdate(object $oData):string
     {
-        if ($oData->link_state == 1) {
-            $this->setPushClearJudgesLinkUrl($oData);
-        }
         return $this->restrict($oData->activity_id,2) ? '' : "评委超过限制！请升级高级活动";
     }
 
@@ -159,10 +156,10 @@ class Judges extends Model
      * @see 设置清除评委后把评委页面 返回首页的websocket连接
      * 请求这个url 将进行推送
      */
-    public function setPushClearJudgesLinkUrl(object $oData):void
+    public function setPushClearJudgesLinkUrl($sId,$sActivity_id):string
     {
-        $token   = hash_make(['clearJudgesLink',$oData->id,$oData->activity_id]);
-        $this->PushClearJudgesLinkUrl = $_SERVER['HTTP_HOST'].":9502?page=clearJudgesLink&judges_id=$oData->id&activity_id=$oData->activity_id&token=".$token;
+        $token   = hash_make(['clearJudgesLink',$sId,$sActivity_id]);
+        return $_SERVER['HTTP_HOST'].":9502?page=clearJudgesLink&judges_id=$sId&activity_id=$sActivity_id&token=".$token;
     }
 
 
@@ -172,9 +169,7 @@ class Judges extends Model
      */
     public function afterUpdate(object $oData)
     {
-        if ($oData->link_state == 0 && isset($this->PushClearJudgesLinkUrl)) {
-            curl_get($this->PushClearJudgesLinkUrl);
-        }
+
 
     }
 
@@ -194,14 +189,15 @@ class Judges extends Model
      */
     public function checkLinkState():bool
     {
-       $bRes =  false;
-       if ($this->link_state == 0) {  //还没有用户进入界面
-           $this->unlinked();
-           $bRes = true;
-       } elseif ($this->checkLinkedIsOneSelf()) { //是当前用户登陆过在登陆
-           $bRes = true;
-       }
-       return $bRes;
+        $bRes = redis_sadd(config('tw.redis_key.hset1'),$this->id,'websocket');
+        if ($bRes)
+            $this->unlinked();
+        else if (!$bRes) {
+            $sessionid = redis_hget(config('tw.redis_key.h4'),$this->id,'websocket');
+            if ($sessionid && $sessionid == session()->getId())
+                $bRes = true;
+        }
+        return $bRes;
     }
 
     /**
@@ -210,45 +206,19 @@ class Judges extends Model
      */
     public function unlinked():void
     {
-        $this->link_state = 1;
-        $this->session_id = session()->getId();
-        $this->save();
-        session(["link_state"=>1]);
-        $this->pushJudgesLoginDynamic();
+          $session_id = session()->getId();
+          redis_hset(config('tw.redis_key.h4'),$this->id,$session_id,'websocket');
     }
 
     /**
-     * @see 检测链接是当前用户链接的
+     * @return bool
+     * @see 是否链接
      */
-    public function checkLinkedIsOneSelf():bool
+    public function getLinkAttribute()
     {
-        $bRes = false;
-        if ($this->link_state == 1
-            && session("link_state") == 1
-            && session()->getId() == $this->session_id) {
-            $bRes = true;
-           $this->pushJudgesLoginDynamic();
-        }
-        return $bRes;
+        return redis_sismember(config('tw.redis_key.hset1'),$this->id,'websocket');
     }
 
-    /**
-     * @see 通知后台 更改评委扫码哦登陆状态
-     */
-    public function pushJudgesLoginDynamic()
-    {
-        curl_get($this->getPushJudgesLoginDynamicUrl());
-    }
-
-    /**
-     * @see 获取扫码登陆状态推送url
-     */
-    public function getPushJudgesLoginDynamicUrl():string
-    {
-        $token   = hash_make(['judgesLoginDynamic',$this->link_state,$this->id,$this->activity_id]);
-        $sUrl    = $_SERVER['HTTP_HOST'].":9502?page=judgesLoginDynamic&linkstate=$this->link_state&judges_id=$this->id&activity_id=$this->activity_id&token=".$token;
-        return $sUrl;
-    }
 
 
 
