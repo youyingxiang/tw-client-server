@@ -252,7 +252,7 @@ a {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background-image: url("../img/tb2.png");
+    background-image: url("../img/tb3.png");
     background-size: 100% 100%;
 }
 
@@ -260,7 +260,7 @@ a {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background-image: url("../img/tb3.png");
+    background-image: url("../img/tb4.png");
     background-size: 100% 100%;
 }
 
@@ -268,7 +268,7 @@ a {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background-image: url("../img/tb4.png");
+    background-image: url("../img/tpdp.png");
     background-size: 100% 100%;
 }
 
@@ -276,10 +276,16 @@ a {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background-image: url("../img/tb5.png");
+    background-image: url("../img/tzpm.png");
     background-size: 100% 100%;
 }
-
+.img_6 {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url("../img/xgg.png");
+    background-size: 100% 100%;
+}
 .pt_ico p {
     margin: 0;
     padding: 0;

@@ -16,7 +16,7 @@
     <!--LOGO-->
     @if($oData['level'] == 1)
     <div class="screen_logo">
-        <p><b>新天维</b>评分系统@if($oData['release_state'] == 0)（暂未发布）@endif</p>
+        <p><b>天维</b>评分系统@if($oData['release_state'] == 0)（活动暂未发布）@endif</p>
     </div>
     @endif
     <!--选手-->

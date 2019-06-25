@@ -50,15 +50,15 @@
 
                                         <div class="pt_ico"><a
                                                     href="{{tw_route('tw.judges.index',['activity_id'=>$vo['id']])}}"><i
-                                                        class="img_3"></i>
+                                                        class="img_2"></i>
                                                 <p>评委设置</p></a></div>
                                         <div class="pt_ico"><a
                                                     href="{{tw_route('tw.player.index',['activity_id'=>$vo['id']])}}"><i
-                                                        class="img_4"></i>
+                                                        class="img_3"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico">
                                             <a class="jump_screen" data-id="{{$vo['id']}}" href="javascript:void(0)">
-                                                <i class="img_5"></i>
+                                                <i class="img_4"></i>
                                                 <p>跳转大屏幕</p></a></div>
                                         <div class="pt_ico">
                                             <a class="jump_rank" data-id="{{$vo['id']}}" href="javascript:void(0)">
@@ -68,7 +68,7 @@
                                             <a class="next_player"
                                                data-url="{{route('tw.player.nextPlayer',$vo['id'])}}"
                                                href="javascript:void(0)">
-                                                <i class="img_5"></i>
+                                                <i class="img_6"></i>
                                                 <p>下一个选手</p></a></div>
 
                                         <div class="pt_last_b">
@@ -105,15 +105,15 @@
 
                                         <div class="pt_ico"><a
                                                     href="{{tw_route('tw.judges.index',['activity_id'=>$vo['id']])}}"><i
-                                                        class="img_3"></i>
+                                                        class="img_2"></i>
                                                 <p>评委设置</p></a></div>
                                         <div class="pt_ico"><a
                                                     href="{{tw_route('tw.player.index',['activity_id'=>$vo['id']])}}"><i
-                                                        class="img_4"></i>
+                                                        class="img_3"></i>
                                                 <p>选手设置</p></a></div>
                                         <div class="pt_ico">
                                             <a class="jump_screen" data-id="{{$vo['id']}}" href="javascript:void(0)">
-                                                <i class="img_5"></i>
+                                                <i class="img_4"></i>
                                                 <p>跳转大屏幕</p></a></div>
                                         <div class="pt_ico">
                                             <a class="jump_rank" data-id="{{$vo['id']}}" href="javascript:void(0)">
@@ -123,7 +123,7 @@
                                             <a class="next_player"
                                                data-url="{{route('tw.player.nextPlayer',$vo['id'])}}"
                                                href="javascript:void(0)">
-                                                <i class="img_5"></i>
+                                                <i class="img_6"></i>
                                                 <p>下一个选手</p></a></div>
 
                                         <div class="pt_last_b">
