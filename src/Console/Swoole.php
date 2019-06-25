@@ -408,6 +408,7 @@ class Swoole extends Command
             ) {
                 // 清除评委登陆信息
                 $this->redis->srem(config('tw.redis_key.hset1'),$aData['judges']);
+                $this->redis->hdel(config('tw.redis_key.h4'),$aData['judges']);
                 $request = (object)null;
                 $request->get['linkstate'] = 0;
                 $request->get['judges_id'] = $aData['judges'];
@@ -508,6 +509,8 @@ class Swoole extends Command
         $this->line("此评委已在登陆状态！");
         $aRes['url'] = route("tw.home.judgeslinkerr",2);
         self::$server->push($request->fd,xss_json($aRes));
+        // 防止登陆集合的登陆评委id 被删除
+        $this->redis->hdel(config('tw.redis_key.h2'), $request->fd);
         self::$server->close($request->fd);
     }
 
