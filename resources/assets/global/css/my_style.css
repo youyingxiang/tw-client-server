@@ -196,6 +196,7 @@ a {
 .pt_left h4{
     height: 1em;
     overflow: hidden;
+    margin-top: 5px !important;
 }
 .pt_left a {
     color: #fff;

@@ -4,7 +4,7 @@
         <!-- 窗口折叠 -->
         <span class="logo-mini">天维</span>
         <!-- 窗口展开 -->
-        <span class="logo-lg">天维评分系统</span>
+        <span class="logo-lg"><img src="{{tw_asset("/vendor/tw/global/face/login.png")}}" alt=""></span>
     </a>
     <!-- 右上导航 -->
     <nav class="navbar navbar-static-top">
