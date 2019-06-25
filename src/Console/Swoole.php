@@ -491,7 +491,7 @@ class Swoole extends Command
     public function setJudgesRedisByJudgesUnique(string $sJudgesId,string $sSessionId):bool
     {
         $bRes = $this->redis->sadd(config('tw.redis_key.hset1'),$sJudgesId);
-        $sJudgesSessionId = $this->redis->hget(config('tw.redis_key.h4'),$sJudgesId,'websocket');
+        $sJudgesSessionId = $this->redis->hget(config('tw.redis_key.h4'),$sJudgesId);
         if (!$bRes) {
             if ($sSessionId == $sJudgesSessionId)
                 $bRes = true;
