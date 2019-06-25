@@ -11,7 +11,7 @@
         .col-md-6{
             background: #1dab39 !important;
             text-align: center;
-            width: 450px;
+            width: 30%;
             margin: 0 auto;
             float: none;
             padding: 30px 0;
@@ -20,6 +20,10 @@
         .col-md-6 h3{
             line-height: 45px !important;
             color: #fff !important;
+        }
+        svg{
+            width: 90% !important;
+            height: 50% !important;
         }
     </style>
     <section class="content">
