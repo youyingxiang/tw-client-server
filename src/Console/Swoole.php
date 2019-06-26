@@ -408,7 +408,7 @@ class Swoole extends Command
             ) {
                 // 清除评委登陆信息
                 $this->redis->srem(config('tw.redis_key.hset1'),$aData['judges']);
-                // $this->redis->hdel(config('tw.redis_key.h4'),$aData['judges']);
+                $this->redis->hdel(config('tw.redis_key.h4'),$aData['judges']);
                 $request = (object)null;
                 $request->get['linkstate'] = 0;
                 $request->get['judges_id'] = $aData['judges'];

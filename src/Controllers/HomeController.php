@@ -38,8 +38,6 @@ class HomeController extends Controller
             return tw_abort("评委不存在！",404);
         }else if (!(array)Tw::newModel('Activity')->getHomeActivity($oJudges->activity_id)) {
             return tw_abort("活动不存在或者已经过期！",404);
-        } elseif ($oJudges->checkLinkState() == false) {
-            return tw_abort("姓名：$oJudges->name 评委已经处于连接状态！",401);
         } else {
             $sActivityId = $oJudges->activity_id;
             if ($sActivityId) {
