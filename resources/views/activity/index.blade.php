@@ -21,7 +21,7 @@
                         <ul>
                             <a href="{{route("tw.activity.index",['level'=>1])}}"><li id="act_pt" @if(request()->input('level') ==1 || empty(request()->input('level'))) style="background: #3598d9;color: #fff" @endif>普通活动</li></a>
                             <a href="{{route("tw.activity.index",['level'=>2])}}"><li id="act_gj" @if(request()->input('level') ==2) style="background: #3598d9;color: #fff" @endif>高级活动</li></a>
-                            @if(request()->input('level') ==1)
+                            @if(request()->input('level') != 2)
                             <a id="create_activity" href="{!!route('tw.activity.create')!!}">创建新活动</a>
                             @endif
                         </ul>
@@ -35,7 +35,7 @@
                                         <h4>{{$vo['title']}}</h4>
                                         <p style="color: #fff">期限：{!! $vo['term'] !!}</p>
                                         <div style="margin-bottom: 15px">
-                                            @if(request()->input('level') ==1)
+                                            @if(request()->input('level') != 2 )
                                             <a data-id="{{$vo['id']}}" href="javascript:void(0)"
                                                class="level2">升级高级活动</a>
                                             @endif
