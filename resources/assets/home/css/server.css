@@ -124,7 +124,8 @@ ul, ol, li {
     color: #fff;
     font-size: 24pt;
     position: fixed;
-    top: 30%;
+    top: 25%;
+    width: 100%;
 }
 
 .screen_logo p {
