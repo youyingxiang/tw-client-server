@@ -16,8 +16,8 @@
             width: 30%;
             margin: 0 auto;
             float: none;
-            padding: 30px 0;
-            margin-top: 20px;
+            /* padding: 30px 0; */
+            /* margin-top: 20px; */
         }
 
         .col-md-6 h3 {
@@ -25,6 +25,7 @@
             color: #9E9E9E !important;
             padding: 1em 0;
             margin: 0;
+            font-size: 1.5rem;
         }
 
         svg {
