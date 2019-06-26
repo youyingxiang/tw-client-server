@@ -86,10 +86,28 @@ $('#fileupload_').fileupload({
             if (obj.prev().children('img').length>0) {
                 obj.prev().attr('href',up_url );
                 obj.prev().find('img').attr('src',up_url );
-                $.amaran({'message':'上传成功！'});
+                $.amaran({
+                    content:{
+                        title:'通知',
+                        message: "上传成功",
+                        info:'',
+                        icon:'fa fa-check-square'
+                    },
+                    theme:'awesome ok',
+                    position  :'top right'
+                });
             }
         } else {
-            $.amaran({'message':data.result.info});
+            $.amaran({
+                content:{
+                    title:'通知',
+                    message:data.result.message,
+                    info:'',
+                    icon:'fa fa-warning'
+                },
+                theme:'awesome error',
+                position  :'top right'
+            });
         }
     }
 });
@@ -151,10 +169,28 @@ $('.push').on('click',function(){
             success:function(result){
                 if(result.status == 1){
                     pushSwoole(id);
-                    $.amaran({'message':result.info});
+                    $.amaran({
+                        content:{
+                            title:'通知',
+                            message: result.info,
+                            info:'',
+                            icon:'fa fa-check-square'
+                        },
+                        theme:'awesome ok',
+                        position  :'top right'
+                    });
                     $.pjax({url: result.url, container: '#pjax-container', fragment:'#pjax-container'})                   
                 } else {
-                    $.amaran({'message':result.info});
+                    $.amaran({
+                        content:{
+                            title:'通知',
+                            message:result.info,
+                            info:'',
+                            icon:'fa fa-warning'
+                        },
+                        theme:'awesome error',
+                        position  :'top right'
+                    });
                 }
             },
     })
