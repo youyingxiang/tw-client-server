@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1 style="margin: 0; margin-top: 1rem;font-size: 1.5rem">请为选手<br><b data-id="{{$aPlayer['id'] ?? ''}}"  id="screen_player_name">{{$aPlayer['name'] ?? ''}}</b> 评分</h1>
-<div id="calculator" class="calculator">
+<div id="calculator" class="calculator" style="font-size: 1.5em">
     <p style="font-size: 0.5em;text-align: center">当前评委：<b style="font-size: 1.5em">{{$oJudges['name']}}</b></p>
     <div id="viewer" class="viewer">0</div>
     <button class="num" data-num="1">1</button>
