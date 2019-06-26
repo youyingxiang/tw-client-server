@@ -166,7 +166,7 @@ a {
     width: 10%;
 }
 
-.tab_act a {
+#create_activity {
     float: right;
     height: 35px;
     line-height: 35px;
