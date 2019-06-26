@@ -180,11 +180,12 @@ class Swoole extends Command
     {
         $aResult = DB::table('tw_player')->find($aData['player']);
         if ($aResult) {
-            $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData,$aResult) {
+            $aJudgesScores = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+            $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData,$aResult,$aJudgesScores) {
                 // 推送首页和评委页面
                 if ($aContent && ($aContent['page'] == "home" || $aContent['page'] =="judges") ) {
                     if ($aResult->activity_id == $aContent['activity']) {
-                        $aRes['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+                        $aRes['judges_score'] = $aJudgesScores;
                         $aRes['player'] = (array)$aResult;
                         $oSwoole::$server->push($fd, xss_json($aRes));
                     }
@@ -229,10 +230,11 @@ class Swoole extends Command
     {
         $aResult = DB::table('tw_player')->find($aData['player']);
         if ($aResult) {
-            $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData,$aResult) {
+            $aJudgesScores = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+            $callback = function (array $aContent,int $fd,Swoole $oSwoole)use($aData,$aResult,$aJudgesScores) {
                 if ($aContent && $aContent['page'] == "home") {
                     if ($aResult->activity_id == $aContent['activity']) {
-                        $hData['judges_score'] = Redis::hgetall(config('tw.redis_key.h1').$aData['player']);
+                        $hData['judges_score'] = $aJudgesScores;
                         $oSwoole::$server->push($fd, xss_json($hData));
                     }
                 }
