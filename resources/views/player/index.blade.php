@@ -44,7 +44,7 @@
                                     <td style="vertical-align:middle"><input type="checkbox" name="id[]" value="{{$vo['hid']}}" class="minimal"></td>
                                     <td style="vertical-align:middle">{{item_no($loop->iteration)}}</td>
                                     <td style="vertical-align:middle"><span class="editable" data-pk="{{$vo['id']}}" data-name="name" data-url="{{tw_route('tw.player.update',$vo['id'])}}" >{{$vo['name']}}</span></td>
-                                    <td style="vertical-align:middle"><img src="{{$vo['img']}}" style="width:40px;border-radius:40%;" /></td>
+                                    <td style="vertical-align:middle"><img src="{{$vo['img']}}" style="width:40px;" /></td>
                                     @if(empty(request()->input('activity_id')))
                                     <td style="vertical-align:middle">{{$vo->activity->title}}</td>
                                     @endif
