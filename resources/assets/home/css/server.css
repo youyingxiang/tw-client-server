@@ -303,6 +303,9 @@ ul, ol, li {
     .screen_judge{
         margin-top: 1% !important;
     }
+    .screen_judge li{
+        width: 12% !important;
+    }
 }
 
 
