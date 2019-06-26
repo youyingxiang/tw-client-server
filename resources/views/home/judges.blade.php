@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <title>评委评分</title>
     <link rel="stylesheet" href="{{tw_asset("/vendor/tw/home/css/style.css")}}?version=1.0.1">
+
 </head>
 <body>
 <h1 style="margin: 0; margin-top: 1rem;font-size: 1.5rem">请为选手<br><b data-id="{{$aPlayer['id'] ?? ''}}"  id="screen_player_name">{{$aPlayer['name'] ?? ''}}</b> 评分</h1>
