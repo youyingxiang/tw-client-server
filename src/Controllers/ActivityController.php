@@ -29,11 +29,8 @@ class ActivityController extends Controller
     {
         $this->bindScript(['icheck']);
         $aWhereData = request()->query();
-        $aWhereData['level'] = 1;
-        $aData1 = $this->Model()->query($aWhereData);
-        $aWhereData['level'] = 2;
-        $aData2 = $this->Model()->query($aWhereData);
-        return view('tw::activity.index',compact('aData1','aData2'));
+        $aData = $this->Model()->query($aWhereData);
+        return view('tw::activity.index',compact('aData'));
     }
 
     /**

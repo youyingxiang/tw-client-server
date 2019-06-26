@@ -19,22 +19,26 @@
                     {{--切换--}}
                     <div class="tab_act">
                         <ul>
-                            <a href=""><li onclick="act_pt()" id="act_pt" style="background: #4066b2;color: #fff">普通活动</li></a>
-                            <a href=""> <li onclick="act_gj()" id="act_gj">高级活动</li></a>
+                            <a href="{{route("tw.activity.index",['level'=>1])}}"><li onclick="act_pt()" id="act_pt" @if(request()->input('level') ==1) style="background: #4066b2;color: #fff" @endif>普通活动</li></a>
+                            <a href="{{route("tw.activity.index",['level'=>2])}}"><li onclick="act_gj()" id="act_gj" @if(request()->input('level') ==2) style="background: #4066b2;color: #fff" @endif>高级活动</li></a>
+                            @if(request()->input('level') ==1)
                             <a id="create_activity" href="{!!route('tw.activity.create')!!}">创建新活动</a>
+                            @endif
                         </ul>
                     </div>
                     {{--普通--}}
                     <div class="actvity_pt" id="putong">
                         <ul>
-                            @foreach($aData1 as $vo)
+                            @foreach($aData as $vo)
                                 <li>
                                     <div class="pt_left">
                                         <h4>{{$vo['title']}}</h4>
                                         <p style="color: #fff">期限：{!! $vo['term'] !!}</p>
                                         <div style="margin-bottom: 15px">
+                                            @if(request()->input('level') ==1)
                                             <a data-id="{{$vo['id']}}" href="javascript:void(0)"
                                                class="level2">升级高级活动</a>
+                                            @endif
                                             <a class="adddays" data-id="{{$vo['id']}}"
                                                href="javascript:void(0)">续费天数</a>
                                             <a class="release" data-state="{{$vo['release_state']}}"
@@ -81,86 +85,15 @@
                             @endforeach
                         </ul>
                         <div class="box-footer clearfix">
-                            {{ $aData1->links() }}
+                            {{ $aData->links() }}
                         </div>
                     </div>
-
-                    {{--高级--}}
-                    {{--<div class="actvity_pt" id="gaoji" style="display: none">--}}
-                        {{--<ul>--}}
-                            {{--@foreach($aData2 as $vo)--}}
-                                {{--<li>--}}
-                                    {{--<div class="pt_left">--}}
-                                        {{--<h4>{{$vo['title']}}</h4>--}}
-                                        {{--<p style="color: #fff">期限：{!! $vo['term'] !!}</p>--}}
-                                        {{--<a class="adddays" data-id="{{$vo['id']}}" href="javascript:void(0)">续费天数</a>--}}
-                                        {{--<a class="release" data-state="{{$vo['release_state']}}"--}}
-                                           {{--data-url="{{tw_route('tw.activity.release',$vo['id'])}}"--}}
-                                           {{--href="javascript:void(0)">活动发布</a>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="pt_right">--}}
-                                        {{--<div class="pt_ico"><a href="{{tw_route('tw.activity.edit',$vo['id'])}}"><i--}}
-                                                        {{--class="img_1"></i>--}}
-                                                {{--<p>活动设置</p></a></div>--}}
-
-                                        {{--<div class="pt_ico"><a--}}
-                                                    {{--href="{{tw_route('tw.judges.index',['activity_id'=>$vo['id']])}}"><i--}}
-                                                        {{--class="img_2"></i>--}}
-                                                {{--<p>评委设置</p></a></div>--}}
-                                        {{--<div class="pt_ico"><a--}}
-                                                    {{--href="{{tw_route('tw.player.index',['activity_id'=>$vo['id']])}}"><i--}}
-                                                        {{--class="img_3"></i>--}}
-                                                {{--<p>选手设置</p></a></div>--}}
-                                        {{--<div class="pt_ico">--}}
-                                            {{--<a class="jump_screen" data-id="{{$vo['id']}}" href="javascript:void(0)">--}}
-                                                {{--<i class="img_4"></i>--}}
-                                                {{--<p>跳转大屏幕</p></a></div>--}}
-                                        {{--<div class="pt_ico">--}}
-                                            {{--<a class="jump_rank" data-id="{{$vo['id']}}" href="javascript:void(0)">--}}
-                                                {{--<i class="img_5"></i>--}}
-                                                {{--<p>跳转排名</p></a></div>--}}
-                                        {{--<div class="pt_ico">--}}
-                                            {{--<a class="next_player"--}}
-                                               {{--data-url="{{route('tw.player.nextPlayer',$vo['id'])}}"--}}
-                                               {{--href="javascript:void(0)">--}}
-                                                {{--<i class="img_6"></i>--}}
-                                                {{--<p>下一个选手</p></a></div>--}}
-
-                                        {{--<div class="pt_last_b">--}}
-                                            {{--<a class="large_screen"--}}
-                                               {{--data-state="{{$vo['release_state']}}" target="_blank"--}}
-                                               {{--href="{{tw_route('tw.home',$vo['id'])}}">活动大屏幕</a>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</li>--}}
-                            {{--@endforeach--}}
-                        {{--</ul>--}}
-                        {{--<div class="box-footer clearfix">--}}
-                            {{--{{ $aData2->links() }}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
                 </div>
 
             </div>
         </div>
     </section>
-
-    {{--TAB切换--}}
     <script>
-
-        function act_pt() {
-            document.getElementById("act_pt").style.cssText = 'background:#4066b2;color:#fff;';
-            document.getElementById("act_gj").style.cssText = 'background:none;color:#000;';
-            $("#create_activity").show();
-        }
-
-        function act_gj() {
-            document.getElementById("act_gj").style.cssText = 'background:#4066b2;color:#fff;';
-            document.getElementById("act_pt").style.cssText = 'background:none;color:#000;';
-            $("#create_activity").hide();
-        }
-
         $(function () {
             // 跳转大屏幕
             $(".jump_screen").on('click', function () {
