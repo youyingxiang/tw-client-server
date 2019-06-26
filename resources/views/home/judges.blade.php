@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1 style="margin: 0; margin-top: 1rem;font-size: 1.5rem">请为选手<br><b data-id="{{$aPlayer['id'] ?? ''}}"  id="screen_player_name">{{$aPlayer['name'] ?? ''}}</b> 评分</h1>
-<div id="calculator" class="calculator">
+<div id="calculator" class="calculator" style="font-size: 1.5em">
     <p style="font-size: 0.5em;text-align: center">当前评委：<b style="font-size: 1.5em">{{$oJudges['name']}}</b></p>
     <div id="viewer" class="viewer">0</div>
     <button class="num" data-num="1">1</button>
@@ -26,7 +26,7 @@
     <button id="clear" class="clear">&larr;</button>
     <button style="width: 11em;margin: 0 auto;float: none;" id="equals" class="equals"  data-result="">提交</button>
 </div>
-<p class="warning">最高分为100分，保留小数点2位</p>
+<p class="warning">最高分为100分，保留小数点2位。</p>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/calculator.js')}}" type="text/javascript"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/public.js')}}"></script>
