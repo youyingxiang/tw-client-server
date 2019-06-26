@@ -103,7 +103,6 @@ class Player extends Model
     public function restrict(string $activity_id,int $iFlag):bool
     {
         $bFlag = false;
-
         $activityInfo = Tw::newModel('Activity')->where('admin_id',Tw::authLogic()->guard()->id())->find($activity_id);
         $limit = $activityInfo->release_state
             ? config('tw.restrict.player',10)
@@ -194,7 +193,7 @@ class Player extends Model
      */
     public function beforeInsert(array $aData):string
     {
-        return $this->restrict($aData['activity_id'],1) ? '' : "选手超过限制！请升级高级活动";
+        return $this->restrict($aData['activity_id'],1) ? '' : "选手超过限制请发布或者升级为高级活动";
     }
 
     /**
@@ -203,7 +202,7 @@ class Player extends Model
      */
     public function beforeUpdate(object $oData):string
     {
-        return $this->restrict($oData->activity_id,2) ? '' : "选手超过限制！请升级高级活动";
+        return $this->restrict($oData->activity_id,2) ? '' : "选手超过限制请发布或者升级为高级活动";
     }
 
     /**

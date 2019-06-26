@@ -140,7 +140,7 @@ class Judges extends Model
      */
     public function beforeInsert(array $aData):string
     {
-        return $this->restrict($aData['activity_id'],1) ? '' : "评委超过限制！请升级高级活动";
+        return $this->restrict($aData['activity_id'],1) ? '' : "评委超过限制请发布或者升级为高级活动";
     }
 
     /**
@@ -149,7 +149,7 @@ class Judges extends Model
      */
     public function beforeUpdate(object $oData):string
     {
-        return $this->restrict($oData->activity_id,2) ? '' : "评委超过限制！请升级高级活动";
+        return $this->restrict($oData->activity_id,2) ? '' : "评委超过限制请发布或者升级为高级活动";
     }
 
     /**

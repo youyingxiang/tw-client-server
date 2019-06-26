@@ -38,7 +38,7 @@ class ActivityRequest extends FormRequest implements TwRequestI
     public function setRules(): void
     {
         $this->rules = [
-            'title' => 'required|max:256',
+            'title' => 'required|max:18',
             'logo' => 'max:300',
             'banner'=> 'max:300',
             'days'  => 'integer',
@@ -55,7 +55,7 @@ class ActivityRequest extends FormRequest implements TwRequestI
     {
         return [
             'title.required' => '活动名称不能为空！',
-            'title.max'  => "活动名称长度不能超过128个字符！",
+            'title.max'  => "活动名称长度不能超过18个字符！",
         ];
     }
     /**
