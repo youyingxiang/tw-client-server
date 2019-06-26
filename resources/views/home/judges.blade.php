@@ -26,7 +26,7 @@
     <button id="clear" class="clear">&larr;</button>
     <button style="width: 11em;margin: 0 auto;float: none;" id="equals" class="equals"  data-result="">提交</button>
 </div>
-<p class="warning">最高分为100分，保留小数点2位</p>
+<p class="warning">最高分为100分，保留小数点2位。</p>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/calculator.js')}}" type="text/javascript"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/global/jQuery/jquery-2.2.3.min.js')}}"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/home/js/public.js')}}"></script>
