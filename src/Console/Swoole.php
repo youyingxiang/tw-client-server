@@ -69,7 +69,7 @@ class Swoole extends Command
         $this->redis = Redis::connection('websocket');
         $this->redis->del(config('tw.redis_key.h2'));
         $this->redis->del(config('tw.redis_key.hset1'));
-        $this->redis->del(config('tw.redis_key.hset1'));
+        $this->redis->del(config('tw.redis_key.h4'));
         $server = self::getWebSocketServer();
         $server->on('open',[$this,'onOpen']);
         $server->on('message', [$this, 'onMessage']);
@@ -495,10 +495,13 @@ class Swoole extends Command
     {
         $bRes = $this->redis->sadd(config('tw.redis_key.hset1'),$sJudgesId);
         $sJudgesSessionId = $this->redis->hget(config('tw.redis_key.h4'),$sJudgesId);
-        if (!$bRes) {
+        if ($bRes) {
+            $this->redis->hset(config('tw.redis_key.h4'),$sJudgesId,$sSessionId);
+        } else {
             if ($sSessionId == $sJudgesSessionId)
                 $bRes = true;
         }
+
         return $bRes;
     }
 

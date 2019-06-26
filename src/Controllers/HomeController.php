@@ -34,11 +34,13 @@ class HomeController extends Controller
     {
         // 获取当前打分选手
         $oJudges     = Tw::newModel("Judges")->find($judgesId);
-        if(!$oJudges) {
+        if (!$oJudges) {
             return tw_abort("评委不存在！",404);
-        }else if (!(array)Tw::newModel('Activity')->getHomeActivity($oJudges->activity_id)) {
+        } else if (!(array)Tw::newModel('Activity')->getHomeActivity($oJudges->activity_id)) {
             return tw_abort("活动不存在或者已经过期！",404);
         } else {
+            $bRes = $oJudges->checkLinkState();
+            if (!$bRes) return tw_abort("评委姓名为: $oJudges->name 已处于连接状态！",403);
             $sActivityId = $oJudges->activity_id;
             if ($sActivityId) {
                 $aPlayer = get_push_player($sActivityId);
