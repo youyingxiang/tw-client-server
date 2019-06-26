@@ -35,6 +35,8 @@
 <script>
 
     $("#equals").on('click',function() {
+        var obj = $("#viewer");
+        inputnum(obj,$("#viewer").html().trim());
         var score = $("#viewer").html().trim();
         var playerid = $("#screen_player_name").attr('data-id').trim();
         if (/^\d+$/.test(score) == false && /^\d+\.\d{0,2}$/.test(score) == false) {
@@ -69,8 +71,7 @@
     });
 
     $(".num").on("click",function () {
-        var obj = $("#viewer");
-        inputnum(obj,$("#viewer").html().trim());
+        inputnum($("#viewer"),$("#viewer").html().trim());
     })
     function inputnum(obj,val){
         obj.empty().html(val.replace(/[^\d.]/g,"")); //清除"数字"和"."以外的字符

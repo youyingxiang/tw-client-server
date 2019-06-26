@@ -36,7 +36,7 @@ class JudgesRequest extends FormRequest implements TwRequestI
     public function setRules(): void
     {
         $this->rules = [
-            'name' => 'required|max:128',
+            'name' => 'required|max:18',
             'img' => 'max:300',
             'activity_id' => 'required|integer'
         ];
@@ -50,7 +50,7 @@ class JudgesRequest extends FormRequest implements TwRequestI
     {
         return [
             'name.required' => '评委姓名不能为空！',
-            'name.max'  => "评委姓名长度不能超过128个字符！",
+            'name.max'  => "评委姓名长度不能超过18个字符！",
         ];
     }
     /**
