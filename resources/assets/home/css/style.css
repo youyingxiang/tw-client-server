@@ -35,7 +35,7 @@ h2 {
 .calculator {
   font-size: 28px;
   margin: 0 auto;
-  width: 14em;
+  width: 12em;
 }
 .calculator::before, .calculator::after {
   content: " ";
@@ -72,11 +72,12 @@ button {
   cursor: pointer;
   float: left;
   font: inherit;
-  margin: 0.25em;
+  margin: 0.5em;
   width: 3em;
-  height: 3em;
+  height: 2em;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
+  padding: 0px !important;
 }
 button:hover {
   background: #201e40;
