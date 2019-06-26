@@ -93,7 +93,16 @@
                     var data = JSON.parse(event.data);
                     console.log(data);
                     if (data.state == 1) {
-                        $.amaran({'message':data.info});
+                        $.amaran({
+                            content:{
+                                title:'通知',
+                                message: data.info,
+                                info:'',
+                                icon:'fa fa-check-square'
+                            },
+                            theme:'awesome ok',
+                            position  :'top right'
+                        });
                         $.pjax({url: data.url, container: '#pjax-container', fragment:'#pjax-container'})
                     }
                     heartCheck.reset().start();

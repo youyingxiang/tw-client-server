@@ -134,14 +134,32 @@
                             },
                             dataType: "json",
                             error: function (data) {
-                                $.amaran({'message': "服务器繁忙, 请联系管理员！"});
+                                $.amaran({
+                                    content:{
+                                        title:'通知',
+                                        message: "服务器繁忙",
+                                        info:'',
+                                        icon:'fa fa-warning'
+                                    },
+                                    theme:'awesome error',
+                                    position  :'top right'
+                                });
                                 return;
                             },
                             success: function (result) {
                                 if (result.status == 1) {
                                     $.pjax({url: result.url, container: '#pjax-container', fragment: '#pjax-container'})
                                 } else {
-                                    $.amaran({'message': result.info});
+                                    $.amaran({
+                                        content:{
+                                            title:'通知',
+                                            message: result.info,
+                                            info:'',
+                                            icon:'fa fa-warning'
+                                        },
+                                        theme:'awesome error',
+                                        position  :'top right'
+                                    });
                                 }
                             },
                         })
@@ -159,7 +177,16 @@
                         var add_days = $("#add_days").val().trim();
                         var url = '{{route("tw.payorder.store")}}';
                         if (/^\d+$/.test(add_days) == false) {
-                            $.amaran({'message': "请输入有效天数"});
+                            $.amaran({
+                                content:{
+                                    title:'通知',
+                                    message: "请输入有效天数！",
+                                    info:'',
+                                    icon:'fa fa-warning'
+                                },
+                                theme:'awesome error',
+                                position  :'top right'
+                            });
                             return;
                         }
                         $.ajax({
@@ -174,14 +201,33 @@
                             },
                             dataType: "json",
                             error: function (data) {
-                                $.amaran({'message': "服务器繁忙, 请联系管理员！"});
+                                $.amaran({
+                                    content:{
+                                        title:'通知',
+                                        message: "服务器繁忙",
+                                        info:'',
+                                        icon:'fa fa-warning'
+                                    },
+                                    theme:'awesome error',
+                                    position  :'top right'
+                                });
                                 return;
                             },
                             success: function (result) {
                                 if (result.status == 1) {
                                     $.pjax({url: result.url, container: '#pjax-container', fragment: '#pjax-container'})
                                 } else {
-                                    $.amaran({'message': result.info});
+                                    $.amaran({
+                                        content:{
+                                            title:'通知',
+                                            //message:'申请成功',
+                                            message: result.info,
+                                            info:'',
+                                            icon:'fa fa-warning'
+                                        },
+                                        theme:'awesome error',
+                                        position  :'top right'
+                                    });
                                 }
                             },
                         })
