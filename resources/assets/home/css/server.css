@@ -123,6 +123,8 @@ ul, ol, li {
 .screen_logo {
     color: #fff;
     font-size: 24pt;
+    position: fixed;
+    top: 30%;
 }
 
 .screen_logo p {
@@ -306,6 +308,7 @@ ul, ol, li {
     .screen_judge li{
         width: 12% !important;
     }
+
 }
 
 
