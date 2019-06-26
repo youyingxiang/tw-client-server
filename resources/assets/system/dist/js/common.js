@@ -2,6 +2,26 @@
  * common
  */
 $(function(){
+
+    function amaran(message,state) {
+        if (state == 1) {
+            var icon = 'fa fa-check-square';
+            var theme = 'awesome ok';
+        } else if(state == 0) {
+            var icon = 'fa fa-warning';
+            var theme = 'awesome error';
+        }
+        $.amaran({
+            content:{
+                title:'通知',
+                message:message,
+                info:'',
+                icon:icon
+            },
+            theme:theme,
+            position  :'top right'
+        });
+    }
     
     $.pjax.defaults.timeout = 5000;
     $.pjax.defaults.maxCacheLength = 0;
@@ -24,12 +44,12 @@ $(function(){
                 dataType:'json',
                 success:function(data){
                     if(data.status == '1'){
-                        $.amaran({'message':data.info});
+                        amaran(data.info,1);
                         var url = data.url;
                         $.pjax({url: url, container: '#pjax-container', fragment:'#pjax-container'})
                     }else{
                         _this.button('reset');
-                        $.amaran({'message':data.info});
+                        amaran(data.info,0);
                     }
                 }
             }
@@ -59,12 +79,12 @@ $(function(){
                 dataType:'json',
                 success:function(data){
                     if(data.status == '1'){
-                        $.amaran({'message':data.info});
+                        amaran(data.info,1);
                         var url = data.url;
                         $.pjax({url: url, container: '#pjax-container', fragment:'#pjax-container'})
                     }else{
                         _this.button('reset');
-                        $.amaran({'message':data.info});
+                        amaran(data.info,0);
                     }
                 }
             }
@@ -118,11 +138,11 @@ $(function(){
                             data : { id:id,_method:'DELETE' ,_token:csrftoken},
                             success : function(data) {
                                 if(data.status == '1'){
-                                    $.amaran({'message':data.info});
+                                    amaran(data.info,1);
                                     var url = data.url;
                                     $.pjax({url: url, container: '#pjax-container', fragment:'#pjax-container'})
                                 }else{
-                                    $.amaran({'message':data.info});
+                                    amaran(data.info,0);
                                 }
                             }
                         });
@@ -154,9 +174,9 @@ $(function(){
                                 _this_up_btn.prev().attr("href", data.url);
                                 _this_up_btn.prev().find('img').attr("src", data.url);
                                 _this_up_btn.closest('.input-group').find('input').val(data.url);
-                                $.amaran({'message':'上传成功'});
+                                amaran('上传成功',1);
                             }else{
-                                $.amaran({'message':data.info});
+                                amaran(data.info,0);
                             }
                         }
                     }
@@ -199,7 +219,7 @@ $(function(){
                     _this.removeClass(addclass);
                     _this.addClass(removeclass);
                 }else{
-                    $.amaran({'message':data.info+'或检查验证类'});
+                    amaran(data.info+'或检查验证类',0);
                 }
             }
         });
@@ -237,7 +257,7 @@ $(function(){
                     _this.removeClass(addclass);
                     _this.addClass(removeclass);
                 }else{
-                    $.amaran({'message':data.info+'或检查验证类'});
+                    amaran(data.info+'或检查验证类',0);
                 }
             }
         });

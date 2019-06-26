@@ -1,7 +1,7 @@
 @if(!empty(request()->input('activity_id')) && !empty($aData[0]->activity->title))
     @php $pageTitle = $aData[0]->activity->title.'-评委' @endphp
 @endif
-@extends('tw::layout.base',['header' => "活动管理",'pageTitle'=>$pageTitle??'评委',"pageBtnName"=>'活动列表'])
+@extends('tw::layout.base',['header' => "评委管理",'pageTitle'=>$pageTitle??'评委',"pageBtnName"=>'活动列表'])
 @section('content')
     <section class="content">
         <div class="row">

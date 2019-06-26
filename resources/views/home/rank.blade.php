@@ -14,11 +14,13 @@
     </div>
     <!--LOGO-->
     <div class="screen_logo">
-        <p><b>新天维</b>评分系统</p>
+        @if($oData['level'] == 1)
+        <p><b>天维</b>评分系统@if($oData['release_state'] == 0)（活动暂未发布）@endif</p>
+        @endif
     </div>
     <!--选手-->
     <div class="screen_player">
-        <h1>恒大华府青少年歌舞大赛</h1>
+        <h1>{{$oData->title}}</h1>
     </div>
     <!--选手排名-->
     <div class="rank_list">
