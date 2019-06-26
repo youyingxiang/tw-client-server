@@ -20,7 +20,7 @@ class AdminRequest extends FormRequest implements TwRequestI
      * @see 修改验证字段
      */
     protected $alone_validate  = [
-        'tw.userinfo.update'=>['name','email','qq','wechat'],
+        'tw.userinfo.update'=>['name','email','qq','wechat','phone'],
         'tw.sendmsg' => ['rphone']
     ];
 
