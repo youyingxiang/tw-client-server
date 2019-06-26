@@ -14,7 +14,9 @@
     </div>
     <!--LOGO-->
     <div class="screen_logo">
-        <p><b>新天维</b>评分系统</p>
+        @if($oData['level'] == 1)
+        <p><b>天维</b>评分系统@if($oData['release_state'] == 0)（活动暂未发布）@endif</p>
+        @endif
     </div>
     <!--选手-->
     <div class="screen_player">
