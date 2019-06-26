@@ -324,7 +324,16 @@
                 var url = $(this).attr('data-url');
                 var state = $(this).attr('data-state');
                 if (state == 1) {
-                    $.amaran({'message': "活动已发布，请勿重复发布！"});
+                    $.amaran({
+                        content:{
+                            title:'通知',
+                            message: "活动已经发布！请勿重复发布！",
+                            info:'',
+                            icon:'fa fa-warning'
+                        },
+                        theme:'awesome error',
+                        position  :'top right'
+                    });
                 } else {
                     $.ajax({
                         url: url,
@@ -345,7 +354,16 @@
                         },
                         success: function (result) {
                             if (result.status == 1) {
-                                $.amaran({'message': result.info});
+                                $.amaran({
+                                    content:{
+                                        title:'通知',
+                                        message: result.info,
+                                        info:'',
+                                        icon:'fa fa-check-square'
+                                    },
+                                    theme:'awesome ok',
+                                    position  :'top right'
+                                });
                                 $.pjax({url: result.url, container: '#pjax-container', fragment: '#pjax-container'})
                             } else {
                                 $.amaran({
