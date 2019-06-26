@@ -12,7 +12,7 @@ return [
             "id"    => 1,
             'title' => "活动管理",
             "icon"  => "fa-circle-o",
-            "url"   => "/activity",
+            "url"   => "/activity?level=1",
             "order" => 1,
             "parent_id"   => 0,
         ],

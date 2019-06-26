@@ -74,7 +74,8 @@ class Activity extends Model
      */
     public function getIndexUrl(): string
     {
-        return route('tw.activity.index');
+        $url = route('tw.activity.index',['level'=>$this->level ?? 1]);
+        return $url;
     }
 
     /**
