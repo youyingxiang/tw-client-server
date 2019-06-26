@@ -285,7 +285,7 @@ ul, ol, li {
 @media screen and (max-width: 1440px) { /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
     .rank_bot li {
         width: 48%;
-        height: 50px;
+        height: 40px;
         background: #fff;
         float: left;
         margin: 1%;
@@ -295,10 +295,13 @@ ul, ol, li {
     .rank_bot p {
         width: 20%;
         float: left;
-        line-height: 50px;
-        height: 50px;
+        line-height: 40px;
+        height: 40px;
         font-size: 14pt;
         text-align: center;
+    }
+    .screen_judge{
+        margin-top: 1% !important;
     }
 }
 
