@@ -19,8 +19,8 @@
                     {{--切换--}}
                     <div class="tab_act">
                         <ul>
-                            <a href="{{route("tw.activity.index",['level'=>1])}}"><li onclick="act_pt()" id="act_pt" @if(request()->input('level') ==1 || empty(request()->input('level'))) style="background: #4066b2;color: #fff" @endif>普通活动</li></a>
-                            <a href="{{route("tw.activity.index",['level'=>2])}}"><li onclick="act_gj()" id="act_gj" @if(request()->input('level') ==2) style="background: #4066b2;color: #fff" @endif>高级活动</li></a>
+                            <a href="{{route("tw.activity.index",['level'=>1])}}"><li onclick="act_pt()" id="act_pt" @if(request()->input('level') ==1 || empty(request()->input('level'))) style="background: #3598d9;color: #fff" @endif>普通活动</li></a>
+                            <a href="{{route("tw.activity.index",['level'=>2])}}"><li onclick="act_gj()" id="act_gj" @if(request()->input('level') ==2) style="background: #3598d9;color: #fff" @endif>高级活动</li></a>
                             @if(request()->input('level') ==1)
                             <a id="create_activity" href="{!!route('tw.activity.create')!!}">创建新活动</a>
                             @endif
