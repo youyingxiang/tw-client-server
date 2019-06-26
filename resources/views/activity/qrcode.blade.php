@@ -25,7 +25,7 @@
             color: #9E9E9E !important;
             padding: 1em 0;
             margin: 0;
-            font-size: 1.5rem;
+            font-size:2rem;
         }
 
         svg {

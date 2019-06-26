@@ -170,7 +170,7 @@ a {
     float: right;
     height: 35px;
     line-height: 35px;
-    background: #4066b2;
+    background: #3598d9;
     color: #fff;
     text-align: center;
     margin-top: 10px;
@@ -186,7 +186,7 @@ a {
 
 .pt_left {
     width: 30%;
-    background: #4066b2;
+    background: #3598d9;
     overflow: hidden;
     padding: 10px 20px;
     color: #fff;
@@ -317,7 +317,7 @@ a {
     line-height: 124px;
     float: right;
     text-align: center;
-    background: #dd4b39;
+    background: #3598d9;
 }
 
 .pt_last_b a {
