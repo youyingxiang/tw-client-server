@@ -3,6 +3,14 @@
 @endif
 @extends('tw::layout.base',['header' => "评委管理",'pageTitle'=>$pageTitle??'评委',"pageBtnName"=>'活动列表'])
 @section('content')
+    <style>
+        th{
+            text-align: center;
+        }
+        td{
+            text-align: center;
+        }
+    </style>
     <section class="content">
         <div class="row">
             <div class="col-md-12">
