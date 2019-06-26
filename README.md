@@ -8,7 +8,12 @@
 - 4: php artisan storage:link  建立软连接
 - 5: php artisan migrate 执行数据迁移
 - 6: composer dump-autoload (执行数据填充准备)
-- 6: php artisan db:seed --class=TwUsersTableSeeder 进行数据填充
+- 7: php artisan db:seed --class=TwUsersTableSeeder 进行数据填充
+- 8: Laravel < 5.8 执行 composer require "overtrue/laravel-wechat:~4.0" 否则 composer require "overtrue/laravel-wechat:~5.0"
+- 9: php artisan vendor:publish --provider="Overtrue\LaravelWeChat\ServiceProvider"
+- 10:拉取生成二维码包 composer require simplesoftwareio/simple-qrcode 1.3.* 
+- 11:composer require vinkla/hashids  执行 php artisan vendor:publish --provider="Vinkla\Hashids\HashidsServiceProvider"
+- 12: 启动swoole服务 php artisan tw:swoole 启动swoole
 ## 登陆
 - 1 登陆地址：http://你的url/twserver/login
 - 2 默认账号：18123670736    密码：123456
