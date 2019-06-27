@@ -56,11 +56,7 @@
 
     function cg_css() {
         var alist = document.getElementsByClassName("judge_css");
-
-
-
         alist.style.width = "8%";
-
     }
     if (judgesNuml > 7){
         cg_css();
