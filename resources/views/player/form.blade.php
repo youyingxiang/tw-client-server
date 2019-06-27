@@ -29,9 +29,6 @@
                                     <label class="col-sm-2 control-label">选手名称</label>
                                     <div class="col-sm-7"><input class="form-control" name="name" value="{{$aData['name']??''}}"  placeholder="选手名称"></div>
                                 </div>
-
-
-
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">选手头像</label>
                                     <div class="col-sm-7">
@@ -46,7 +43,7 @@
                                         </button></span>
                                         </div>
                                     </div>
-                                    <label style="font-size: 12px" class="col-sm-2 control-label">建议尺寸：800*800</label>
+                                    <label style="font-size: 12px;color: #999;text-align: left" class="col-sm-2 control-label">建议尺寸：800*800</label>
                                 </div>
                                 @if(!empty($aData['activity_id']))
                                     <input type="hidden" name="activity_id" value="{{$aData['activity_id']}}" />

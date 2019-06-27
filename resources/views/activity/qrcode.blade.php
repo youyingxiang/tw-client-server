@@ -49,16 +49,15 @@
     overflow: hidden;
     padding: 30px;">
                 <div class="col-md-6" style="width: 50%;float: left">
-                    <h3>使用微信扫码支付</h3>
+                    <h3><img  style="width: 50%; margin:  0 auto;" src="{{tw_asset("/vendor/tw/home/img/wx.jpg")}}" alt=""></h3>
                     {!! $oData['qrcode'] !!}
-                    <h3 class="text-center">付款金额：<b style="font-size: 2em;color: darkred">{{$oData['pay_amount']}}</b></h3>
+                    <h3 class="text-center">付款金额：<b style="font-size: 2em;color: #ff470a">{{$oData['pay_amount']}}</b></h3>
                 </div>
                 <div class="col-md-3" style="width: 50%;float: left;margin-top: 2em;">
-                    <img src="{{tw_asset("/vendor/tw/home/img/pc_icon_phone-bg.png")}}" alt="" style=" width: 100%; height: 100%;
-    margin-top: 2em;">
+                    <img src="{{tw_asset("/vendor/tw/home/img/pc_icon_phone-bg.png")}}" alt="" style=" width: 100%; height: 100%;">
                 </div>
                 <div style="clear: both"></div>
-                <p style="width: 100%;text-align: center;margin-top: 1em;">二维码过期后请刷新页面重新获取二维码。</p>
+                <p style="width: 100%;text-align: center;margin-top: 1em;">二维码过期后请刷新页面重新获取二维码</p>
             </div>
         </div>
     </section>

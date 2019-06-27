@@ -1,3 +1,9 @@
+.col-sm-7 button{
+    width: 120px !important;
+}
+.col-sm-7{
+    padding-left: 3px;
+}
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.

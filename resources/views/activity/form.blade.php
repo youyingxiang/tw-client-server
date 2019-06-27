@@ -23,7 +23,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">活动名称</label>
                                     <div class="col-sm-7"><input class="form-control" name="title" value="{{$aData['title']??''}}"  placeholder="活动名称"></div>
-                                    <label style="font-size: 12px" class="col-sm-2 control-label">限制18字以内</label>
+                                    <label style="font-size: 12px;color: #999;text-align: left" class="col-sm-2 control-label">限制18字以内</label>
                                 </div>
 
                                 @if(empty($aData))
@@ -66,7 +66,7 @@
 
                                         </div>
                                     </div>
-                                    <label style="font-size: 12px" class="col-sm-2 control-label">建议尺寸：1920*1068</label>
+                                    <label style="font-size: 12px;color: #999;text-align: left" class="col-sm-2 control-label">建议尺寸：1920*1068</label>
                                 </div>
                                 @if(!empty($aData))
                                 <div class="form-group">
@@ -86,12 +86,12 @@
                         </div>
                         <div class="box-footer">
                             <div class="col-sm-2"></div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-7" style="padding-left: 3px">
                                 <div class="btn-group pull-right">
-                                    <button type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; 提交">提交</button>
+                                    <button style="width: 120px;" type="submit" class="btn btn-info pull-right submits" data-loading-text="&lt;i class='fa fa-spinner fa-spin '&gt;&lt;/i&gt; 提交">提交</button>
                                 </div>
                                 <div class="btn-group pull-left">
-                                    <button type="reset" class="btn btn-warning">重置</button>
+                                    <button style="width: 120px;" type="reset" class="btn btn-warning">重置</button>
                                 </div>
                             </div>
                         </div>
