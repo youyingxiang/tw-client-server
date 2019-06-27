@@ -15,11 +15,11 @@
     </div>
     <!--LOGO-->
     @if($oData['level'] == 1)
-    <div class="screen_logo">
-        <p><b>天维</b>评分系统@if($oData['release_state'] == 0)（活动暂未发布）@endif</p>
-    </div>
-    @endif
-    <!--选手-->
+        <div class="screen_logo">
+            <p><b>天维</b>评分系统@if($oData['release_state'] == 0)（活动暂未发布）@endif</p>
+        </div>
+@endif
+<!--选手-->
     <div class="screen_player">
         <h1>{{$oData['title'] ?? ''}}</h1>
         <img id="screen_player_img" src="{{$player['img']??''}}" alt="{{$player['name']??''}}">
@@ -29,13 +29,13 @@
     <div class="screen_judge">
         <ul>
             @foreach($judges as $vo)
-            <li class="judge_css">
-                <div class="screen_judge_pw">
-                    <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
-                    <p class="score_res">{{$hScore[$vo['id']] ?? "0.00"}}</p>
-                </div>
-                <p class="pw_name">{{$vo['name']}}</p>
-            </li>
+                <li class="judge_css" @if(count($judges) > 7)style="width: 8%"@endif >
+                    <div class="screen_judge_pw">
+                        <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
+                        <p class="score_res">{{$hScore[$vo['id']] ?? "0.00"}}</p>
+                    </div>
+                    <p class="pw_name">{{$vo['name']}}</p>
+                </li>
             @endforeach
         </ul>
     </div>
@@ -54,19 +54,13 @@
 <script>
     var judgesNuml = "{{count($judges)}}";
 
-    function cg_css() {
-        var alist = document.getElementsByClassName("judge_css");
-        alist.style.width = "8%";
-    }
-    if (judgesNuml > 7){
-        cg_css();
-    }
 
     function popup() {
         var obj = document.getElementById("popup");
-        obj.style.display ="block";
+        obj.style.display = "block";
     }
-    if (1==2){
+
+    if (1 == 2) {
         popup();
     }
     /**
@@ -75,7 +69,6 @@
     var ws;//websocket实例
     var lockReconnect = false;//避免重复连接
     var wsUrl = 'ws://{{$_SERVER["HTTP_HOST"]}}:9502?page=home&activity={{$oData['id']}}&token={{hash_make(['home',$oData['id']])}}';
-
 
 
     function initEventHandle() {
@@ -101,12 +94,12 @@
                 $('.score_res').each(function () {
                     $(this).empty().html('0.00');
                 })
-                $.each(data.judges_score,function (key,value) {
-                    $("#judge"+key+"").next().html(value);
+                $.each(data.judges_score, function (key, value) {
+                    $("#judge" + key + "").next().html(value);
                 })
             } else if (!data.player && data.judges_score) {
-                $.each(data.judges_score,function (key,value) {
-                    $("#judge"+key+"").next().html(value);
+                $.each(data.judges_score, function (key, value) {
+                    $("#judge" + key + "").next().html(value);
                 })
             } else if (data.player && jQuery.isEmptyObject(data.judges_score)) {
                 $('#screen_player_img').attr('src', data.player.img);
@@ -114,14 +107,15 @@
                 $('.score_res').each(function () {
                     $(this).empty().html('0.00');
                 })
-            } else if(data.url){
-                window.location.href=data.url;
-            } else if(data.state == 1 && data.score > 0) {
-                showOkTime(data.info+" 最后得分 "+data.score,3);
+            } else if (data.url) {
+                window.location.href = data.url;
+            } else if (data.state == 1 && data.score > 0) {
+                showOkTime(data.info + " 最后得分 " + data.score, 3);
             }
             heartCheck.reset().start();
         }
     }
+
     createWebSocket(wsUrl);
 </script>
 
