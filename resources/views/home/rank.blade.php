@@ -40,7 +40,7 @@
         <div class="rank_bot">
             <ul>
                 @foreach(array_slice($aRank,3) as $v)
-                <li><p class="p1">0{{$loop->iteration+3}}</p><p  class="p2"><img src="{{$v['img']}}" alt=""></p><p>{{$v['name']}}</p><p  class="p3">{{$v['score']}}</p></li>
+                <li><p class="p1">0{{$loop->iteration+3}}</p><p  class="p2"><img src="{{$v['img']}}" alt=""></p><p style="width: 50%">{{$v['name']}}</p><p  class="p3">{{$v['score']}}</p></li>
                 @endforeach
             </ul>
         </div>
