@@ -56,11 +56,11 @@
 
     function cg_css() {
         var alist = document.getElementsByClassName("judge_css");
-        if(alist){
-            for(var idx = 0; idx < alist.length; idx ++){
-                var mya = alist[idx];
-                mya.style.width = "8%";
-            }
+
+
+
+        alist.style.width = "8%";
+
     }
     if (judgesNuml > 7){
         cg_css();
