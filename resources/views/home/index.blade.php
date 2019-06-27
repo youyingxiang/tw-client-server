@@ -29,7 +29,7 @@
     <div class="screen_judge">
         <ul>
             @foreach($judges as $vo)
-            <li id="judge_css">
+            <li class="judge_css">
                 <div class="screen_judge_pw">
                     <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
                     <p class="score_res">{{$hScore[$vo['id']] ?? "0.00"}}</p>
@@ -55,7 +55,7 @@
     var judgesNuml = "{{count($judges)}}";
 
     function cg_css() {
-        document.getElementsByClassName('screen_judge li').style.cssText="width:8%";
+        document.getElementsByClassName('judge_css').style.cssText="width:8% !important";
     }
     if (judgesNuml > 7){
         cg_css();
