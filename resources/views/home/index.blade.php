@@ -55,7 +55,8 @@
     var judgesNuml = "{{count($judges)}}";
 
     function cg_css() {
-        document.getElementsByClassName('judge_css').style.cssText="width:8% !important";
+        var alist = document.getElementsByClassName("judge_css");
+        alist.style.width = "8%";
     }
     if (judgesNuml > 7){
         cg_css();
