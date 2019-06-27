@@ -57,7 +57,9 @@
     function cg_css() {
         document.getElementById('judge_css').style.cssText="width:8%";
     }
-
+    if (judgesNuml > 7){
+        cg_css();
+    }
 
     function popup() {
         var obj = document.getElementById("popup");
