@@ -37,7 +37,7 @@ class PlayerRequest extends FormRequest implements TwRequestI
     public function setRules(): void
     {
         $this->rules = [
-            'name' => 'required|max:18',
+            'name' => 'required|max:8',
             'img' => 'max:300',
             'score' => 'numeric|max:100',
             'activity_id' => 'required|integer',
@@ -53,7 +53,7 @@ class PlayerRequest extends FormRequest implements TwRequestI
     {
         return [
             'name.required' => '选手姓名不能为空！',
-            'name.max'  => "选手姓名长度不能超过18个字符！",
+            'name.max'  => "选手姓名长度不能超过8个字符！",
             'score.numeric' => '得分必须是一个数字',
             'score.max' => '得分不能超过100！'
         ];

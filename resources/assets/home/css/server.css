@@ -162,7 +162,7 @@ ul, ol, li {
 }
 
 .screen_player h1 {
-    font-size: 48pt;
+    font-size: 4em;
     color: #fff;
 }
 
@@ -275,6 +275,7 @@ ul, ol, li {
     float: left;
     margin: 1%;
     padding: 5pt 0;
+    overflow: hidden;
 }
 
 .rank_bot p {
@@ -293,6 +294,7 @@ ul, ol, li {
         float: left;
         margin: 1%;
         padding: 5pt 0;
+        overflow: hidden;
     }
 
     .rank_bot p {
