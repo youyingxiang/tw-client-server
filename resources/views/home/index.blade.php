@@ -29,7 +29,7 @@
     <div class="screen_judge">
         <ul>
             @foreach($judges as $vo)
-            <li>
+            <li id="judge_css">
                 <div class="screen_judge_pw">
                     <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
                     <p class="score_res">{{$hScore[$vo['id']] ?? "0.00"}}</p>
@@ -53,6 +53,12 @@
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layer.js')}}"></script>
 <script>
     var judgesNuml = "{{count($judges)}}";
+
+    function cg_css() {
+        document.getElementById('judge_css').style.cssText="width:8%";
+    }
+
+
     function popup() {
         var obj = document.getElementById("popup");
         obj.style.display ="block";
