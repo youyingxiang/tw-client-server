@@ -52,7 +52,7 @@
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layui.js')}}"></script>
 <script type="text/javascript" src="{{tw_asset('/vendor/tw/system/layer/layer.js')}}"></script>
 <script>
-
+    var judgesNuml = "{{count($judges)}}";
     function popup() {
         var obj = document.getElementById("popup");
         obj.style.display ="block";

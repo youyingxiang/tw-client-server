@@ -11,7 +11,7 @@ return [
         [
             "id"    => 1,
             'title' => "活动管理",
-            "icon"  => "fa-circle-o",
+            "icon"  => "fa-gear",
             "url"   => "/activity?level=1",
             "order" => 1,
             "parent_id"   => 0,
@@ -19,7 +19,7 @@ return [
         [
             "id"    => 2,
             'title' => "消费记录",
-            "icon"  => "fa-circle-o",
+            "icon"  => "fa-navicon",
             "url"   => "/tw-server",
             "order" => 2,
             "parent_id"   => 0,
