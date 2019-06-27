@@ -313,10 +313,10 @@ ul, ol, li {
         width: 12% ;
     }
     .screen_judge img{
-        height: 180px;
+        height: 120px;
     }
     .pw_name{
-        font-size: 1.5em;
+        font-size: 1em;
     }
 }
 
