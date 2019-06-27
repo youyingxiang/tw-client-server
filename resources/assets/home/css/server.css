@@ -198,6 +198,7 @@ ul, ol, li {
 
 .screen_judge img {
     width: 100%;
+    height: 320px;
 }
 
 .screen_judge_pw {
@@ -311,7 +312,12 @@ ul, ol, li {
     .screen_judge li{
         width: 12% ;
     }
-
+    .screen_judge img{
+        height: 180px;
+    }
+    .pw_name{
+        font-size: 1.5em;
+    }
 }
 
 
