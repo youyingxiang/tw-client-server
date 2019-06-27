@@ -29,7 +29,7 @@
     <div class="screen_judge">
         <ul>
             @foreach($judges as $vo)
-                <li class="judge_css" @if(count($judges) > 7)style="width: 8%;height:160px"@endif >
+                <li class="judge_css" @if(count($judges) > 7)style="width: 8%;height:160px;"@endif >
                     <div class="screen_judge_pw">
                         <img id="judge{{$vo['id']}}" src="{{$vo['img']}}" alt="">
                         <p class="score_res">{{$hScore[$vo['id']] ?? "0.00"}}</p>
